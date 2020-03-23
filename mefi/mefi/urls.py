@@ -24,5 +24,5 @@ from mefi.views import HomeView, LoginView
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', HomeView.as_view()),
-    url(r'^accounts/login/$', LoginView.as_view(), name="login"),
+    url(r'^registration/login/$', LoginView.as_view(), name="login"),
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

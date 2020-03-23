@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
 
 class HomeView(TemplateView):
     template_name = "home.html"

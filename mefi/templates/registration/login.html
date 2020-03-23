@@ -7,7 +7,8 @@
 <body>
     <div class="in">
         <p class="font">Регистрация</p>
-        <form>
+        <form method="post">
+            {% csrf_token %}
             <input   required placeholder="логин" type="text">
             <input   required placeholder="пароль" type="password">
         </form>

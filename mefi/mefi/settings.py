@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'MeFi',
-        'HOST': 'localhost',
-        # 'PASSWORD': '1',
+        # 'HOST': 'localhost',
+        'PASSWORD': '1',
         'USER': 'root',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",

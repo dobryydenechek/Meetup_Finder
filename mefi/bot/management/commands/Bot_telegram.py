@@ -1,11 +1,12 @@
+# coding=utf-8
 import telebot
 from telebot import apihelper
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 import datetime
-import schedule
 import time
+import threading
 
 bot = telebot.TeleBot(settings.TOKEN)
 
@@ -170,48 +171,50 @@ def events(message):
             bot.send_message(message.chat.id, 'Вы не указали теги')
 
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
-
-
-# print(datetime.datetime.today().time().strftime('%H:%M:%S'))
-# def Autosending_events():
-#     if datetime.datetime.today().time().strftime('%H:%M:%S') == '01:03:30':
-#         print('aaa')
-#         all_objects_eventtaglist = Eventtaglist.objects.all()
-#         all_objects_userlist = Userlist.objects.all()
-#         all_objects_usertaglist = Usertaglist.objects.all()
-#         # user_tg_id = []
-#         for i in range(len(all_objects_userlist)):
-#             tags = []
-#             for j in range(len(all_objects_usertaglist)):
-#                 if all_objects_userlist[i].ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
-#                     tags.append(all_objects_usertaglist[j].utl_id_tag.tl_title)
-#             if tags:
-#                 repeat_events = []
-#                 for j in range(len(all_objects_eventtaglist)):
-#                     if all_objects_eventtaglist[j].etl_id_tag.tl_title in tags and all_objects_eventtaglist[j].etl_id_event.el_id not in repeat_events:
-#                         event = all_objects_eventtaglist[j].etl_id_event.el_title + '\n\n' + 'Описание:\n' \
-#                         + all_objects_eventtaglist[j].etl_id_event.el_description + '\n\n' + 'Дата:\n' \
-#                         + str(all_objects_eventtaglist[j].etl_id_event.el_date.date())
-#                         if str(all_objects_eventtaglist[j].etl_id_event.el_time) != '00:00:00':
-#                             event += '\nВремя:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_time)
-#                         if all_objects_eventtaglist[j].etl_id_event.el_link != '':
-#                             event += '\n\n' + 'Сайт:\n' + all_objects_eventtaglist[j].etl_id_event.el_link + '\n\n'
-#                         place = 'Где это находится:\n' + 'Город: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_city + '\n' \
-#                         + 'Улица: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_str_name + '\n' + 'Дом: ' + \
-#                         str(all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_house_num) + '\n'
-#                         if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter is not None:
-#                             place += 'Буква дома: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter + '\n'
-#                         if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name is not None:
-#                             place += 'Название места проведения: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name + '\n'
-#                         event += place
-#                         repeat_events.append(all_objects_eventtaglist[j].etl_id_event.el_id)
-#                         bot.send_message(all_objects_userlist[j].ul_linktgmessage, event)
+def Autosending_events():
+    if datetime.datetime.today().time().strftime('%H:%M') == '22:36':
+        print('aaa')
+        all_objects_eventtaglist = Eventtaglist.objects.all()
+        all_objects_userlist = Userlist.objects.all()
+        all_objects_usertaglist = Usertaglist.objects.all()
+        # user_tg_id = []
+        for i in range(len(all_objects_userlist)):
+            tags = []
+            for j in range(len(all_objects_usertaglist)):
+                if all_objects_userlist[i].ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
+                    tags.append(all_objects_usertaglist[j].utl_id_tag.tl_title)
+            if tags:
+                repeat_events = []
+                for j in range(len(all_objects_eventtaglist)):
+                    if all_objects_eventtaglist[j].etl_id_tag.tl_title in tags and all_objects_eventtaglist[j].etl_id_event.el_id not in repeat_events:
+                        event = all_objects_eventtaglist[j].etl_id_event.el_title + '\n\n' + 'Описание:\n' \
+                        + all_objects_eventtaglist[j].etl_id_event.el_description + '\n\n' + 'Дата:\n' \
+                        + str(all_objects_eventtaglist[j].etl_id_event.el_date.date())
+                        if str(all_objects_eventtaglist[j].etl_id_event.el_time) != '00:00:00':
+                            event += '\nВремя:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_time)
+                        if all_objects_eventtaglist[j].etl_id_event.el_link != '':
+                            event += '\n\n' + 'Сайт:\n' + all_objects_eventtaglist[j].etl_id_event.el_link + '\n\n'
+                        place = 'Где это находится:\n' + 'Город: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_city + '\n' \
+                        + 'Улица: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_str_name + '\n' + 'Дом: ' + \
+                        str(all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_house_num) + '\n'
+                        if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter is not None:
+                            place += 'Буква дома: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter + '\n'
+                        if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name is not None:
+                            place += 'Название места проведения: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name + '\n'
+                        event += place
+                        repeat_events.append(all_objects_eventtaglist[j].etl_id_event.el_id)
+                        bot.send_message(all_objects_userlist[i].ul_linktgmessage, event)
 
 
 # bot.send_message(484231880, 'Ахахахихихи Артем лох')
+def sleeper(n, name):
+    while True:
+        Autosending_events()
+        time.sleep(n)
+        print(datetime.datetime.today().time().strftime('%H:%M:%S'))
+
+thread = threading.Thread(target=sleeper, name='Thread1', args=(60, 'Thread1'))
+thread.start()
 
 
 

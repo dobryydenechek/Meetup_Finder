@@ -1,106 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    
+
     <title>Document</title>
-    <style>
-.container .checkmark:after {
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-.container input:checked ~ .checkmark {
-  background-color: #2196F3;
-}
-.container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-.checkmark {
-  
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background: #ffffff;
-  border: solid rgb(0, 0, 0) 1px;
-}
-.grad{
-  border: 3px solid black;
-  padding: 5px;
-  width: 270px;
-  border-radius: 16px;
-  background: linear-gradient(0deg, rgba(128,43,255,0.45) 0%, rgba(255,255,255,0.45) 50%, rgba(71,204,204,0.45) 100%);
-}
-.grad2 p{
-    display: flex;
-    padding-left: 105px;
-    
-}
-li{
-    list-style-type: none;
-}
-.layer{
-    
-    overflow-y: scroll;
-    padding: 3px;
-    width: 250px;
-    height: 400px;
-}
-    </style>
+    <link rel="stylesheet" href="cal.css">
 </head>
+
 <body>
-    <div class="grad">
+    
+    <div class="grad teg">
         <div class="grad2 lg">
             <p class="font">Теги</p>
             <div class="layer lg">
                 <ul id="tags">
                     <li>
-                       <label class="container font">
-                           C#
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
+                        <label class="container font">
+                            C#
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
                         </label>
-                     </li>
-                     <li>
+                    </li>
+                    <li>
                         <label class="container font">
                             C++
-                         <input type="checkbox">
-                         <span class="checkmark"></span>
-                         </label>
-                      </li>
-                      
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+
                 </ul>
                 <button id="buttonsave" onclick="save()">
                     сохранить
@@ -110,50 +39,66 @@ li{
                 </button>
             </div>
         </div>
-        </div>
-        <script>
-            var tags = document.getElementById("tags");
-            var buttonsave = document.getElementById("buttonsave");
-            var buttonedit = document.getElementById("buttonedit");
-            function save(){
+    </div>
 
-                
-                var chek =0;
-                for (let index = 0; index < tags.children.length; index++) {
-                    const li = tags.children[index];
-                    if (li.getElementsByTagName("input")[0].checked){
-                        chek++
-                        break
-                    }
-                }
-                if(!chek){
-                    alert("Иди нахуй с такими тегами");
-                    return
-                }
-                for (let index = 0; index < tags.children.length; index++) {
-                    const li = tags.children[index];
-                    const chekbox =li.getElementsByTagName("input")[0];
-                    if (chekbox.checked){
-                        chekbox.disabled=true;
-                    }
-                    else{
-                        li.hidden=true
+    <div class="cal">
+    <div class="month">
+        <ul>
+            <li class="prev"><button class="prev">❮</button></li>
+            <li class="next"><button class="next">❯</button></li>
+            <li>
+                August<br>
+                <span style="font-size:18px">2017</span>
+            </li>
+        </ul>
+    </div>
 
-                    }
-                }
-                buttonsave.hidden=true;
-                buttonedit.hidden=false;    
-            }
-            function edit(){
-                for (let index = 0; index < tags.children.length; index++) {
-                    const li = tags.children[index];
-                    const chekbox =li.getElementsByTagName("input")[0];
-                    chekbox.disabled=false;
-                    li.hidden=false;
-                }
-                buttonsave.hidden=false;
-                buttonedit.hidden=true; 
-            }
-        </script>
+    <ul class="weekdays">
+        <li>понедельник</li>
+        <li>вторник</li>
+        <li>среда</li>
+        <li>четверг</li>
+        <li>пятница</li>
+        <li>суббота</li>
+        <li>воскресенье</li>
+    </ul>
+
+    <ul class="days">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+        <li><span class="active">10</span></li>
+        <li>11</li>
+        <li>12</li>
+        <li>13</li>
+        <li>14</li>
+        <li>15</li>
+        <li>16</li>
+        <li>17</li>
+        <li>18</li>
+        <li>19</li>
+        <li>20</li>
+        <li>21</li>
+        <li>22</li>
+        <li>23</li>
+        <li>24</li>
+        <li>25</li>
+        <li>26</li>
+        <li>27</li>
+        <li>28</li>
+        <li>29</li>
+        <li>30</li>
+        <li>31</li>
+    </ul>
+</div>
+
+    <script src="cal.js"></script>
 </body>
+
 </html>

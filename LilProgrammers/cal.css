@@ -1,0 +1,178 @@
+body{
+    display: flex;
+}
+.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.container input:checked~.checkmark:after {
+    display: block;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked~.checkmark {
+    background-color: #2196F3;
+}
+
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background: #ffffff;
+    border: solid rgb(0, 0, 0) 1px;
+}
+
+.grad {
+    border: 3px solid black;
+    padding: 5px;
+    width: 270px;
+    border-radius: 16px;
+    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(71, 204, 204, 0.45) 100%);
+}
+
+.grad2 p {
+    display: flex;
+    padding-left: 105px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.layer {
+    overflow-y: scroll;
+    padding: 3px;
+    width: 250px;
+    height: 400px;
+}
+
+.cal{
+    height: 570px;
+    width: 756px;
+}
+
+* {box-sizing: border-box;}
+ul {list-style-type: none;}
+body {font-family:"Century Gothic", "Agency FB";}
+
+.month {
+    padding: 70px 25px;
+    width: 100%;
+    background: #ffffff;
+    text-align: center;
+}
+
+.month ul {
+    margin: 0;
+    padding: 0;
+}
+
+.month ul li {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.month .prev {
+    float: left;
+    padding-top: 10px;
+}
+
+.month .next {
+    float: right;
+    padding-top: 10px;
+}
+
+.weekdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color: rgb(0, 0, 0);
+}
+
+.weekdays li {
+    display: table-cell;
+    width: 710px;
+    height: 43px;
+    color: #666;
+    text-align: center;
+}
+
+.days {
+    padding: 10px 25;
+    background: rgb(255, 255, 255);
+    margin: 0;
+}
+
+.days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    text-align: -webkit-right;
+    margin-bottom: 5px;
+    font-size:11px;
+    color: rgb(75, 75, 75);
+    padding: 3px;
+    border: 3px solid;
+    border-radius: 16px;
+}
+.prev .next button {
+    background-color: rgba(0,0, 0,0);
+    border-color: rgba(0, 0, 0,0) ;
+}
+.days li .active {
+    padding: 5px;
+    background: #000000;
+    color: white !important
+}
+
+
+@media screen and (max-width:720px) {
+    .weekdays li, .days li {width: 13.1%;}
+}
+
+@media screen and (max-width: 420px) {
+    .weekdays li, .days li {width: 12.5%;}
+    .days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+    .weekdays li, .days li {width: 12.2%;}
+}

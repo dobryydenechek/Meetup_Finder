@@ -8,12 +8,17 @@
 </head>
 <body>
     <div class="in">
-        <p class="font">Регистрация</p>
+        <p class="font">Вход на сайт</p>
+        {% if error %}
+            <div style="color:red;">
+                {{ error }}
+            </div>
+        {% endif %}
         <form method="post">
             {% csrf_token %}
             <input   required placeholder="логин" name="username" type="text">
             <input   required placeholder="пароль" name="password" type="password">
-            <input   value="Войти" type="submit">
+            <button class="font">Войти</button>
         </form>
     </div>
 </body>

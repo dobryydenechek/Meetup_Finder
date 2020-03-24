@@ -1,6 +1,7 @@
 body{
     display: flex;
 }
+
 .container .checkmark:after {
     left: 9px;
     top: 5px;
@@ -57,16 +58,62 @@ body{
     background: #ffffff;
     border: solid rgb(0, 0, 0) 1px;
 }
+.top {
+    height: 20px;
+    background-color: rgb(246, 211, 255);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -2;
+    border-top: solid transparent;
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+}
 
+.left {
+    width: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    border-left: solid transparent;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.rigth {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    border-right: solid transparent;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+.bottom {
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgb(128, 43, 255);
+    right: 0;
+    border-bottom: solid transparent;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
 .grad {
-    border: 3px solid black;
+    
     padding: 5px;
     width: 270px;
     border-radius: 16px;
     background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(71, 204, 204, 0.45) 100%);
 }
 
-.grad2 p {
+p {
     display: flex;
     padding-left: 105px;
 }
@@ -81,6 +128,10 @@ li {
     width: 250px;
     height: 400px;
 }
+
+
+
+
 
 .cal{
     height: 570px;

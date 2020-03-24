@@ -9,94 +9,99 @@
 </head>
 
 <body>
-    
-    <div class="grad teg">
-        <div class="grad2 lg">
-            <p class="font">Теги</p>
-            <div class="layer lg">
-                <ul id="tags">
-                    <li>
-                        <label class="container font">
-                            C#
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
-                    <li>
-                        <label class="container font">
-                            C++
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
 
-                </ul>
-                <button id="buttonsave" onclick="save()">
-                    сохранить
-                </button>
-                <button id="buttonedit" onclick="edit()" hidden>
-                    изменить
-                </button>
-            </div>
+    <div class="grad teg">
+        <div class="top"></div>
+        <div class="left"></div>
+        <div class="rigth"></div>
+
+
+        <p class="font">Теги</p>
+        <div class="layer">
+            <ul id="tags">
+                <li>
+                    <label class="container font">
+                        C#
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </li>
+                <li>
+                    <label class="container font">
+                        C++
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </li>
+
+            </ul>
+            <button id="buttonsave" onclick="save()">
+                сохранить
+            </button>
+            <button id="buttonedit" onclick="edit()" hidden>
+                изменить
+            </button>
+
         </div>
+        <div class="bottom"></div>
     </div>
 
     <div class="cal">
-    <div class="month">
-        <ul>
-            <li class="prev"><button class="prev">❮</button></li>
-            <li class="next"><button class="next">❯</button></li>
-            <li>
-                August<br>
-                <span style="font-size:18px">2017</span>
-            </li>
+        <div class="month">
+            <ul>
+                <li class="prev"><button class="prev">❮</button></li>
+                <li class="next"><button class="next">❯</button></li>
+                <li>
+                    August<br>
+                    <span style="font-size:18px">2017</span>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="weekdays">
+            <li>понедельник</li>
+            <li>вторник</li>
+            <li>среда</li>
+            <li>четверг</li>
+            <li>пятница</li>
+            <li>суббота</li>
+            <li>воскресенье</li>
+        </ul>
+
+        <ul class="days">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li><span class="active">10</span></li>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+            <li>16</li>
+            <li>17</li>
+            <li>18</li>
+            <li>19</li>
+            <li>20</li>
+            <li>21</li>
+            <li>22</li>
+            <li>23</li>
+            <li>24</li>
+            <li>25</li>
+            <li>26</li>
+            <li>27</li>
+            <li>28</li>
+            <li>29</li>
+            <li>30</li>
+            <li>31</li>
         </ul>
     </div>
-
-    <ul class="weekdays">
-        <li>понедельник</li>
-        <li>вторник</li>
-        <li>среда</li>
-        <li>четверг</li>
-        <li>пятница</li>
-        <li>суббота</li>
-        <li>воскресенье</li>
-    </ul>
-
-    <ul class="days">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
-        <li>6</li>
-        <li>7</li>
-        <li>8</li>
-        <li>9</li>
-        <li><span class="active">10</span></li>
-        <li>11</li>
-        <li>12</li>
-        <li>13</li>
-        <li>14</li>
-        <li>15</li>
-        <li>16</li>
-        <li>17</li>
-        <li>18</li>
-        <li>19</li>
-        <li>20</li>
-        <li>21</li>
-        <li>22</li>
-        <li>23</li>
-        <li>24</li>
-        <li>25</li>
-        <li>26</li>
-        <li>27</li>
-        <li>28</li>
-        <li>29</li>
-        <li>30</li>
-        <li>31</li>
-    </ul>
-</div>
 
     <script src="cal.js"></script>
 </body>

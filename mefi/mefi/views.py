@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from .models import Userlist
 
 class HomeView(TemplateView):
     template_name = "home.html"
@@ -38,9 +39,8 @@ class RegisterView(TemplateView):
             password2 = request.POST.get('password2')
 
             if password == password2:
-                full_name_user = usersn + ' ' + username + ' ' + userfn
-                User = get_user_model()
-                User.objects.create_user(full_name_user, email, password)
+                User = Userlist(ul_surname=usersn, ul_name=username, ul_secondname=userfn, ul_email=email, ul_password=password)
+                User.save()
                 return redirect(reverse("login"))
 
         return render(request, self.template_name)

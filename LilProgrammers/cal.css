@@ -1,4 +1,4 @@
-body{
+body {
     display: flex;
 }
 
@@ -58,6 +58,7 @@ body{
     background: #ffffff;
     border: solid rgb(0, 0, 0) 1px;
 }
+
 .top {
     height: 20px;
     background-color: rgb(246, 211, 255);
@@ -94,6 +95,7 @@ body{
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
 }
+
 .bottom {
     height: 20px;
     position: absolute;
@@ -105,8 +107,8 @@ body{
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
 }
+
 .grad {
-    
     padding: 5px;
     width: 270px;
     border-radius: 16px;
@@ -129,101 +131,88 @@ li {
     height: 400px;
 }
 
-
-
-
-
-.cal{
-    height: 570px;
-    width: 756px;
+table {
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+    font-family: 'Ubuntu';
+    border-spacing: 0;
+    background-color: transparent;
 }
-
-* {box-sizing: border-box;}
-ul {list-style-type: none;}
-body {font-family:"Century Gothic", "Agency FB";}
 
 .month {
-    padding: 70px 25px;
-    width: 100%;
-    background: #ffffff;
     text-align: center;
+    padding: 30px;
+    font-size: 30px;
 }
 
-.month ul {
-    margin: 0;
-    padding: 0;
+.month button {
+    font-size: 30px;
 }
 
-.month ul li {
-    color: rgb(0, 0, 0);
-    font-size: 20px;
+th, td {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+}
+
+th {
     text-transform: uppercase;
-    letter-spacing: 3px;
-}
-
-.month .prev {
-    float: left;
-    padding-top: 10px;
-}
-
-.month .next {
-    float: right;
-    padding-top: 10px;
-}
-
-.weekdays {
-    margin: 0;
+    font-size: 10px;
+    font-weight: 700;
     padding: 10px 0;
-    background-color: rgb(0, 0, 0);
+    color: rgba(255, 255, 255, 0.5);
+    background-color: #292929;
+    letter-spacing: 1px;
 }
 
-.weekdays li {
-    display: table-cell;
-    width: 710px;
-    height: 43px;
-    color: #666;
-    text-align: center;
-}
-
-.days {
-    padding: 10px 25;
-    background: rgb(255, 255, 255);
-    margin: 0;
-}
-
-.days li {
-    list-style-type: none;
-    display: inline-block;
-    width: 100px;
+td {
+    width: 14.285%;
+    transition: all 0.3s;
+    font-size: 14px;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 1.5% 1.5% 5%;
+    vertical-align: initial;
+    padding: 1.5% 6px;
     height: 100px;
-    text-align: -webkit-right;
-    margin-bottom: 5px;
-    font-size:11px;
-    color: rgb(75, 75, 75);
-    padding: 3px;
-    border: 3px solid;
     border-radius: 16px;
-}
-.prev .next button {
-    background-color: rgba(0,0, 0,0);
-    border-color: rgba(0, 0, 0,0) ;
-}
-.days li .active {
-    padding: 5px;
-    background: #000000;
-    color: white !important
+    border-color: black;
+    text-align: right;
+    max-width: 0;
 }
 
-
-@media screen and (max-width:720px) {
-    .weekdays li, .days li {width: 13.1%;}
+.day:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
-@media screen and (max-width: 420px) {
-    .weekdays li, .days li {width: 12.5%;}
-    .days li .active {padding: 2px;}
+.today {
+    color: #FFF;
+    background-color: rgba(0, 0, 0, .25) !important;
 }
 
-@media screen and (max-width: 290px) {
-    .weekdays li, .days li {width: 12.2%;}
+span.number {
+    margin-left: 10%
+}
+
+span.event {
+    background-color: rgba(0, 0, 0, .3);
+    display: block;
+    border-radius: 2px;
+    background-color: transparent;
+    text-align: left;
+    border: 3px solid black;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+span.event-ghost {
+    background-color: transparent;
+}
+
+.cal {
+    height: 570px;
+    width: 756px;
 }

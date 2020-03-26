@@ -1,15 +1,4 @@
-.in {
-    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(246, 211, 255, 0.45) 100%);
-    text-align: center;
-    width: 364px;
-    height: 494px;
-    position: relative;
-    border: solid transparent 0px;
-    border-radius: 30px;
-}
-.fon{
-    background-color: rgba(255, 255, 255, 0.45);
-}
+
 .top {
     height: 20px;
     background-color: rgb(246, 211, 255);
@@ -57,7 +46,16 @@
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
 }
-
+.in {
+    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(246, 211, 255, 0.45) 100%);
+    text-align: center;
+    width: 364px;
+    height: 494px;
+    padding: 30px;
+    position: relative;
+    border: solid transparent 0px;
+    border-radius: 30px;
+}
 form input {
     margin-top: 15px;
     border: 1px solid black;

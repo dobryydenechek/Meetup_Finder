@@ -28,32 +28,43 @@ function getday(y,m){
 function getmonthdays (y,m){
     return 32 - new Date(y,m, 32).getDate();
     }
+
+
+
 function update(){
+    let ida = "data-ida"
     month.innerText=months[cm];
     year.innerText=cy;
     for (let index = 0; index < cells.length; index++) {
         const cell = cells[index];
-        cell.innerText=""
-        cell.classList.remove("today")
-        let ovs = cell.getElementsByClassName("event")
+        cell.removeAttribute(ida);
+        cell.innerText="";
+        cell.classList.remove("today");
+        let ovs = cell.getElementsByClassName("event");
         for (let index = 0; index < ovs.length; index++) {
             const ov = ovs[index];
-            cell.removeChild(ov)
+            cell.removeChild(ov);
         }
     }
+
     let start =getday(cy,cm)
     for (let index = start; index < getmonthdays(cy,cm)+start; index++) {
         const cell = cells[index];
         cell.innerText=index-start+1;
-        let ov = events[cy+"-"+(cm+1)+"-"+(index-start+1)]
+        let idday =cy+"-"+(cm+1)+"-"+(index-start+1);
+        cell.setAttribute(ida,idday);
+        let ov = events[idday];
         if(ov){
-            for (let index = 0; index <Math.min( 3,ov.length); index++) {
+            for (let index = 0; index <ov.length; index++) {
                 const element = ov[index];
                 var ne =document.createElement("span");
                 ne.innerText=element.name;
-                ne.classList.add("event")
-                cell.appendChild(ne)
+                ne.classList.add("event");
+                ne.setAttribute(ida,idday);
+                ne.setAttribute("data-ei",index)
+                cell.appendChild(ne);
             }
+            uptippy()
         }
     }
     if(cy==new Date().getFullYear() && cm==new Date().getMonth()){
@@ -82,7 +93,7 @@ function prevmonth(){
     update();
 }
 
-
+//
 function save() {
 
 
@@ -122,10 +133,58 @@ function edit() {
     buttonsave.hidden = false;
     buttonedit.hidden = true;
 }
+//
 
 
+/*for (let index = 0; index < cells.length; index++) {
+    const cell = cells[index];
+    Popper.createPopper(cell,document.getElementById("detail"))
+}
+tippy('#cal td', {
+    content:document.getElementById("detail").innerHTML,
+    allowHTML: true,
+    arrow:true,
+    trigger: 'click',
+    interactive: true,
+    theme:"detail",
+    onShow(instance){
+        let ida =instance.reference.getAttribute("data-ida");
+        console.log(instance);
+        if(!ida){
+            return false
+        }
+        instance.popper.getElementsByClassName("dataday")[0].innerText=new Date(ida).toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+        let dayevent = events[ida];
+        let dataevents =instance.popper.getElementsByClassName("dataevents")[0];
+        dataevents.innerHTML="";
 
+        for (let index = 0; index < dayevent.length; index++) {
+            const event = dayevent[index];
+            var ne =document.createElement("li");
+            ne.innerText=event.name;
+            dataevents.appendChild(ne)
+        }
+    }
 
-events["2020-3-17"]=[{name:"dfgdfgfdsg dfgfdg fdgdf gdfg dfg df"},
-{name:"6546879356846516 8796465 4968746 84634596874"}];
+  });*/
+function uptippy(){
+  tippy('#cal td .event', {
+    content:document.getElementById("eventdetail").innerHTML,
+    allowHTML: true,
+    arrow:true,
+    trigger: 'click',
+    interactive: true,
+    theme:"detail",
+    onShow(instance){
+        let ida =instance.reference.getAttribute("data-ida");
+        let ei =instance.reference.getAttribute("data-ei");
+        let event = events[ida][ei];
+        instance.popper.getElementsByClassName("dataevent")[0].innerText=event.name;
+       
+    }
+
+  });}
+events["2020-3-17"]=[{name:"НАзвание мероприятия"},
+{name:"Php Meetup"}];
+
 update()

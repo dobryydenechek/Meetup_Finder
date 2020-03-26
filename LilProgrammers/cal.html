@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
 
     <title>Document</title>
     <link rel="stylesheet" href="cal.css">
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    
 </head>
 
 <body>
 
+
+  <div>
     <div class="grad teg">
         <div class="top"></div>
         <div class="left"></div>
         <div class="rigth"></div>
-
-
         <p class="font">Теги</p>
         <div class="layer">
             <ul id="tags">
@@ -46,16 +49,24 @@
         <div class="bottom"></div>
     </div>
 
-    <div class="cal">
 
+
+
+
+    <div class="cal grad">
+      <div class="top"></div>
+      <div class="left"></div>
+      <div class="rigth"></div>
       <div class="month" >
         <button id="buttonprev" onclick="prevmonth()">&loarr;</button>
-        <span><span id="month">dfhdfh</span> <span id="year">2020</span></span>                              
+
+        <span><span id="month">dfhdfh</span> <span id="year">2020</span></span>
+
         <button id="buttonnext" onclick="nextmonth()">&roarr;</button>
       </div>
 
         <table id="cal">
-            <tr>
+            <tr style="width: 710px; height: 46px;" >
               <th class="day-name">Понедельник</th>
               <th class="day-name">Вторник</th>
               <th class="day-name">Среда</th>
@@ -65,62 +76,107 @@
               <th class="day-name">Воскресение</th>
             </tr>
             <tr >
-              <td class="day"><span class="number">31</span></td>
-              <td class="day"><span class="number">1</span></td>
-              <td class="day"><span class="number">2</span></td>
-              <td class="day"><span class="number">3</span></td>
-              <td class="day"><span class="number">4</span></td>
-              <td class="day"><span class="number">5</span></td>
-              <td class="day"><span class="number">6</span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
             </tr>
             <tr>
-              <td class="day"><span class="number">7</span></td>
-              <td class="day"><span class="number">8</span></td>
-              <td class="day"><span class="number">9</span></td>
-              <td class="day"><span class="number">10</span></td>
-              <td class="day"><span class="number">11</span></td>
-              <td class="day"><span class="number">12</span></td>
-              <td class="day"><span class="number">13</span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
             </tr>
             <tr>
-              <td class="day"><span class="number">14</span></td>
-              <td class="day"><span class="number">15</span></td>
-              <td class="day"><span class="number">16</span></td>
-              <td class="day"><span class="number">17</span></td>
-              <td class="day"><span class="number">18</span></td>
-              <td class="day"><span class="number">19</span></td>
-              <td class="day"><span class="number">20</span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
             </tr>
             <tr>
-              <td class="day"><span class="number">21</span></td>
-              <td class="day"><span class="number">22</span></td>
-              <td class="day"><span class="number">23</span></td>
-              <td class="day"><span class="number">24</span></td>
-              <td class="day"><span class="number">25</span></td>
-              <td class="day"><span class="number">26</span></td>
-              <td class="day"><span class="number">27</span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
             </tr>
             <tr>
-              <td class="day"><span class="number">28</span></td>
-              <td class="day today"><span class="number">29</span></td>
-              <td class="day"><span class="number">30</span></td>
-              <td class="day"><span class="number">1</span></td>
-              <td class="day"><span class="number">2</span></td>
-              <td class="day"><span class="number">3</span></td>
-              <td class="day"><span class="number">4</span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
             </tr>
             <tr>
-              <td class="day"><span class="number">5</span></td>
-              <td class="day"><span class="number">6</span></td>
-              <td class="day"><span class="number">7</span></td>
-              <td class="day"><span class="number">8</span></td>
-              <td class="day"><span class="number">9</span></td>
-              <td class="day"><span class="number">10</span></td>
-              <td class="day"><span class="number">11</span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
+              <td class="day"><span class="number"></span></td>
             </tr>
           </table>
+          <div class="bottom"></div>
     </div>
+  </div>
 
+
+
+  <div>
+    <div class="in">
+      <div class="fon">
+      <div class="top"></div>
+      <div class="left"></div>
+      <div class="rigth"></div>
+      <p class="font">Регистрация</p>
+      <form>
+          <input class="font" placeholder="Фамилия" type="text">
+          <input class="font" placeholder="Имя" type="text">
+          <input class="font" placeholder="Очество" type="text">
+          <input class="font" required="" placeholder="логин" type="text">
+          <input class="font" required="" placeholder="пароль" type="password">
+          <input class="font" required="" placeholder="повторите пароль" type="password">
+      </form>
+      <button class="font">За регестрироватся</button>
+
+      <div class="bottom"></div>
+  </div>
+  </div>
+
+
+
+
+
+    <div class="mailing grad">
+      <div class="fon">
+        <div class="top"></div>
+        <div class="left"></div>
+        <div class="rigth"></div>
+        <p class="font">Рассылка</p>
+        <button><a href=""></a></button>
+        <button><a href=""></a></button>
+        <button><a href=""></a></button>
+        <div class="bottom"></div>
+    </div>
+    </div>
+  </div>
+
+<div id="detail"><div class="detail"><h4 class="dataday"></h4><ul class="dataevents"></ul></div></div>
+<div id="eventdetail"><div class="detail"><h4 class="dataevent"></h4><button>Я пойду</button></div></div>
     <script src="cal.js"></script>
 </body>
 

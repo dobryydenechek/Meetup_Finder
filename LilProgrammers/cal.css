@@ -66,7 +66,6 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    z-index: -2;
     border-top: solid transparent;
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
@@ -107,12 +106,15 @@ body {
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
 }
-
-.grad {
-    padding: 5px;
+.teg{
     width: 270px;
-    border-radius: 16px;
     background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(71, 204, 204, 0.45) 100%);
+}
+.grad {
+    position: relative;
+    border: solid transparent 0px;
+    border-radius: 30px;
+    padding: 30px;
 }
 
 p {
@@ -131,8 +133,12 @@ li {
     height: 400px;
 }
 
+
+
+
+
+
 table {
-    width: 100%;
     box-sizing: border-box;
     box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
     font-family: 'Ubuntu';
@@ -142,8 +148,9 @@ table {
 
 .month {
     text-align: center;
-    padding: 30px;
-    font-size: 30px;
+    font-size: 16px;
+    width: 710px;
+    height: 46px;
 }
 
 .month button {
@@ -157,7 +164,7 @@ th, td {
 
 th {
     text-transform: uppercase;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     padding: 10px 0;
     color: rgba(255, 255, 255, 0.5);
@@ -165,8 +172,10 @@ th {
     letter-spacing: 1px;
 }
 
+
 td {
-    width: 14.285%;
+    min-width: 100px;
+    height: 100px;
     transition: all 0.3s;
     font-size: 14px;
     font-weight: 400;
@@ -174,7 +183,6 @@ td {
     padding: 1.5% 1.5% 5%;
     vertical-align: initial;
     padding: 1.5% 6px;
-    height: 100px;
     border-radius: 16px;
     border-color: black;
     text-align: right;
@@ -211,8 +219,90 @@ span.event {
 span.event-ghost {
     background-color: transparent;
 }
-
 .cal {
-    height: 570px;
-    width: 756px;
+    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(71, 204, 204, 0.45) 100%);
+    padding: 30px;
+    position: relative;
 }
+
+.mailing{
+    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(71, 204, 204, 0.45) 100%);
+    border: solid transparent 0px;
+    border-radius: 30px;
+    position: relative;
+}
+
+.mailing p{
+    
+    padding: 30px;
+    font-size: 16px;
+}
+.mailing button{
+    border: 3px solid black;
+    margin: 10px;
+    width: 200px;
+    height: 49px;
+    display: block;
+}
+
+.mailing .top {
+    background-color: rgb(246, 211, 255);
+    ;
+}
+
+.mailing .left {
+    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    
+}
+
+.mailing .rigth {
+    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    
+}
+
+.mailing .bottom {
+    background: rgb(128, 43, 255);
+    
+}
+
+.in {
+    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(246, 211, 255, 0.45) 100%);
+    text-align: center;
+    width: 364px;
+    height: 494px;
+    padding: 30px;
+    position: relative;
+    border: solid transparent 0px;
+    border-radius: 30px;
+}
+form input {
+    margin-top: 15px;
+    border: 1px solid black;
+    width: 300px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0);
+    text-align: center;
+}
+
+button {
+    margin-top: 30px;
+    width: 201px;
+    height: 60px;
+    position: relative;
+    left: auto;
+    border: 1px solid black;
+    background: rgba(255, 255, 255, 0);
+}
+
+.font {
+    font-family: "Century Gothic", "Agency FB";
+}
+
+.tippy-box[data-theme~='detail'] {
+    height: 200px;
+    width: 200px;
+    color:black ;
+    background-color: white;
+    border: 1px solid;
+    border-radius: 16px;
+  }

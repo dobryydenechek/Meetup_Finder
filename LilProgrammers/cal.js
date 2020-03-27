@@ -72,6 +72,28 @@ function update(){
     }
 }
 
+function upteg(){
+    var promis = axios.get("tegs.json");
+        promis.then(function(response){
+        console.log(response.data);
+        var tags = document.getElementById("tags");
+        tags.innerHTML="";
+        for (let index = 0; index < response.data.length; index++) {
+            const teg = response.data[index];
+            var li =document.createElement("li");
+            li.classList.add("tags");
+            li.innerHTML='<label class="container font"><span class="svap">     </span><input type="checkbox"><span class="checkmark"></span></label>';
+            li.getElementsByClassName("svap")[0].innerText=teg.tl_title;
+            tags.appendChild(li)
+            console.log(teg.tl_title)
+
+        }
+  })
+}
+
+
+
+
 
 
 
@@ -93,7 +115,7 @@ function prevmonth(){
     update();
 }
 
-//
+
 function save() {
 
 
@@ -136,40 +158,16 @@ function edit() {
 //
 
 
-/*for (let index = 0; index < cells.length; index++) {
-    const cell = cells[index];
-    Popper.createPopper(cell,document.getElementById("detail"))
-}
-tippy('#cal td', {
-    content:document.getElementById("detail").innerHTML,
-    allowHTML: true,
-    arrow:true,
-    trigger: 'click',
-    interactive: true,
-    theme:"detail",
-    onShow(instance){
-        let ida =instance.reference.getAttribute("data-ida");
-        console.log(instance);
-        if(!ida){
-            return false
-        }
-        instance.popper.getElementsByClassName("dataday")[0].innerText=new Date(ida).toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
-        let dayevent = events[ida];
-        let dataevents =instance.popper.getElementsByClassName("dataevents")[0];
-        dataevents.innerHTML="";
 
-        for (let index = 0; index < dayevent.length; index++) {
-            const event = dayevent[index];
-            var ne =document.createElement("li");
-            ne.innerText=event.name;
-            dataevents.appendChild(ne)
-        }
-    }
-
-  });*/
 function uptippy(){
   tippy('#cal td .event', {
-    content:document.getElementById("eventdetail").innerHTML,
+    content:`
+    
+    <div class="detail" > 
+      <h4 class="dataevent"></h4><button onclick="window.location='#mailing'">Я пойду</button>
+    </div>
+    
+    `,
     allowHTML: true,
     arrow:true,
     trigger: 'click',
@@ -184,7 +182,11 @@ function uptippy(){
     }
 
   });}
+
+
+
+
 events["2020-3-17"]=[{name:"НАзвание мероприятия"},
 {name:"Php Meetup"}];
-
+upteg()
 update()

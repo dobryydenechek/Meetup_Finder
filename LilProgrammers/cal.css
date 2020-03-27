@@ -1,7 +1,16 @@
-body {
-    display: flex;
-}
+body{
+    padding: 0;
+    margin: 0;
 
+}
+.wood{
+    padding: 30px;
+    background: url("Saved Pictures/OtZoeN7vtI0.jpg");
+}
+.concrete{
+    padding: 30px;
+    background: url("Saved Pictures/cHyy6gV38ls.jpg");
+}
 .container .checkmark:after {
     left: 9px;
     top: 5px;
@@ -31,7 +40,6 @@ body {
 .container {
     display: block;
     position: relative;
-    padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
     font-size: 22px;
@@ -52,16 +60,21 @@ body {
 .checkmark {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     height: 25px;
     width: 25px;
     background: #ffffff;
     border: solid rgb(0, 0, 0) 1px;
 }
+.tags li{
+    border: 3px solid black;
+}
+
+
 
 .top {
     height: 20px;
-    background-color: rgb(246, 211, 255);
+    background-color: rgb(71, 204, 204);
     position: absolute;
     top: 0;
     left: 0;
@@ -77,7 +90,7 @@ body {
     left: 0;
     top: 0;
     bottom: 0;
-    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    background: linear-gradient(0deg, rgba(128, 43, 255 ) 0%, rgba(255, 255, 255) 50%, rgba(71, 204, 204) 100%);
     border-left: solid transparent;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
@@ -89,7 +102,7 @@ body {
     top: 0;
     bottom: 0;
     width: 20px;
-    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    background: linear-gradient(0deg, rgba(128, 43, 255) 0%, rgba(255, 255, 255) 50%, rgba(71, 204, 204) 100%);
     border-right: solid transparent;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
@@ -108,7 +121,7 @@ body {
 }
 .teg{
     width: 270px;
-    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(71, 204, 204, 0.45) 100%);
+    background: linear-gradient(0deg, rgba(128, 43, 255, 0.55) 0%, rgba(255, 255, 255, 0.55) 50%, rgba(71, 204, 204, 0.55) 100%);
 }
 .grad {
     position: relative;
@@ -126,11 +139,47 @@ li {
     list-style-type: none;
 }
 
+
+
+
+
+
 .layer {
-    overflow-y: scroll;
     padding: 3px;
-    width: 250px;
-    height: 400px;
+}
+
+.layer::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.layer::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+.layer::-webkit-scrollbar-thumb {
+  background: #e13ec5;
+  border: 1px solid #000000;
+  border-radius: 0px;
+}
+.layer::-webkit-scrollbar-thumb:hover {
+  background: #bb22b4;
+}
+.layer::-webkit-scrollbar-thumb:active {
+  background: #be27b3;
+}
+.layer::-webkit-scrollbar-track {
+  background: #666666;
+  border: 1px solid #000000;
+  border-radius: 0px;
+}
+.layer::-webkit-scrollbar-track:hover {
+  background: #666666;
+}
+.layer::-webkit-scrollbar-track:active {
+  background: #969696;
+}
+.layer::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 
@@ -138,7 +187,17 @@ li {
 
 
 
+
+
+
+
+
+
+
+
+
 table {
+    margin: 10px;
     box-sizing: border-box;
     box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
     font-family: 'Ubuntu';
@@ -147,6 +206,7 @@ table {
 }
 
 .month {
+    display: flex;
     text-align: center;
     font-size: 16px;
     width: 710px;
@@ -155,10 +215,11 @@ table {
 
 .month button {
     font-size: 30px;
+    border: none;
 }
 
 th, td {
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    
     box-sizing: border-box;
 }
 
@@ -168,12 +229,13 @@ th {
     font-weight: 700;
     padding: 10px 0;
     color: rgba(255, 255, 255, 0.5);
-    background-color: #292929;
+    background-color: #000000;
     letter-spacing: 1px;
 }
 
 
 td {
+    border: 1px solid rgba(255, 255, 255, 0.1);
     min-width: 100px;
     height: 100px;
     transition: all 0.3s;
@@ -209,7 +271,7 @@ span.event {
     border-radius: 2px;
     background-color: transparent;
     text-align: left;
-    border: 3px solid black;
+    border: 1px solid black;
     font-size: 11px;
     white-space: nowrap;
     overflow: hidden;
@@ -220,13 +282,13 @@ span.event-ghost {
     background-color: transparent;
 }
 .cal {
-    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(71, 204, 204, 0.45) 100%);
-    padding: 30px;
+    background: linear-gradient(0deg, rgba(128, 43, 255, 0.55) 0%, rgba(255, 255, 255, 0.55) 50%, rgba(71, 204, 204, 0.45) 100%);
+    padding: 25px;
     position: relative;
 }
 
 .mailing{
-    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(71, 204, 204, 0.45) 100%);
+    background: linear-gradient(0deg, rgb(72, 209, 204, 0.55) 0%, rgb(226, 244, 243, 0.55) 100%);
     border: solid transparent 0px;
     border-radius: 30px;
     position: relative;
@@ -234,37 +296,86 @@ span.event-ghost {
 
 .mailing p{
     
+    display: inline-block;
     padding: 30px;
     font-size: 16px;
 }
-.mailing button{
+.mailing a{
+    padding: 25px;
+    text-align: center;
     border: 3px solid black;
     margin: 10px;
     width: 200px;
-    height: 49px;
     display: block;
 }
 
 .mailing .top {
-    background-color: rgb(246, 211, 255);
+    background-color: rgb(226, 244, 243);
     ;
 }
 
 .mailing .left {
-    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    background: linear-gradient(0deg, rgb(72, 209, 204) 0%, rgb(226, 244, 243) 100%);
     
 }
 
 .mailing .rigth {
-    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    background: linear-gradient(0deg, rgb(72, 209, 204) 0%, rgb(226, 244, 243) 100%);
     
 }
 
 .mailing .bottom {
-    background: rgb(128, 43, 255);
+    background: rgb(72, 209, 204);
     
 }
 
+.in .top {
+    height: 20px;
+    background-color: rgb(246, 211, 255);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-top: solid transparent;
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+}
+
+.in .left {
+    width: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    border-left: solid transparent;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.in .rigth {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    border-right: solid transparent;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.in .bottom {
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgb(128, 43, 255);
+    right: 0;
+    border-bottom: solid transparent;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
 .in {
     background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(246, 211, 255, 0.45) 100%);
     text-align: center;
@@ -275,6 +386,7 @@ span.event-ghost {
     border: solid transparent 0px;
     border-radius: 30px;
 }
+
 form input {
     margin-top: 15px;
     border: 1px solid black;
@@ -285,9 +397,7 @@ form input {
 }
 
 button {
-    margin-top: 30px;
-    width: 201px;
-    height: 60px;
+    
     position: relative;
     left: auto;
     border: 1px solid black;

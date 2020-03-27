@@ -2,51 +2,39 @@
 <html lang="ru">
 
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <title>Document</title>
-    <link rel="stylesheet" href="cal.css">
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
-    
+  <title>Document</title>
+  <link rel="stylesheet" href="cal.css">
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+
 </head>
 
 <body>
 
 
-  <div>
+  <div style="display: inline-flex;width: 100%;justify-content: space-between;box-sizing: border-box;" class="wood">
+
     <div class="grad teg">
-        <div class="top"></div>
-        <div class="left"></div>
-        <div class="rigth"></div>
-        <p class="font">Теги</p>
-        <div class="layer">
-            <ul id="tags">
-                <li>
-                    <label class="container font">
-                        C#
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                    </label>
-                </li>
-                <li>
-                    <label class="container font">
-                        C++
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                    </label>
-                </li>
-
-            </ul>
-            <button id="buttonsave" onclick="save()">
-                сохранить
-            </button>
-            <button id="buttonedit" onclick="edit()" hidden>
-                изменить
-            </button>
-
-        </div>
-        <div class="bottom"></div>
+      <div class="top"></div>
+      <div class="left"></div>
+      <div class="rigth"></div>
+      <p class="font">Теги</p>
+      <div class="layer">
+        <ul id="tags" style="padding: 0;">
+        </ul>
+      </div>
+      <div style="text-align: center;">
+        <button id="buttonsave" onclick="save()">
+          сохранить
+        </button>
+        <button id="buttonedit" onclick="edit()" hidden>
+          изменить
+        </button>
+      </div>
+      <div class="bottom"></div>
     </div>
 
 
@@ -57,127 +45,128 @@
       <div class="top"></div>
       <div class="left"></div>
       <div class="rigth"></div>
-      <div class="month" >
-        <button id="buttonprev" onclick="prevmonth()">&loarr;</button>
+      <div class="month">
+        <button id="buttonprev" onclick="prevmonth()"><img src="Saved Pictures/2.png" alt="&loarr;"></button>
 
-        <span><span id="month">dfhdfh</span> <span id="year">2020</span></span>
+        <span style="flex-grow: 1;"><span id="month"></span> <span id="year">2020</span></span>
 
-        <button id="buttonnext" onclick="nextmonth()">&roarr;</button>
+        <button id="buttonnext" onclick="nextmonth()"><img src="Saved Pictures/1.png" alt="&roarr;"></button>
       </div>
 
-        <table id="cal">
-            <tr style="width: 710px; height: 46px;" >
-              <th class="day-name">Понедельник</th>
-              <th class="day-name">Вторник</th>
-              <th class="day-name">Среда</th>
-              <th class="day-name">Четверг</th>
-              <th class="day-name">Пятница</th>
-              <th class="day-name">Суббота</th>
-              <th class="day-name">Воскресение</th>
-            </tr>
-            <tr >
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-            </tr>
-            <tr>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-            </tr>
-            <tr>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-            </tr>
-            <tr>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-            </tr>
-            <tr>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-            </tr>
-            <tr>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-              <td class="day"><span class="number"></span></td>
-            </tr>
-          </table>
-          <div class="bottom"></div>
+      <table id="cal">
+        <tr style="width: 710px; height: 46px;">
+          <th class="day-name">Понедельник</th>
+          <th class="day-name">Вторник</th>
+          <th class="day-name">Среда</th>
+          <th class="day-name">Четверг</th>
+          <th class="day-name">Пятница</th>
+          <th class="day-name">Суббота</th>
+          <th class="day-name">Воскресение</th>
+        </tr>
+        <tr>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+        </tr>
+        <tr>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+        </tr>
+        <tr>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+        </tr>
+        <tr>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+        </tr>
+        <tr>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+        </tr>
+        <tr>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+          <td class="day"><span class="number"></span></td>
+        </tr>
+      </table>
+      <div class="bottom"></div>
     </div>
   </div>
 
 
 
-  <div>
-    <div class="in">
+  <div style="display: inline-flex;width: 100%;justify-content: space-between;box-sizing: border-box;" class="concrete">
+    <div class="in grad">
       <div class="fon">
-      <div class="top"></div>
-      <div class="left"></div>
-      <div class="rigth"></div>
-      <p class="font">Регистрация</p>
-      <form>
+        <div class="top"></div>
+        <div class="left"></div>
+        <div class="rigth"></div>
+        <p class="font">Регистрация</p>
+        <form>
           <input class="font" placeholder="Фамилия" type="text">
           <input class="font" placeholder="Имя" type="text">
           <input class="font" placeholder="Очество" type="text">
           <input class="font" required="" placeholder="логин" type="text">
           <input class="font" required="" placeholder="пароль" type="password">
           <input class="font" required="" placeholder="повторите пароль" type="password">
-      </form>
-      <button class="font">За регестрироватся</button>
+        </form>
+        <button class="font" style="margin-top: 30px;
+      width: 201px;
+      height: 60px;">За регестрироватся</button>
 
-      <div class="bottom"></div>
-  </div>
-  </div>
-
-
-
-
-
-    <div class="mailing grad">
-      <div class="fon">
-        <div class="top"></div>
-        <div class="left"></div>
-        <div class="rigth"></div>
-        <p class="font">Рассылка</p>
-        <button><a href=""></a></button>
-        <button><a href=""></a></button>
-        <button><a href=""></a></button>
         <div class="bottom"></div>
+      </div>
     </div>
+
+
+
+
+    <div>
+      <div class="mailing grad" id="mailing">
+        <div class="fon">
+          <div class="top"></div>
+          <div class="left"></div>
+          <div class="rigth"></div>
+          <p class="font">Рассылка</p>
+          <a href="https://tglink.ru/meetup_finder_bot">Телеграм</a>
+          <a href="https://vk.com/it__event">ВК</a>
+          <a href=""></a>
+          <div class="bottom"></div>
+        </div>
+      </div>
     </div>
   </div>
 
-<div id="detail"><div class="detail"><h4 class="dataday"></h4><ul class="dataevents"></ul></div></div>
-<div id="eventdetail"><div class="detail"><h4 class="dataevent"></h4><button>Я пойду</button></div></div>
-    <script src="cal.js"></script>
+  <script src="cal.js"></script>
 </body>
 
 </html>

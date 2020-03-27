@@ -126,7 +126,7 @@ class Eventlist(models.Model):
     el_date = models.DateTimeField(verbose_name='Дата')
     el_time = models.TimeField()
     el_link = models.CharField(max_length=100, verbose_name='Ссылка на сайт мероприятия')
-    el_chk_active = models.IntegerField(blank=True, null=True)
+    el_chk_active = models.IntegerField(blank=True, null=True, verbose_name='Мероприятие активно')
 
     def __str__(self):
         return f'{self.el_title}'
@@ -191,11 +191,11 @@ class Userlist(models.Model):
     ul_password = models.CharField(max_length=20, verbose_name='Пароль')
     ul_name = models.CharField(max_length=20, blank=True, null=True, verbose_name='Имя')
     ul_surname = models.CharField(max_length=20, blank=True, null=True, verbose_name='Фамилия')
-    ul_secondname = models.CharField(max_length=20, blank=True, null=True)
+    ul_secondname = models.CharField(max_length=20, blank=True, null=True,  verbose_name='Отчество')
     ul_email = models.CharField(max_length=30, verbose_name='E-mail')
     ul_linkvkmessage = models.CharField(max_length=30, blank=True, null=True, verbose_name='Ссылка на вк')
     ul_linktgmessage = models.CharField(max_length=30, blank=True, null=True, verbose_name='ID чата в телеграм')
-    ul_chk_mailing = models.IntegerField(blank=True, null=True)
+    ul_chk_mailing = models.IntegerField(blank=True, null=True, verbose_name='Согласие на рассылку')
 
     def __str__(self):
         return f'{self.ul_login}'

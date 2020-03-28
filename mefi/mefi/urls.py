@@ -18,13 +18,13 @@ from django.urls import path
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.conf import settings
-from mefi.views import HomeView, LoginView, ProfilePage, RegisterView 
+from mefi.views import HomeView, LoginView, RegisterView 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', HomeView.as_view()),
     url(r'^accounts/login/$', LoginView.as_view(), name="login"),
-    url(r'^accounts/profile/$', ProfilePage.as_view(), name="profile"),
+    #url(r'^accounts/profile/$', ProfilePage.as_view(), name="profile"),
     url(r'^accounts/register/$', RegisterView.as_view(), name="register"),
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

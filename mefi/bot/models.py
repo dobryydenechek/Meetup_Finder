@@ -120,16 +120,16 @@ class DjangoSession(models.Model):
 
 class Eventlist(models.Model):
     el_id = models.AutoField(primary_key=True, verbose_name='ID')
-    el_title = models.CharField(max_length=50, verbose_name='Название мероприятия')
+    el_title = models.CharField(max_length=100, verbose_name='Название мероприятия')
     el_description = models.CharField(max_length=1000, blank=True, null=True, verbose_name='Описание')
-    el_id_place = models.ForeignKey('Placelist', models.DO_NOTHING, db_column='el_id_place', verbose_name='ID Места проведения')
+    el_id_place = models.ForeignKey('Placelist', models.DO_NOTHING, null=True, db_column='el_id_place', verbose_name='ID Места проведения')
     el_date = models.DateTimeField(verbose_name='Дата')
-    el_time = models.TimeField()
-    el_link = models.CharField(max_length=100, verbose_name='Ссылка на сайт мероприятия')
+    el_time = models.TimeField(null=True)
+    el_link = models.CharField(max_length=300, verbose_name='Ссылка на сайт мероприятия')
     el_chk_active = models.IntegerField(blank=True, null=True, verbose_name='Мероприятие активно')
 
     def __str__(self):
-        return f'{self.el_title}'
+        return f'{self.el_id} - {self.el_title}'
 
     class Meta:
         managed = False
@@ -173,7 +173,7 @@ class Placelist(models.Model):
 
 class Taglist(models.Model):
     tl_id = models.AutoField(primary_key=True, verbose_name='ID')
-    tl_title = models.CharField(max_length=15, verbose_name='Тэг')
+    tl_title = models.CharField(max_length=30, verbose_name='Тэг')
 
     def __str__(self):
         return f'{self.tl_title}'
@@ -198,7 +198,7 @@ class Userlist(models.Model):
     ul_chk_mailing = models.IntegerField(blank=True, null=True, verbose_name='Согласие на рассылку')
 
     def __str__(self):
-        return f'{self.ul_login}'
+        return f'{self.ul_id} - {self.ul_login}'
 
     class Meta:
         managed = False

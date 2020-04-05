@@ -54,10 +54,33 @@ class Command(BaseCommand):
 # all_objects = Userlist.objects.all()
 # print(all_objects[0].ul_linktgmessage)
 
+# ------ Старое подключение телеги --------
+# @bot.message_handler(commands=['start'])
+# def start_message(message):
+#     # print(message.chat.username)
+#     all_objects_userlist = Userlist.objects.all()
+#     exist_user = False
+#     for i in range(len(all_objects_userlist)):
+#         if str(message.chat.id) == all_objects_userlist[i].ul_linktgmessage:
+#             bot.send_message(message.chat.id, 'С возвращением, друг! ')
+#             exist_user = True
+#     if not exist_user:
+#         bot.send_message(message.chat.id, 'Привет, друг! Введи свой id с сайта, чтобы мы слогли подключить бота')
+#         bot.register_next_step_handler(message, send_id)
+
+
+@bot.message_handler(commands=['help'])
+def help(message):
+    bot.send_message(message.chat.id, 'Основные функции бота:\n'
+                                      '/id - Выводит Ваш id на сайте (но сайт мы еще не допилили хихи)\n'
+                                      '/tags - Ваши теги\n'
+                                      '/change_tags - Изменить теги\n'
+                                      '/events - Все эвенты по тегам\n'
+                                      'а так же бот напоминает о эвентах каждый день в 12 часов\n')
+
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    # print(message.chat.username)
     all_objects_userlist = Userlist.objects.all()
     exist_user = False
     for i in range(len(all_objects_userlist)):
@@ -65,8 +88,11 @@ def start_message(message):
             bot.send_message(message.chat.id, 'С возвращением, друг! ')
             exist_user = True
     if not exist_user:
-        bot.send_message(message.chat.id, 'Привет, друг! Введи свой id с сайта, чтобы мы слогли подключить бота')
-        bot.register_next_step_handler(message, send_id)
+        bot.send_message(message.chat.id, 'Привет, друг! Чтобы начать пользоваться ботом, тебе нужно выбрать теги.')
+        help(message)
+        new_user = Userlist(ul_linktgmessage=message.chat.id)
+        new_user.save()
+        change_tags(message)
 
 
 def send_id(message):
@@ -145,34 +171,48 @@ def events(message):
     else:
         if tags:
             repeat_events = []
+            events_alive = False  # есть ли эвенты для пользователя
             for i in range(len(all_objects_eventtaglist)):
-                if all_objects_eventtaglist[i].etl_id_tag.tl_title in tags and all_objects_eventtaglist[i].etl_id_event.el_id not in repeat_events:
-                    event = all_objects_eventtaglist[i].etl_id_event.el_title + '\n\n' + 'Описание:\n' \
-                    + all_objects_eventtaglist[i].etl_id_event.el_description + '\n\n' + 'Дата:\n' \
-                    + str(all_objects_eventtaglist[i].etl_id_event.el_date.date())
-                    if str(all_objects_eventtaglist[i].etl_id_event.el_time) != '00:00:00':
+                if all_objects_eventtaglist[i].etl_id_tag.tl_title in tags and all_objects_eventtaglist[i].etl_id_event.el_id not in repeat_events \
+                        and all_objects_eventtaglist[i].etl_id_event.el_date.date() >= datetime.datetime.today().date():
+                    event = all_objects_eventtaglist[i].etl_id_event.el_title + '\n\n'
+
+                    if all_objects_eventtaglist[i].etl_id_event.el_description != '﻿ ':
+                        event += 'Описание:\n' + all_objects_eventtaglist[i].etl_id_event.el_description + '\n\n'
+
+                    event += 'Дата:\n' + str(all_objects_eventtaglist[i].etl_id_event.el_date.date())
+
+                    if str(all_objects_eventtaglist[i].etl_id_event.el_time) != '00:00:00' and \
+                            all_objects_eventtaglist[i].etl_id_event.el_time is not None:
                         event += '\nВремя:\n' + str(all_objects_eventtaglist[i].etl_id_event.el_time)
+                    else:
+                        event += '\nВремя:\n' + str(all_objects_eventtaglist[i].etl_id_event.el_date.time())
+
                     if all_objects_eventtaglist[i].etl_id_event.el_link != '':
                         event += '\n\n' + 'Сайт:\n' + all_objects_eventtaglist[i].etl_id_event.el_link + '\n\n'
 
-                    place = 'Где это находится:\n' + 'Город: ' + all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_city + '\n' \
-                    + 'Улица: ' + all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_str_name + '\n' + 'Дом: ' + \
-                    str(all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_house_num) + '\n'
-                    if all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_letter is not None:
-                        place += 'Буква дома: ' + all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_letter + '\n'
-                    if all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_place_name is not None:
-                        place += 'Название места проведения: ' + all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_place_name + '\n'
+                    if all_objects_eventtaglist[i].etl_id_event.el_id_place is not None:
+                        place = 'Где это находится:\n' + 'Город: ' + all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_city + '\n' \
+                        + 'Улица: ' + all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_str_name + '\n' + 'Дом: ' + \
+                        str(all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_house_num) + '\n'
+                        if all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_letter is not None:
+                            place += 'Буква дома: ' + all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_letter + '\n'
+                        if all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_place_name is not None:
+                            place += 'Название места проведения: ' + all_objects_eventtaglist[i].etl_id_event.el_id_place.pl_place_name + '\n'
 
-                    event += place
+                        event += place
+
                     repeat_events.append(all_objects_eventtaglist[i].etl_id_event.el_id)
+                    events_alive = True
                     bot.send_message(message.chat.id, event)
-
+            if not events_alive:
+                bot.send_message(message.chat.id, 'Мы не нашли эвенты для Вас :(')
         else:
             bot.send_message(message.chat.id, 'Вы не указали теги')
 
 
 def autosending_events():
-    if datetime.datetime.today().time().strftime('%H:%M') == '12:00':
+    if datetime.datetime.today().time().strftime('%H:%M') == '12:00' and datetime.datetime.today().date().isoweekday() == 7:
         # print('aaa')
         all_objects_eventtaglist = Eventtaglist.objects.all()
         all_objects_userlist = Userlist.objects.all()
@@ -186,29 +226,46 @@ def autosending_events():
                         tags.append(all_objects_usertaglist[j].utl_id_tag.tl_title)
             if tags:
                 repeat_events = []
+                events_alive = False
                 for j in range(len(all_objects_eventtaglist)):
-                    if all_objects_eventtaglist[j].etl_id_tag.tl_title in tags and all_objects_eventtaglist[j].etl_id_event.el_id not in repeat_events:
-                        event = all_objects_eventtaglist[j].etl_id_event.el_title + '\n\n' + 'Описание:\n' \
-                        + all_objects_eventtaglist[j].etl_id_event.el_description + '\n\n' + 'Дата:\n' \
-                        + str(all_objects_eventtaglist[j].etl_id_event.el_date.date())
-                        if str(all_objects_eventtaglist[j].etl_id_event.el_time) != '00:00:00':
+                    if all_objects_eventtaglist[j].etl_id_tag.tl_title in tags and all_objects_eventtaglist[j].etl_id_event.el_id not in repeat_events \
+                            and all_objects_eventtaglist[j].etl_id_event.el_date.date() >= datetime.datetime.today().date():
+                        event = all_objects_eventtaglist[j].etl_id_event.el_title + '\n\n'
+
+                        if all_objects_eventtaglist[j].etl_id_event.el_description != '﻿ ':
+                            event += 'Описание:\n' + all_objects_eventtaglist[j].etl_id_event.el_description + '\n\n'
+
+                        event += 'Дата:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_date.date())
+
+                        if str(all_objects_eventtaglist[j].etl_id_event.el_time) != '00:00:00' and \
+                                all_objects_eventtaglist[j].etl_id_event.el_time is not None:
                             event += '\nВремя:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_time)
+                        else:
+                            event += '\nВремя:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_date.time())
+
                         if all_objects_eventtaglist[j].etl_id_event.el_link != '':
                             event += '\n\n' + 'Сайт:\n' + all_objects_eventtaglist[j].etl_id_event.el_link + '\n\n'
-                        place = 'Где это находится:\n' + 'Город: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_city + '\n' \
-                        + 'Улица: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_str_name + '\n' + 'Дом: ' + \
-                        str(all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_house_num) + '\n'
-                        if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter is not None:
-                            place += 'Буква дома: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter + '\n'
-                        if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name is not None:
-                            place += 'Название места проведения: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name + '\n'
-                        event += place
+
+                        if all_objects_eventtaglist[j].etl_id_event.el_id_place is not None:
+                            place = 'Где это находится:\n' + 'Город: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_city + '\n' \
+                            + 'Улица: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_str_name + '\n' + 'Дом: ' + \
+                            str(all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_house_num) + '\n'
+                            if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter is not None:
+                                place += 'Буква дома: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter + '\n'
+                            if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name is not None:
+                                place += 'Название места проведения: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name + '\n'
+
+                            event += place
+
                         repeat_events.append(all_objects_eventtaglist[j].etl_id_event.el_id)
+                        events_alive = True
                         bot.send_message(all_objects_userlist[i].ul_linktgmessage, event)
+                if not events_alive:
+                    bot.send_message(all_objects_userlist[i].ul_linktgmessage, 'Мы не нашли эвенты для Вас :(')
 
 
 @bot.message_handler(commands=['change_tags'])
-def chage_tags(message):
+def change_tags(message):
 
     # Клавиатура
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -235,7 +292,7 @@ def chage_tags(message):
                 bot.send_message(message.chat.id, f'Ваши теги: \n{tags}', reply_markup=markup)
             else:
                 markup.add(item1)
-                bot.send_message(message.chat.id, 'Вы не указали теги', reply_markup=markup)
+                bot.send_message(message.chat.id, 'У вас нет тегов', reply_markup=markup)
             exist_user = True
     if not exist_user:
         bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте')
@@ -294,13 +351,13 @@ def add_del_tags(message):
 def add_tags(message):
     tags = tags_without_usertags(message, 'tags')
     all_objects_userlist = Userlist.objects.all()
-    if message.text.lower() in tags.values():
+    if message.text in tags.values():
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         markup.add('Готово')
         del_tag = None
         internal_user_id = None  # id юзера в бд (не id тг чата)
         for i in tags.keys():
-            if tags[i] == message.text.lower():
+            if tags[i] == message.text:
                 del_tag = i
 
         for i in range(len(all_objects_userlist)):
@@ -325,13 +382,13 @@ def add_tags(message):
 def del_tags(message):
     tags = tags_without_usertags(message, 'usertags')
     all_objects_userlist = Userlist.objects.all()
-    if message.text.lower() in tags.values():
+    if message.text in tags.values():
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         markup.add('Готово')
         del_tag = None
         internal_user_id = None  # id юзера в бд (не id тг чата)
         for i in tags.keys():
-            if tags[i] == message.text.lower():
+            if tags[i] == message.text:
                 del_tag = i
 
         for i in range(len(all_objects_userlist)):

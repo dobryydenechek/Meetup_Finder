@@ -1,16 +1,67 @@
+
 body{
     padding: 0;
     margin: 0;
+    font-size: 1em;
+    font-family: "Century Gothic", sans-serif;
+    color: #ffffff;
+	background: #C0C0C0;
 
+}
+figure{
+	margin-left: 20px;
+}
+img{
+	max-width: 100%;
+	height: auto;
+	width: auto\9;
+}
+::selection {background: #9400D3}
+::-moz-selection {background: #ffffff}
+header, footer {
+	width: 100%;
+	background-color: #000000;
+	min-height: 50px; 
+	
+}
+header {
+	height: 155px;
+	background-color: black;
+	display: flex;
+	align-items: center
+}
+.r{
+	border-width: 2px;
+	border-color: #ffffff;
+	border-style: solid;
+	padding: 5px 75px 5px 10px;
+	-moz-border-radius: 10px; /* закругление для старых Mozilla Firefox */
+	-webkit-border-radius: 10px; /* закругление для старых Chrome и Safari */
+ 	border-radius: 10px;
+ 	position: absolute;
+ 	right: 28px;
+ 	top: 60px;
+}
+
+.g{
+	border-width: 2px;
+	border-color: #ffffff;
+	border-style: solid;
+	padding: 5px 10px 5px 10px;
+	-moz-border-radius: 10px; /* закругление для старых Mozilla Firefox */
+	-webkit-border-radius: 10px; /* закругление для старых Chrome и Safari */
+ 	border-radius: 10px;
+ 	position: absolute;
+ 	right: 28px;
+ 	top: 108px;	
 }
 .wood{
     padding: 30px;
-    background: url("Saved Pictures/OtZoeN7vtI0.jpg");
+
 
 }
 .concrete{
     padding: 30px;
-    background: url("Saved Pictures/cHyy6gV38ls.jpg");
 
 }
 .container .checkmark:after {
@@ -114,6 +165,7 @@ body{
 }
 .teg{
     width: 270px;
+    height: 44rem;
     background: linear-gradient(0deg, rgba(128, 43, 255, 0.55) 0%, rgba(255, 255, 255, 0.55) 50%, rgba(71, 204, 204, 0.55) 100%);
 }
 .grad {
@@ -131,39 +183,72 @@ li {
 }
 .layer {
     padding: 3px;
+    overflow: scroll;
+    height: 39rem;
 }
 .layer::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+    width: 5px;
 }
 .layer::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
+    width: 0px;
+    height: 0px;
 }
 .layer::-webkit-scrollbar-thumb {
-  background: #e13ec5;
-  border: 1px solid #000000;
-  border-radius: 0px;
+    background: linear-gradient(180deg, rgba(59,151,163,1) 0%, rgba(45,171,181,1) 12%, rgba(59,181,174,1) 24%, rgba(40,193,182,1) 36%, rgba(137,101,191,1) 58%, rgba(136,74,197,1) 76%, rgba(98,32,191,1) 88%, rgba(74,24,145,1) 100%);
+    border: 0px none #ffffff;
+    border-radius: 30px;
 }
 .layer::-webkit-scrollbar-thumb:hover {
-  background: #bb22b4;
+    background: linear-gradient(180deg, rgba(59,151,163,1) 0%, rgba(45,171,181,1) 12%, rgba(59,181,174,1) 24%, rgba(40,193,182,1) 36%, rgba(137,101,191,1) 58%, rgba(136,74,197,1) 76%, rgba(98,32,191,1) 88%, rgba(74,24,145,1) 100%);
 }
 .layer::-webkit-scrollbar-thumb:active {
-  background: #be27b3;
+    background: linear-gradient(180deg, rgba(59,151,163,1) 0%, rgba(45,171,181,1) 12%, rgba(59,181,174,1) 24%, rgba(40,193,182,1) 36%, rgba(137,101,191,1) 58%, rgba(136,74,197,1) 76%, rgba(98,32,191,1) 88%, rgba(74,24,145,1) 100%);
 }
 .layer::-webkit-scrollbar-track {
-  background: #666666;
-  border: 1px solid #000000;
-  border-radius: 0px;
+    background: rgba(255, 255, 255, 0);
+    border: 0px none rgba(255, 255, 255, 0);
+    border-radius: 50px;
 }
 .layer::-webkit-scrollbar-track:hover {
-  background: #666666;
+    background: rgba(255, 255, 255, 0);
 }
 .layer::-webkit-scrollbar-track:active {
-  background: #969696;
+    background: rgba(255, 255, 255, 0);
 }
 .layer::-webkit-scrollbar-corner {
-  background: transparent;
+    background: transparent;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(59,151,163,1) 0%, rgba(45,171,181,1) 12%, rgba(59,181,174,1) 24%, rgba(40,193,182,1) 36%, rgba(137,101,191,1) 58%, rgba(136,74,197,1) 76%, rgba(98,32,191,1) 88%, rgba(74,24,145,1) 100%);
+    border: 0px none #ffffff;
+    border-radius: 30px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(59,151,163,1) 0%, rgba(45,171,181,1) 12%, rgba(59,181,174,1) 24%, rgba(40,193,182,1) 36%, rgba(137,101,191,1) 58%, rgba(136,74,197,1) 76%, rgba(98,32,191,1) 88%, rgba(74,24,145,1) 100%);
+}
+::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(180deg, rgba(59,151,163,1) 0%, rgba(45,171,181,1) 12%, rgba(59,181,174,1) 24%, rgba(40,193,182,1) 36%, rgba(137,101,191,1) 58%, rgba(136,74,197,1) 76%, rgba(98,32,191,1) 88%, rgba(74,24,145,1) 100%);
+}
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0);
+    border: 0px none rgba(255, 255, 255, 0);
+    border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+    background: rgba(255, 255, 255, 0);
+}
+::-webkit-scrollbar-track:active {
+    background: rgba(255, 255, 255, 0);
+}
+::-webkit-scrollbar-corner {
+    background: transparent;
 }
 table {
     margin: 10px;
@@ -192,7 +277,7 @@ th {
     text-transform: uppercase;
     font-size: 11px;
     font-weight: 700;
-    padding: 10px 0;
+    padding: 10px 2px;
     color: rgba(255, 255, 255, 0.5);
     background-color: #000000;
     letter-spacing: 1px;
@@ -218,7 +303,7 @@ td {
     cursor: pointer;
 }
 .today {
-    color: #FFF;
+    color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, .25) !important;
 }
 span.number {
@@ -344,8 +429,35 @@ button {
     border: 1px solid black;
     background: rgba(255, 255, 255, 0);
 }
-.font {
-    font-family: "Century Gothic", "Agency FB";
+* {
+    font-family: "Century Gothic", "Agency FB", sans-serif;
+    color: #ffffff;
+}
+a{
+	color:#9400D3;
+	text-decoration: none;
+	transition: all.6s ease;
+	-moz-transition: all.6s ease;
+	-webkit-transition: all.6s ease;
+	-ms-transition: all.6s ease;
+}
+a:hover{
+	color:#ebd5ee;
+	text-decoration: none;
+	transition: all.6s ease;
+	-moz-transition: all.6s ease;
+	-webkit-transition: all.6s ease;
+	-ms-transition: all.6s ease;
+}
+a:active {color: #30D5C8}
+footer{
+	margin-top: 100px;
+	position: relative;
+	height: 100%;
+	min-height: 30vh;
+	z-index: -1;
+
+
 }
 .tippy-box[data-theme~='detail'] {
     height: 250px;
@@ -356,5 +468,5 @@ button {
     border-radius: 16px;
 }
 .hidden {
-    display: none;
+    display: none !important;
 }

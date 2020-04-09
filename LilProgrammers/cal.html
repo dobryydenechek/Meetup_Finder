@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Meetup_Finder</title>
   <link rel="stylesheet" href="cal.css">
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
@@ -11,12 +11,40 @@
 </head>
 
 <body>
+  <!--шапка-->
+  <header>
+    <figure> <img src="i/Безmый.png"> </figure> 
+    <p class="m"> Meetup_Finder </p>
+    <div class="t">
+        <a href="file:///C:/Users/%D0%A0%D0%BE%D0%B1%D0%B5%D1%80%D1%82/Desktop/%D1%81%D0%B0%D0%B9%D1%82/index.html" class="r"> Вход </a>
+        <a href="file:///C:/Users/%D0%A0%D0%BE%D0%B1%D0%B5%D1%80%D1%82/Desktop/%D1%81%D0%B0%D0%B9%D1%82/index.html" class="g"> Регистрация </a>
+        
+  </div>
+  </header>
+
+  <!--описание-->
+  <section>
+    <h1>На нашем сайте вы сможете:</h1>
+  <ul>
+    <li>найти it-митапы, вебинары, мероприятия по категориям</li>
+    <li>настроить уведомления о них в ваших соц. сетях</li>
+    <li>увидеть наглядно все подходящие вам мероприятия на календаре</li>
+  </ul>
+  
+  <h1>После регистрации на нашем сайте вам не придется:</h1>
+  <ul>
+    <li>выбирать из кучи мероприятий нужные вам</li>
+    <li>ставить каждый раз напоминания о мероприятиях</li>
+  </ul>
+  </section>
+
+  <!--теги-->
   <div style="display: inline-flex;width: 100%;justify-content: space-between;box-sizing: border-box;" class="wood">
     <div class="grad teg">
       <div class="top"></div>
       <div class="left"></div>
       <div class="rigth"></div>
-      <p class="font">Теги</p>
+      <p >Теги</p>
       <div class="layer">
         <ul id="tags" style="padding: 0;">
         </ul>
@@ -31,10 +59,14 @@
       </div>
       <div class="bottom"></div>
     </div>
+
+
+    <!--календарь-->
     <div class="cal grad">
       <div class="top"></div>
       <div class="left"></div>
       <div class="rigth"></div>
+      <!--верхняя панель календаря-->
       <div class="month">
         <button id="buttonprev" onclick="prevmonth()"><img src="Saved Pictures/2.png" alt="&loarr;"></button>
 
@@ -42,16 +74,18 @@
 
         <button id="buttonnext" onclick="nextmonth()"><img src="Saved Pictures/1.png" alt="&roarr;"></button>
       </div>
+      <!--день недели-->
       <table id="cal">
         <tr style="width: 710px; height: 46px;">
-          <th class="day-name">Понедельник</th>
+          <th class="day-name" style="border-radius: 16px 0 0 16px;">Понедельник</th>
           <th class="day-name">Вторник</th>
           <th class="day-name">Среда</th>
           <th class="day-name">Четверг</th>
           <th class="day-name">Пятница</th>
           <th class="day-name">Суббота</th>
-          <th class="day-name">Воскресение</th>
+          <th class="day-name" style="border-radius: 0 16px 16px 0;">Воскресение</th>
         </tr>
+        <!--дни-->
         <tr>
           <td class="day"><span class="number"></span></td>
           <td class="day"><span class="number"></span></td>
@@ -110,35 +144,37 @@
       <div class="bottom"></div>
     </div>
   </div>
+
+
+  <!--регистрация-->
   <div style="display: inline-flex;width: 100%;justify-content: space-between;box-sizing: border-box;" class="concrete">
     <div class="in grad">
-      <div class="fon">
+      <div >
         <div class="top"></div>
         <div class="left"></div>
         <div class="rigth"></div>
-        <p class="font">Регистрация</p>
+        <p>Регистрация</p>
         <form>
-          <input class="font" placeholder="Фамилия" type="text">
-          <input class="font" placeholder="Имя" type="text">
-          <input class="font" placeholder="Очество" type="text">
-          <input class="font" required="" placeholder="логин" type="text">
-          <input class="font" required="" placeholder="пароль" type="password">
-          <input class="font" required="" placeholder="повторите пароль" type="password">
+          <input  required="" placeholder="логин" type="text">
+          <input  required="" placeholder="пароль" type="password">
+          <input  required="" placeholder="повторите пароль" type="password">
         </form>
-        <button class="font" style="margin-top: 30px;
+        <button  style="margin-top: 30px;
       width: 201px;
-      height: 60px;">За регестрироватся</button>
+      height: 60px;">Зарегестрироватся</button>
 
         <div class="bottom"></div>
       </div>
     </div>
+
+  <!--рассылка-->
     <div>
       <div class="mailing grad" id="mailing">
-        <div class="fon">
+        <div>
           <div class="top"></div>
           <div class="left"></div>
           <div class="rigth"></div>
-          <p class="font">Рассылка</p>
+          <p >Рассылка</p>
           <a href="https://tglink.ru/meetup_finder_bot">Телеграм</a>
           <a href="https://vk.com/it__event">ВК</a>
           <a href=""></a>
@@ -147,6 +183,10 @@
       </div>
     </div>
   </div>
+
+  <footer>
+
+  </footer>
   <script src="cal.js"></script>
 </body>
 

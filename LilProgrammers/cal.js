@@ -197,8 +197,6 @@ function uptippy() {
         interactive: true,
         theme: "detail",
         onShow(instance) {
-        
-            
             let ei = instance.reference.getAttribute("data-ei");
             let event = events[ei];
             instance.popper.getElementsByClassName("dataevent")[0].innerText = event.title;
@@ -211,7 +209,6 @@ function uptippy() {
             instance.popper.getElementsByClassName("placeName")[0].innerText = event.placeName;
             instance.popper.getElementsByClassName("datatags")[0].innerHTML="";
             for (let index = 0; index < event.tags.length; index++) {
-                
                 const tag = event.tags[index];
                 var span = document.createElement("span");
                 span.innerText = tagsdata[tag].tl_title;

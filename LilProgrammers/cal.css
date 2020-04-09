@@ -6,10 +6,12 @@ body{
 .wood{
     padding: 30px;
     background: url("Saved Pictures/OtZoeN7vtI0.jpg");
+
 }
 .concrete{
     padding: 30px;
     background: url("Saved Pictures/cHyy6gV38ls.jpg");
+
 }
 .container .checkmark:after {
     left: 9px;
@@ -21,22 +23,21 @@ body{
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-}
 
+}
 .container input:checked~.checkmark:after {
     display: block;
-}
 
+}
 .checkmark:after {
     content: "";
     position: absolute;
     display: none;
+    
 }
-
 .container input:checked~.checkmark {
     background-color: #2196F3;
 }
-
 .container {
     display: block;
     position: relative;
@@ -48,7 +49,6 @@ body{
     -ms-user-select: none;
     user-select: none;
 }
-
 .container input {
     position: absolute;
     opacity: 0;
@@ -56,7 +56,6 @@ body{
     height: 0;
     width: 0;
 }
-
 .checkmark {
     position: absolute;
     top: 0;
@@ -69,9 +68,6 @@ body{
 .tags li{
     border: 3px solid black;
 }
-
-
-
 .top {
     height: 20px;
     background-color: rgb(71, 204, 204);
@@ -83,7 +79,6 @@ body{
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
 }
-
 .left {
     width: 20px;
     position: absolute;
@@ -95,7 +90,6 @@ body{
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
 }
-
 .rigth {
     position: absolute;
     right: 0;
@@ -107,7 +101,6 @@ body{
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
 }
-
 .bottom {
     height: 20px;
     position: absolute;
@@ -129,25 +122,16 @@ body{
     border-radius: 30px;
     padding: 30px;
 }
-
 p {
     display: flex;
     padding-left: 105px;
 }
-
 li {
     list-style-type: none;
 }
-
-
-
-
-
-
 .layer {
     padding: 3px;
 }
-
 .layer::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -181,21 +165,6 @@ li {
 .layer::-webkit-scrollbar-corner {
   background: transparent;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 table {
     margin: 10px;
     box-sizing: border-box;
@@ -204,7 +173,6 @@ table {
     border-spacing: 0;
     background-color: transparent;
 }
-
 .month {
     display: flex;
     text-align: center;
@@ -212,17 +180,14 @@ table {
     width: 710px;
     height: 46px;
 }
-
 .month button {
     font-size: 30px;
     border: none;
 }
-
 th, td {
     
     box-sizing: border-box;
 }
-
 th {
     text-transform: uppercase;
     font-size: 11px;
@@ -232,8 +197,6 @@ th {
     background-color: #000000;
     letter-spacing: 1px;
 }
-
-
 td {
     border: 1px solid rgba(255, 255, 255, 0.1);
     min-width: 100px;
@@ -250,21 +213,17 @@ td {
     text-align: right;
     max-width: 0;
 }
-
 .day:hover {
     background-color: rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
-
 .today {
     color: #FFF;
     background-color: rgba(0, 0, 0, .25) !important;
 }
-
 span.number {
     margin-left: 10%
 }
-
 span.event {
     background-color: rgba(0, 0, 0, .3);
     display: block;
@@ -277,7 +236,6 @@ span.event {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 span.event-ghost {
     background-color: transparent;
 }
@@ -286,16 +244,13 @@ span.event-ghost {
     padding: 25px;
     position: relative;
 }
-
 .mailing{
     background: linear-gradient(0deg, rgb(72, 209, 204, 0.55) 0%, rgb(226, 244, 243, 0.55) 100%);
     border: solid transparent 0px;
     border-radius: 30px;
     position: relative;
 }
-
 .mailing p{
-    
     display: inline-block;
     padding: 30px;
     font-size: 16px;
@@ -308,27 +263,19 @@ span.event-ghost {
     width: 200px;
     display: block;
 }
-
 .mailing .top {
     background-color: rgb(226, 244, 243);
-    ;
 }
-
 .mailing .left {
     background: linear-gradient(0deg, rgb(72, 209, 204) 0%, rgb(226, 244, 243) 100%);
-    
 }
-
 .mailing .rigth {
     background: linear-gradient(0deg, rgb(72, 209, 204) 0%, rgb(226, 244, 243) 100%);
-    
 }
-
 .mailing .bottom {
     background: rgb(72, 209, 204);
     
 }
-
 .in .top {
     height: 20px;
     background-color: rgb(246, 211, 255);
@@ -340,7 +287,6 @@ span.event-ghost {
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
 }
-
 .in .left {
     width: 20px;
     position: absolute;
@@ -352,7 +298,6 @@ span.event-ghost {
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
 }
-
 .in .rigth {
     position: absolute;
     right: 0;
@@ -364,7 +309,6 @@ span.event-ghost {
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
 }
-
 .in .bottom {
     height: 20px;
     position: absolute;
@@ -386,7 +330,6 @@ span.event-ghost {
     border: solid transparent 0px;
     border-radius: 30px;
 }
-
 form input {
     margin-top: 15px;
     border: 1px solid black;
@@ -395,24 +338,23 @@ form input {
     background: rgba(255, 255, 255, 0);
     text-align: center;
 }
-
 button {
-    
     position: relative;
     left: auto;
     border: 1px solid black;
     background: rgba(255, 255, 255, 0);
 }
-
 .font {
     font-family: "Century Gothic", "Agency FB";
 }
-
 .tippy-box[data-theme~='detail'] {
-    height: 200px;
-    width: 200px;
+    height: 250px;
+    width: 250px;
     color:black ;
     background-color: white;
     border: 1px solid;
     border-radius: 16px;
-  }
+}
+.hidden {
+    display: none;
+}

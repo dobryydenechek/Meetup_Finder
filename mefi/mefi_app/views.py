@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import Userlist
+from django.http import HttpResponseRedirect
 
 from rest_framework.viewsets import ModelViewSet
 from .serialisers import TagsSerializer, EventSerializer
@@ -21,16 +22,16 @@ class LoginView(TemplateView):
         if request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
-            user = authenticate(request, username=username, password=password)
+            user =   authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("/accounts/profile")
+                return render(request, "home.html")
             else:
                 context['error'] = "Логин или пароль неправильные"
         return render(request, self.template_name, context)
 
-class ProfilePage(TemplateView):
-    template_name = "registration/profile.html"
+# class ProfilePage(TemplateView):
+#     template_name = "registration/profile.html"
 
 class RegisterView(TemplateView):
     template_name = "registration/register.html"

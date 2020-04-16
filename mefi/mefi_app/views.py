@@ -30,8 +30,8 @@ class LoginView(TemplateView):
                 context['error'] = "Логин или пароль неправильные"
         return render(request, self.template_name, context)
 
-# class ProfilePage(TemplateView):
-#     template_name = "registration/profile.html"
+class ProfilePage(TemplateView):
+    template_name = "registration/profile.html"
 
 class RegisterView(TemplateView):
     template_name = "registration/register.html"

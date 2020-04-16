@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mefi_app',
     'rest_framework',
+    'bot',
 ]
 
 MIDDLEWARE = [
@@ -77,12 +78,14 @@ WSGI_APPLICATION = 'root.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'MeFi',
-        'USER': 'postgres',
-        'PASSWORD': 'GrayFox2002',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'HOST': 'localhost',
+        # 'PASSWORD': '1',
+        'USER': 'root',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
@@ -137,3 +140,9 @@ STATICFILES_FINDERS = [
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Настройки бота
+
+TOKEN = '1088595832:AAGT0Tzfhgq4_JBUoQ8rmDFWcThMaSHoREU'
+
+PROXY_URL = 'socks5://geek:socks@t.geekclass.ru:7777'

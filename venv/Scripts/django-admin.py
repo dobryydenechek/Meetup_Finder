@@ -1,4 +1,4 @@
-#!c:\users\катя\desktop\meetupfinder\meetup_finder\venv\scripts\python.exe
+#!c:\users\светлана\desktop\mefigit\meetup_finder\venv\scripts\python.exe
 from django.core import management
 
 if __name__ == "__main__":

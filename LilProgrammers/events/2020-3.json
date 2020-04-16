@@ -1,0 +1,30 @@
+[
+    {
+        "id":1,
+        "title":"Meetup PHP",
+        "description":"Митап по пхп",
+        "date":"2020-3-28",
+        "time":"17:50:00",
+        "link":"http://",
+        "tags":[1,3,2],
+        "city":"Ростов на дону",
+        "streetname":"Большая садовая",
+        "houseNumber":34,
+        "letter":"A",
+        "placeName":"Пятёрачка"
+    },
+    {
+        "id":2,
+        "title":"Meetup Js",
+        "description":"Объясним что такое DOM, и поедим пиццу",
+        "date":"2020-3-8",
+        "time":"19:50:00",
+        "link":"http://",
+        "tags":[4],
+        "city":"Ростов на дону",
+        "streetname":"Братская",
+        "houseNumber":89,
+        "letter":"",
+        "placeName":"Бардаль"
+    }
+]

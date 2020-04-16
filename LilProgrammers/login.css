@@ -1,0 +1,81 @@
+.in {
+    padding: 30px;
+    background: linear-gradient(0deg, rgba(128, 43, 255, 0.45) 0%, rgba(246, 211, 255, 0.45) 100%);
+    text-align: center;
+    width: 364px;
+    height: 264px;
+    position: relative;
+    border: solid transparent 0px;
+    border-radius: 30px;
+}
+.top {
+    height: 20px;
+    background-color: rgb(246, 211, 255);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -2;
+    border-top: solid transparent;
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+}
+
+.left {
+    width: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    border-left: solid transparent;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.rigth {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(0deg, rgb(128, 43, 255) 0%, rgb(246, 211, 255) 100%);
+    border-right: solid transparent;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.bottom {
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgb(128, 43, 255);
+    right: 0;
+    border-bottom: solid transparent;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+form input {
+    margin-top: 15px;
+    border: 1px solid black;
+    width: 300px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0);
+    text-align: center;
+}
+
+button {
+    margin-top: 30px;
+    width: 181px;
+    height: 60px;
+    position: relative;
+    left: auto;
+    border: 1px solid black;
+    background: rgba(255, 255, 255, 0);
+}
+
+.font {
+    font-family: "Century Gothic", "Agency FB";
+}

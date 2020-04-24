@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist, Placelist
+from mefi_app.models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist, Placelist
 
 
 @admin.register(Eventlist)

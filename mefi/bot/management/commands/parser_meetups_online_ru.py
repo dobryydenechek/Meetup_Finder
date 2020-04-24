@@ -1,4 +1,4 @@
-from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
+from mefi_app.models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 import feedparser
 from django.core.management.base import BaseCommand
 from datetime import datetime

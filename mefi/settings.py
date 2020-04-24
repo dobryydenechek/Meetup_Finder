@@ -78,14 +78,12 @@ WSGI_APPLICATION = 'root.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'MeFi',
-        'HOST': 'localhost',
-        # 'PASSWORD': '1',
-        'USER': 'root',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'USER': 'postgres',
+        'PASSWORD': 'GrayFox2002',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 

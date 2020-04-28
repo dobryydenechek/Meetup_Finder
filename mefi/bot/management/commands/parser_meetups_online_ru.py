@@ -1,4 +1,4 @@
-from mefi_app.models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
+from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 import feedparser
 from django.core.management.base import BaseCommand
 from datetime import datetime
@@ -47,32 +47,32 @@ class Command(BaseCommand):
                     date = datetime.strptime(date, "%d/%m/%Y %H:%M")  # перевод строки в datetime
 
                     # чиним описание
-                    try:
+                    try:  # ---- подумать
                         bad_description = thefeedentry.description.split('&nbsp;')
                         description = ''
                         for i in bad_description:
                             description += i + ' '
-                    except:
-                        description = ''
+                    except:  # ---- подумать
+                        description = ''  # ---- подумать
 
-                    if description != '':
-                        # проверяем, есть ли такой эвент уже бд
-                        if len(all_objects_eventlist.filter(el_title=thefeedentry.get("title", ""),
-                                                            el_description=description, el_date=date,
-                                                            el_link=thefeedentry.get("link", ""))) == 0 \
-                                and thefeedentry.get("category", "") != '':
-                            Eventlist(el_title=thefeedentry.get("title", ""),
-                                      el_description=description, el_date=date,
-                                      el_link=thefeedentry.get("link", "")).save()
+                    # if description != '':
+                    # проверяем, есть ли такой эвент уже бд
+                    if len(all_objects_eventlist.filter(el_title=thefeedentry.get("title", ""),
+                                                        el_description=description, el_date=date,
+                                                        el_link=thefeedentry.get("link", ""))) == 0 \
+                            and thefeedentry.get("category", "") != '':
+                        Eventlist(el_title=thefeedentry.get("title", ""),
+                                  el_description=description, el_date=date,
+                                  el_link=thefeedentry.get("link", "")).save()
                             # print(thefeedentry.get("title", ""), ' - ', date)
-                    else:
-                        if len(all_objects_eventlist.filter(el_title=thefeedentry.get("title", ""),
-                                                            el_date=date,
-                                                            el_link=thefeedentry.get("link", ""))) == 0 \
-                                and thefeedentry.get("category", "") != '':
-                            Eventlist(el_title=thefeedentry.get("title", ""),
-                                      el_date=date,
-                                      el_link=thefeedentry.get("link", "")).save()
+                    # else:  # ---- подумать
+                    #     if len(all_objects_eventlist.filter(el_title=thefeedentry.get("title", ""),
+                    #                                         el_date=date,
+                    #                                         el_link=thefeedentry.get("link", ""))) == 0 \
+                    #             and thefeedentry.get("category", "") != '':
+                    #         Eventlist(el_title=thefeedentry.get("title", ""),
+                    #                   el_date=date,
+                    #                   el_link=thefeedentry.get("link", "")).save()
 
 
                     # print(all_objects_eventtagtlist.filter(

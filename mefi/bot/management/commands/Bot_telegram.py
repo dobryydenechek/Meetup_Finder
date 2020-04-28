@@ -4,7 +4,7 @@ from telebot import apihelper
 from telebot import types
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from mefi_app.models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
+from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 import datetime
 import time
 import threading

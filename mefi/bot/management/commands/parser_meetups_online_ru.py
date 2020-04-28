@@ -47,20 +47,32 @@ class Command(BaseCommand):
                     date = datetime.strptime(date, "%d/%m/%Y %H:%M")  # перевод строки в datetime
 
                     # чиним описание
-                    bad_description = thefeedentry.description.split('&nbsp;')
-                    description = ''
-                    for i in bad_description:
-                        description += i + ' '
+                    try:
+                        bad_description = thefeedentry.description.split('&nbsp;')
+                        description = ''
+                        for i in bad_description:
+                            description += i + ' '
+                    except:
+                        description = ''
 
-                    # проверяем, есть ли такой эвент уже бд
-                    if len(all_objects_eventlist.filter(el_title=thefeedentry.get("title", ""),
-                                                        el_description=description, el_date=date,
-                                                        el_link=thefeedentry.get("link", ""))) == 0 \
-                            and thefeedentry.get("category", "") != '':
-                        Eventlist(el_title=thefeedentry.get("title", ""),
-                                  el_description=description, el_date=date,
-                                  el_link=thefeedentry.get("link", "")).save()
-                        # print(thefeedentry.get("title", ""), ' - ', date)
+                    if description != '':
+                        # проверяем, есть ли такой эвент уже бд
+                        if len(all_objects_eventlist.filter(el_title=thefeedentry.get("title", ""),
+                                                            el_description=description, el_date=date,
+                                                            el_link=thefeedentry.get("link", ""))) == 0 \
+                                and thefeedentry.get("category", "") != '':
+                            Eventlist(el_title=thefeedentry.get("title", ""),
+                                      el_description=description, el_date=date,
+                                      el_link=thefeedentry.get("link", "")).save()
+                            # print(thefeedentry.get("title", ""), ' - ', date)
+                    else:
+                        if len(all_objects_eventlist.filter(el_title=thefeedentry.get("title", ""),
+                                                            el_date=date,
+                                                            el_link=thefeedentry.get("link", ""))) == 0 \
+                                and thefeedentry.get("category", "") != '':
+                            Eventlist(el_title=thefeedentry.get("title", ""),
+                                      el_date=date,
+                                      el_link=thefeedentry.get("link", "")).save()
 
 
                     # print(all_objects_eventtagtlist.filter(

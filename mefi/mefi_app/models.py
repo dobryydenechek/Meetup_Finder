@@ -11,7 +11,7 @@ from django.db import models
 class Eventlist(models.Model):
     el_id = models.AutoField(primary_key=True, verbose_name='ID')
     el_title = models.CharField(max_length=100, verbose_name='Название мероприятия')
-    el_description = models.CharField(max_length=1000, blank=True, null=True, verbose_name='Описание')
+    el_description = models.CharField(max_length=1000, blank=True, null=True, verbose_name='Описание', default='')
     el_id_place = models.ForeignKey('Placelist', models.DO_NOTHING, null=True, db_column='el_id_place', verbose_name='ID Места проведения')
     el_date = models.DateTimeField(verbose_name='Дата')
     el_time = models.TimeField(null=True)

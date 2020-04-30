@@ -78,6 +78,8 @@ class Userlist(models.Model):
     ul_linkvkmessage = models.CharField(max_length=30, blank=True, null=True, verbose_name='Ссылка на вк')
     ul_linktgmessage = models.CharField(max_length=30, blank=True, null=True, verbose_name='ID чата в телеграм')
     ul_chk_mailing = models.IntegerField(blank=True, null=True, verbose_name='Согласие на рассылку')
+    ul_mailing = models.IntegerField(verbose_name='Дни недели для рассылки')
+    ul_mailingtime = models.TimeField(verbose_name='Время для рассылки')
 
     def __str__(self):
         return f'{self.ul_id} - {self.ul_login}'

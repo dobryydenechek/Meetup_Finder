@@ -432,7 +432,7 @@ def events(message):
                     repeat_events.append(all_objects_eventtaglist[i].etl_id_event.el_id)
                     events_alive = True
                     print(event1)
-                    write_msg(event.user_id, event1, a)
+                    write_msg(event.user_id, event1, a, keyboard=keyboard)
             if not events_alive:
                 write_msg(event.user_id, 'Мы не нашли эвенты для Вас :(', a, keyboard=keyboard)
         else:

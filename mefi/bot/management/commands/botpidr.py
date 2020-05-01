@@ -203,11 +203,13 @@ def add_del_tags(message):
         keyboard13.add_button('Готово', color=VkKeyboardColor.POSITIVE)
 
 
-        for i in range(len(tags.keys())):
+        for i in range(len(tags.keys()) // 2):
             keyboard13.add_line()
             keyboard13.add_button(tags[list(tags.keys())[i]], color=VkKeyboardColor.POSITIVE)
-
-
+            keyboard13.add_button(tags[list(tags.keys())[-i-1]], color=VkKeyboardColor.POSITIVE)
+        if len(tags.keys()) - len(tags.keys()) // 2 != len(tags.keys()) // 2:
+            keyboard13.add_line()
+            keyboard13.add_button(tags[list(tags.keys())[len(tags.keys()) // 2]], color=VkKeyboardColor.POSITIVE)
         keyboard13 = keyboard13.get_keyboard()
         print("inwait1 ", inwait1)
         inwait1.remove(event.user_id)
@@ -266,12 +268,13 @@ def add_tags(message):
         new_tag.save()
 
         del tags[del_tag]
-        for i in range(len(tags.keys())):
+        for i in range(len(tags.keys()) // 2):
             keyboard3.add_line()
             keyboard3.add_button(tags[list(tags.keys())[i]], color=VkKeyboardColor.POSITIVE)
-
-
-
+            keyboard3.add_button(tags[list(tags.keys())[-i-1]], color=VkKeyboardColor.POSITIVE)
+        if len(tags.keys()) - len(tags.keys()) // 2 != len(tags.keys()) // 2:
+            keyboard3.add_line()
+            keyboard3.add_button(tags[list(tags.keys())[len(tags.keys()) // 2]], color=VkKeyboardColor.POSITIVE)
         #if len(tags.keys()) - len(tags.keys()) // 2 != len(tags.keys()) // 2:
             #keyboard3.add_button(tags[list(tags.keys())[len(tags.keys()) // 2]], color=VkKeyboardColor.POSITIVE)
             #keyboard3.add_button("ЧЛЕН", color=VkKeyboardColor.POSITIVE)

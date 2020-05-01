@@ -1,4 +1,4 @@
-from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
+from mefi_app.models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 from django.core.management.base import BaseCommand
 import vk_api
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
@@ -367,6 +367,8 @@ def site_link(message):
 
 #@bot.message_handler(commands=['events'])
 def events(message):
+
+
     # all_objects_userlist = Userlist.objects.all()
     # all_objects_eventlist = Eventlist.objects.all()
     all_objects_eventtaglist = Eventtaglist.objects.all()
@@ -393,18 +395,18 @@ def events(message):
             print(tags)
             for i in range(len(all_objects_eventtaglist)):
 
-                if all_objects_eventtaglist[i].etl_id_tag.tl_title in tags and all_objects_eventtaglist[
-                    i].etl_id_event.el_id not in repeat_events \
-                        and all_objects_eventtaglist[i].etl_id_event.el_date.date() >= datetime.datetime.today().date():
+                if all_objects_eventtaglist[i].etl_id_tag.tl_title in tags and all_objects_eventtaglist[i].etl_id_event.el_id not in repeat_events and all_objects_eventtaglist[i].etl_id_event.el_date.date() >= datetime.datetime.today().date():
                     event1 = all_objects_eventtaglist[i].etl_id_event.el_title + '\n\n'
 
                     if all_objects_eventtaglist[i].etl_id_event.el_description != '﻿ ':
+
                         event1 += 'Описание:\n' + all_objects_eventtaglist[i].etl_id_event.el_description + '\n\n'
 
                     event1 += 'Дата:\n' + str(all_objects_eventtaglist[i].etl_id_event.el_date.date())
 
-                    if str(all_objects_eventtaglist[i].etl_id_event.el_time) != '00:00:00' and \
+                    if str(all_objects_eventtaglist[i].etl_id_event.el_time) != '00:00:00+03' and \
                             all_objects_eventtaglist[i].etl_id_event.el_time is not None:
+
                         event1 += '\nВремя:\n' + str(all_objects_eventtaglist[i].etl_id_event.el_time)
                     else:
                         event1 += '\nВремя:\n' + str(all_objects_eventtaglist[i].etl_id_event.el_date.time())
@@ -429,7 +431,8 @@ def events(message):
 
                     repeat_events.append(all_objects_eventtaglist[i].etl_id_event.el_id)
                     events_alive = True
-                    write_msg(event.user_id, event1, a, keyboard=keyboard)
+                    print(event1)
+                    write_msg(event.user_id, event1, a)
             if not events_alive:
                 write_msg(event.user_id, 'Мы не нашли эвенты для Вас :(', a, keyboard=keyboard)
         else:
@@ -443,7 +446,7 @@ def events(message):
 
 
 def write_msg(user_id, message, a, keyboard=None):
-
+    a = random.randint(0, 200000)
     vk.method('messages.send', {'user_id': user_id, 'message': message, 'random_id': a, 'keyboard': keyboard})
 
 

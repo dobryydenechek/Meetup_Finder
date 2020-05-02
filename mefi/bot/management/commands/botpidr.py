@@ -535,5 +535,5 @@ for event in longpoll.listen():
                     print(event.user_id, request)
 
                 else:
-                    write_msg(event.user_id, "не понял, ну и похуй", a)
+                    write_msg(event.user_id, "Если ты не зарегестрирован на сайте напиши start, если зарегестрирован напиши help", a)
                     print(event.user_id, request, "krai")

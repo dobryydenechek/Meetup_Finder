@@ -1,4 +1,4 @@
-from mefi_app.models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
+from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 from django.core.management.base import BaseCommand
 import vk_api
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor

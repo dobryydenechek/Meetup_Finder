@@ -11,6 +11,7 @@ import threading
 
 bot = telebot.TeleBot(settings.TOKEN)
 
+
 logs_error = open('logs_error.txt', 'a+')
 
 
@@ -342,6 +343,9 @@ def add_del_tags(message):
         bot.send_message(message.chat.id, 'Удалите ненужные теги. Список с тэгами можно листать', reply_markup=markup)
 
         bot.register_next_step_handler(message, del_tags)
+    else:
+        bot.send_message(message.chat.id, 'Это не одна из команд введите:добавить или удалить')
+        bot.register_next_step_handler(message, add_del_tags)
 
 
 def add_tags(message):

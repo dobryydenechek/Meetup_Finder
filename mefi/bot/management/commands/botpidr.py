@@ -1,15 +1,11 @@
-from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
+from mefi_app.models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 from django.core.management.base import BaseCommand
 import vk_api
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.longpoll import VkLongPoll, VkEventType
 import random
-import requests
-
-import os
-import time
 import datetime
-
+import threading
 
 a = random.randint(0, 200000)
 
@@ -24,17 +20,6 @@ inwait6 = []
 inwait7 = []
 inwait8 = []
 inwait9 = []
-class Command(BaseCommand):
-    help = 'вк-бот'
-
-    def handle(self, *args, **options):
-        token = "9a3bacad4b8ddf056532171ff562678143251178082472860aa6468283654cd8fa0aab54afbfada72dcc9"
-
-        # Авторизуемся как сообщество
-        vk = vk_api.VkApi(token=token)
-
-        # Работа с сообщениями
-        longpoll = VkLongPoll(vk)
 
 
 #----------------------------------------
@@ -65,15 +50,32 @@ def start_message(message):
                 for j in range(len(all_objects_usertaglist)):
                     if all_objects_userlist[i].ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
                         num_of_tag += 1
-                        # print(all_objects_usertaglist[j].utl_id_tag.tl_title)
                         tags += str(num_of_tag) + ') ' + \
                                 all_objects_usertaglist[j].utl_id_tag.tl_title + '\n'
-        keyboard2 = VkKeyboard(one_time=False)
-        keyboard2.add_button('добавить', color=VkKeyboardColor.POSITIVE)
-        keyboard2 = keyboard2.get_keyboard()
-        write_msg(event.user_id, 'Привет, друг! Чтобы начать пользоваться ботом, тебе нужно выбрать теги.', a,
-                  keyboard=keyboard2)
-        inwait1.append(event.user_id)
+        #######
+
+        tags = tags_without_usertags('tags')
+
+        keyboard13 = VkKeyboard(one_time=False)
+        keyboard13.add_button('Готово', color=VkKeyboardColor.POSITIVE)
+
+        for i in range(len(tags.keys()) // 2):
+            keyboard13.add_line()
+            keyboard13.add_button(tags[list(tags.keys())[i]], color=VkKeyboardColor.POSITIVE)
+            keyboard13.add_button(tags[list(tags.keys())[-i - 1]], color=VkKeyboardColor.POSITIVE)
+        if len(tags.keys()) - len(tags.keys()) // 2 != len(tags.keys()) // 2:
+            keyboard13.add_line()
+            keyboard13.add_button(tags[list(tags.keys())[len(tags.keys()) // 2]], color=VkKeyboardColor.POSITIVE)
+        keyboard13 = keyboard13.get_keyboard()
+
+
+
+        inwait2.append(event.user_id)
+
+        write_msg(event.user_id, 'Добавьте нужные теги. Список с тэгами можно листать', a, keyboard=keyboard13)
+
+        ########
+
 
 
 
@@ -129,7 +131,7 @@ def id_on_the_site(message):
 
 
 def change_tags(message):
-    print("change")
+
     # Клавиатура
 
 
@@ -196,7 +198,7 @@ def tags_without_usertags(tags_or_usertags):
 # @bot.message_handler(content_types=['text'])
 def add_del_tags(message):
     if message.lower() == 'добавить':
-        print("succes")
+
         tags = tags_without_usertags('tags')
 
         keyboard13 = VkKeyboard(one_time=False)
@@ -211,12 +213,11 @@ def add_del_tags(message):
             keyboard13.add_line()
             keyboard13.add_button(tags[list(tags.keys())[len(tags.keys()) // 2]], color=VkKeyboardColor.POSITIVE)
         keyboard13 = keyboard13.get_keyboard()
-        print("inwait1 ", inwait1)
+
         inwait1.remove(event.user_id)
-        print("inwait1 ", inwait1)
-        print("inwait2 ", inwait2)
+
         inwait2.append(event.user_id)
-        print("inwait2 ", inwait2)
+
         write_msg(event.user_id, 'Добавьте нужные теги. Список с тэгами можно листать', a, keyboard=keyboard13)
 
 
@@ -245,7 +246,7 @@ def add_del_tags(message):
 
 
 def add_tags(message):
-    print("add")
+
     tags = tags_without_usertags('tags')
     all_objects_userlist = Userlist.objects.all()
 
@@ -286,19 +287,19 @@ def add_tags(message):
 
 
     if message == 'Готово':
-        print("inwait2 ", inwait2)
+
         inwait2.remove(event.user_id)
-        print("inwait2 ", inwait2)
+
         keyboard35 = VkKeyboard(one_time=False)
-        keyboard35.add_button('tags', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
         keyboard35.add_line()
-        keyboard35.add_button('change_tags', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
         keyboard35.add_line()
-        keyboard35.add_button('id', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
         keyboard35.add_line()
-        keyboard35.add_button('events', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
         keyboard35.add_line()
-        keyboard35.add_button('link', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
         keyboard35 = keyboard35.get_keyboard()
         write_msg(event.user_id, 'Изменения сохранены', a, keyboard=keyboard35)
 
@@ -338,15 +339,15 @@ def del_tags(message):
 
     if message == 'Готово':
         keyboard3 = VkKeyboard(one_time=False)
-        keyboard3.add_button('tags', color=VkKeyboardColor.POSITIVE)
+        keyboard3.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
         keyboard3.add_line()
-        keyboard3.add_button('change_tags', color=VkKeyboardColor.POSITIVE)
+        keyboard3.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
         keyboard3.add_line()
-        keyboard3.add_button('id', color=VkKeyboardColor.POSITIVE)
+        keyboard3.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
         keyboard3.add_line()
-        keyboard3.add_button('events', color=VkKeyboardColor.POSITIVE)
+        keyboard3.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
         keyboard3.add_line()
-        keyboard3.add_button('link', color=VkKeyboardColor.POSITIVE)
+        keyboard3.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
         keyboard3 = keyboard3.get_keyboard()
         inwait3.remove(event.user_id)
         write_msg(event.user_id, 'Изменения сохранены', a, keyboard=keyboard3)
@@ -431,8 +432,23 @@ def events(message):
 
                     repeat_events.append(all_objects_eventtaglist[i].etl_id_event.el_id)
                     events_alive = True
+                    print(" ")
+                    print("_________________")
                     print(event1)
-                    write_msg(event.user_id, event1, a, keyboard=keyboard)
+                    print("_________________")
+                    ######
+
+                    keyboard45 = VkKeyboard(one_time=False, inline=True)
+                    keyboard45.add_button('❤', color=VkKeyboardColor.POSITIVE)
+
+                    keyboard45.add_button('👎', color=VkKeyboardColor.NEGATIVE)
+
+                    keyboard45 = keyboard45.get_keyboard()
+
+
+
+                    ######
+                    write_msg(event.user_id, event1, a, keyboard=keyboard45)
             if not events_alive:
                 write_msg(event.user_id, 'Мы не нашли эвенты для Вас :(', a, keyboard=keyboard)
         else:
@@ -469,18 +485,21 @@ vk.method('messages.send', {'user_id': 286488661, 'message': 'Бот включ�
 print('bot on')
 
 keyboard = VkKeyboard(one_time=False)
-keyboard.add_button('tags', color=VkKeyboardColor.POSITIVE)
+keyboard.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
-keyboard.add_button('change_tags', color=VkKeyboardColor.POSITIVE)
+keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
-keyboard.add_button('id', color=VkKeyboardColor.POSITIVE)
+keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
-keyboard.add_button('events', color=VkKeyboardColor.POSITIVE)
+keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
-keyboard.add_button('link', color=VkKeyboardColor.POSITIVE)
+keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
 keyboard = keyboard.get_keyboard()
 
+
+
 for event in longpoll.listen():
+    a = random.randint(0, 200000)
 
     # Если пришло новое сообщение
     if event.type == VkEventType.MESSAGE_NEW:
@@ -493,6 +512,7 @@ for event in longpoll.listen():
             a = random.randint(0, 200000)
 
 
+
             print(request)
 
             if request.lower() == "старт" or request.lower() == "start" or request == "Начать":
@@ -500,31 +520,37 @@ for event in longpoll.listen():
 
                 print(event.user_id, request, "start")
 
-            elif request.lower() == "change_tags":
+            elif request.lower() == "изменить тэги":
                 change_tags(event.user_id)
                 print(event.user_id, request)
 
-            elif request.lower() == "id":
+            elif request.lower() == "help":
+                write_msg(event.user_id, "Доступные команды:\n 1)'Ивенты'\n 2)'Тэги'\n 3)'Изменить тэги'\n 4)'Мой айди'\n 5)'Ссылка на сайт'", a, keyboard=keyboard)
+                print(event.user_id, request)
+
+            elif request.lower() == "нихуя себе":
+                write_msg(event.user_id, keyboard, a, keyboard=keyboard)
+                print(event.user_id, request)
+
+            elif request.lower() == "мой айди":
                 id_on_the_sitee(event.user_id)
                 print(event.user_id, request)
 
-            elif request.lower() == "events":
+            elif request.lower() == "ивенты":
                 events(event.user_id)
                 print(event.user_id, request)
 
-            elif request.lower() == "tags":
+            elif request.lower() == "тэги":
                 id_on_the_site(event.user_id)
 
                 print(event.user_id, request)
 
-            elif request.lower() == 'link':
+            elif request.lower() == 'ссылка на сайт':
                 site_link(event.user_id)
                 print(event.user_id, request)
 
-
             else:
                 if event.user_id in inwait1:
-                    print("go")
                     add_del_tags(request)
                     print(event.user_id, request)
                 elif event.user_id in inwait2:
@@ -535,5 +561,11 @@ for event in longpoll.listen():
                     print(event.user_id, request)
 
                 else:
-                    write_msg(event.user_id, "Если ты не зарегестрирован на сайте напиши start, если зарегестрирован напиши help", a)
+                    write_msg(event.user_id, "к сожалению, я не понял вашего сообщения\n напишите 'help'", a, keyboard=keyboard)
                     print(event.user_id, request, "krai")
+
+
+
+
+
+

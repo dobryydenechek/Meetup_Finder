@@ -11,6 +11,9 @@ import threading
 
 bot = telebot.TeleBot(settings.TOKEN)
 
+apihelper.proxy = {
+    'https': settings.PROXY_URL
+}
 
 logs_error = open('logs_error.txt', 'a+')
 
@@ -42,7 +45,7 @@ class Command(BaseCommand):
 # a = Taglist.objects.get(tl_id=1)
 # print(a.tl_title)
 
-# a = Taglist.objects.all()
+# a = Taglist.objects.d)
 # print(a)
 # all_objects = Taglist.objects.all()
 # for i in range(len(all_objects)):
@@ -83,7 +86,7 @@ def button_menu():
     markup.add(types.InlineKeyboardButton(text='Изменить теги', callback_data='/change_tags'))
     markup.add(types.InlineKeyboardButton(text='Мой id', callback_data='/id'))
     markup.add(types.InlineKeyboardButton(text='Ссылка на сайт', callback_data='/link'))
-    markup.add(types.InlineKeyboardButton(text='Настройка рассылки', callback_data='/mailing'))
+    markup.add(types.InlineKeyboardButton(text='Изменить время', callback_data='/change_time'))
     return markup
 
 
@@ -101,6 +104,8 @@ def message_handler(message):
         events(message)
     elif message.text.lower() == "/change_tags" or message.text.lower() == "изменить теги":
         change_tags(message)
+    elif message.text.lower() == "/change_time" or message.text.lower() == "изменить время":
+        change_time(message)
 
 
 # @bot.message_handler(commands=['start'])
@@ -437,6 +442,33 @@ def del_tags(message):
     if message.text == 'Готово':
         # hide_markup = types.ReplyKeyboardRemove()
         bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=button_menu())
+
+
+@bot.message_handler(commands=['change_time'])
+def change_time(message):
+    if message.text.lower() == '/change_time' or message.text.lower() == 'изменить время': 
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        for i in range(1, 10, 2):
+            if (i + 1) < 10:
+                markup.add('0' + str(i) +':00','0' + str(i + 1) + ':00')
+            elif(i < 10):
+                markup.add('0' + str(i) +':00',str(i + 1) + ':00')
+            else:
+                markup.add(str(i) +':00',str(i + 1) + ':00')
+        bot.send_message(message.chat.id, 'Выбирите время рассылки', reply_markup=markup)
+        bot.register_next_step_handler(message, new_time)
+
+
+def new_time(message):
+    all_objects_userlist = Userlist.objects.get(ul_linktgmessage=message.chat.id) #Нынешний пользователь
+
+    all_objects_userlist.ul_mailing_time = message.text[:2]
+    print(message.text[:2])
+    print(all_objects_userlist.ul_mailing_time)
+    all_objects_userlist.save()
+
+    bot.send_message(message.chat.id, f'Следующая рассылка будет в {message.text}', reply_markup=button_menu())
+
 
 
 # bot.send_message(484231880, 'Ахахахихихи Артем лох')

@@ -81,12 +81,21 @@ def help(message):
 
 def button_menu():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+<<<<<<< HEAD
     markup.add(types.InlineKeyboardButton(text='Ивенты', callback_data='/events'))
     markup.add(types.InlineKeyboardButton(text='Теги', callback_data='/tags'))
     markup.add(types.InlineKeyboardButton(text='Изменить теги', callback_data='/change_tags'))
     markup.add(types.InlineKeyboardButton(text='Мой id', callback_data='/id'))
     markup.add(types.InlineKeyboardButton(text='Ссылка на сайт', callback_data='/link'))
     markup.add(types.InlineKeyboardButton(text='Изменить время', callback_data='/change_time'))
+=======
+    markup.add(types.KeyboardButton(text='Ивенты'))
+    markup.add(types.KeyboardButton(text='Теги'))
+    markup.add(types.KeyboardButton(text='Изменить теги'))
+    markup.add(types.KeyboardButton(text='Мой id'))
+    markup.add(types.KeyboardButton(text='Ссылка на сайт'))
+    markup.add(types.KeyboardButton(text='Настройка рассылки'))
+>>>>>>> postgresqltest
     return markup
 
 

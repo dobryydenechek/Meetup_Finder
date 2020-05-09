@@ -73,16 +73,43 @@ def help(message):
                                       '/tags - Ваши теги\n'
                                       '/change_tags - Изменить теги\n'
                                       '/events - Все эвенты по тегам\n'
-                                      'а так же бот напоминает о эвентах каждый день в 12 часов\n')
+                                      'А также бот напоминает об эвентах каждый день в 12 часов\n')
 
 
-@bot.message_handler(commands=['start'])
+def button_menu():
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add(types.InlineKeyboardButton(text='Ивенты', callback_data='/events'))
+    markup.add(types.InlineKeyboardButton(text='Теги', callback_data='/tags'))
+    markup.add(types.InlineKeyboardButton(text='Изменить теги', callback_data='/change_tags'))
+    markup.add(types.InlineKeyboardButton(text='Мой id', callback_data='/id'))
+    markup.add(types.InlineKeyboardButton(text='Ссылка на сайт', callback_data='/link'))
+    markup.add(types.InlineKeyboardButton(text='Настройка рассылки', callback_data='/mailing'))
+    return markup
+
+
+@bot.message_handler(content_types=['text'])
+def message_handler(message):
+    if message.text.lower() == "/start" or message.text.lower() == "старт" or message.text.lower() == "начать" or message.text.lower() == "привет" or message.text.lower() == "привет!":
+        start_message(message)
+    elif message.text.lower() == "/id" or message.text.lower() == "мой id":
+        id_on_the_site(message)
+    elif message.text.lower() == "/tags" or message.text.lower() == "теги":
+        tags(message)
+    elif message.text.lower() == "/link" or message.text.lower() == "/account" or message.text.lower() == "/options" or message.text.lower() == "ссылка на сайт":
+        site_link(message)
+    elif message.text.lower() == "/events" or message.text.lower() == "ивенты":
+        events(message)
+    elif message.text.lower() == "/change_tags" or message.text.lower() == "изменить теги":
+        change_tags(message)
+
+
+# @bot.message_handler(commands=['start'])
 def start_message(message):
     all_objects_userlist = Userlist.objects.all()
     exist_user = False
     for i in range(len(all_objects_userlist)):
         if str(message.chat.id) == all_objects_userlist[i].ul_linktgmessage:
-            bot.send_message(message.chat.id, 'С возвращением, друг! ')
+            bot.send_message(message.chat.id, 'С возвращением, друг! ', reply_markup=button_menu())
             exist_user = True
     if not exist_user:
         bot.send_message(message.chat.id, 'Привет, друг! Чтобы начать пользоваться ботом, тебе нужно выбрать теги.')
@@ -101,25 +128,25 @@ def send_id(message):
             # print('Success!')
             all_objects_userlist[i].ul_linktgmessage = message.chat.id
             all_objects_userlist[i].save()
-            bot.send_message(message.chat.id, 'Телеграм-аккаунт подключен к рассылке')
+            bot.send_message(message.chat.id, 'Телеграм-аккаунт подключен к рассылке', reply_markup=button_menu())
             id_in_base = True
     if not id_in_base:
-        bot.send_message(message.chat.id, 'Мы не нашли ваш id в базе данных')
+        bot.send_message(message.chat.id, 'Мы не нашли ваш id в базе данных', reply_markup=button_menu())
 
 
-@bot.message_handler(commands=['id'])
+# @bot.message_handler(commands=['id'])
 def id_on_the_site(message):
     exist_user = False
     all_objects_userlist = Userlist.objects.all()
     for i in range(len(all_objects_userlist)):
         if str(message.chat.id) == all_objects_userlist[i].ul_linktgmessage:
-            bot.send_message(message.chat.id, f'Ваш id на сайте: {all_objects_userlist[i].ul_id}')
+            bot.send_message(message.chat.id, f'Ваш id на сайте: {all_objects_userlist[i].ul_id}', reply_markup=button_menu())
             exist_user = True
     if not exist_user:
-        bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте')
+        bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте', reply_markup=button_menu())
 
 
-@bot.message_handler(commands=['tags'])
+# @bot.message_handler(commands=['tags'])
 def tags(message):
     all_objects_userlist = Userlist.objects.all()
     exist_user = False
@@ -135,17 +162,17 @@ def tags(message):
                     tags += str(num_of_tag) + ') ' + \
                             all_objects_usertaglist[j].utl_id_tag.tl_title + '\n'
             if tags != '':
-                bot.send_message(message.chat.id, f'Ваши теги: \n{tags}')
+                bot.send_message(message.chat.id, f'Ваши теги: \n{tags}', reply_markup=button_menu())
             else:
-                bot.send_message(message.chat.id, 'Вы не указали теги')
+                bot.send_message(message.chat.id, 'Вы не указали теги', reply_markup=button_menu())
             exist_user = True
     if not exist_user:
-        bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте')
+        bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте', reply_markup=button_menu())
 
 
-@bot.message_handler(commands=['link', 'account', 'options'])
+# @bot.message_handler(commands=['link', 'account', 'options'])
 def site_link(message):
-    bot.send_message(message.chat.id, 'Ссылка на сайт: ')
+    bot.send_message(message.chat.id, 'Ссылка на сайт: https://project2205235.tilda.ws/', reply_markup=button_menu())
 
 
 @bot.message_handler(commands=['events'])
@@ -164,7 +191,7 @@ def events(message):
                     tags.append(all_objects_usertaglist[j].utl_id_tag.tl_title)
             exist_user = True
     if not exist_user:
-        bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте')
+        bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте', reply_markup=button_menu())
     else:
         if tags:
             repeat_events = []
@@ -174,7 +201,7 @@ def events(message):
                         and all_objects_eventtaglist[i].etl_id_event.el_date.date() >= datetime.datetime.today().date():
                     event = all_objects_eventtaglist[i].etl_id_event.el_title + '\n\n'
 
-                    if all_objects_eventtaglist[i].etl_id_event.el_description != '﻿ ':
+                    if all_objects_eventtaglist[i].etl_id_event.el_description != '﻿ ' and all_objects_eventtaglist[i].etl_id_event.el_description != '':
                         event += 'Описание:\n' + all_objects_eventtaglist[i].etl_id_event.el_description + '\n\n'
 
                     event += 'Дата:\n' + str(all_objects_eventtaglist[i].etl_id_event.el_date.date())
@@ -201,11 +228,12 @@ def events(message):
 
                     repeat_events.append(all_objects_eventtaglist[i].etl_id_event.el_id)
                     events_alive = True
-                    bot.send_message(message.chat.id, event)
+                    bot.send_message(message.chat.id, event, reply_markup=button_menu())
             if not events_alive:
-                bot.send_message(message.chat.id, 'Мы не нашли эвенты для Вас :(')
+                bot.send_message(message.chat.id, 'Мы не нашли эвенты для Вас :(', reply_markup=button_menu())
         else:
             bot.send_message(message.chat.id, 'Вы не указали теги')
+            change_tags(message)
 
 
 def autosending_events():
@@ -229,7 +257,7 @@ def autosending_events():
                             and all_objects_eventtaglist[j].etl_id_event.el_date.date() >= datetime.datetime.today().date():
                         event = all_objects_eventtaglist[j].etl_id_event.el_title + '\n\n'
 
-                        if all_objects_eventtaglist[j].etl_id_event.el_description != '﻿ ':
+                        if all_objects_eventtaglist[j].etl_id_event.el_description != '﻿ '  and all_objects_eventtaglist[i].etl_id_event.el_description != '':
                             event += 'Описание:\n' + all_objects_eventtaglist[j].etl_id_event.el_description + '\n\n'
 
                         event += 'Дата:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_date.date())
@@ -289,10 +317,10 @@ def change_tags(message):
                 bot.send_message(message.chat.id, f'Ваши теги: \n{tags}', reply_markup=markup)
             else:
                 markup.add(item1)
-                bot.send_message(message.chat.id, 'У вас нет тегов', reply_markup=markup)
+                bot.send_message(message.chat.id, 'У вас нет тегов, нажмите кнопку добавить внизу', reply_markup=markup)
             exist_user = True
     if not exist_user:
-        bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте')
+        bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте, введите /start или начать')
     bot.register_next_step_handler(message, add_del_tags)
 
 
@@ -375,8 +403,8 @@ def add_tags(message):
         bot.register_next_step_handler(message, add_tags)
 
     if message.text == 'Готово':
-        hide_markup = types.ReplyKeyboardRemove()
-        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=hide_markup)
+        # hide_markup = types.ReplyKeyboardRemove()
+        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=button_menu())
 
 
 def del_tags(message):
@@ -407,8 +435,8 @@ def del_tags(message):
         bot.register_next_step_handler(message, del_tags)
 
     if message.text == 'Готово':
-        hide_markup = types.ReplyKeyboardRemove()
-        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=hide_markup)
+        # hide_markup = types.ReplyKeyboardRemove()
+        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=button_menu())
 
 
 # bot.send_message(484231880, 'Ахахахихихи Артем лох')

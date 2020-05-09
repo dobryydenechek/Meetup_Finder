@@ -1,4 +1,4 @@
-from mefi_app.models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
+from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 from django.core.management.base import BaseCommand
 import vk_api
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
@@ -20,7 +20,7 @@ inwait6 = []
 inwait7 = []
 inwait8 = []
 inwait9 = []
-
+newtimee = []
 
 #----------------------------------------
 
@@ -297,6 +297,8 @@ def add_tags(message):
         keyboard35.add_line()
         keyboard35.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
         keyboard35.add_line()
+        keyboard35.add_button('Изменить рассылку', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_line()
         keyboard35.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
         keyboard35.add_line()
         keyboard35.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
@@ -345,6 +347,8 @@ def del_tags(message):
         keyboard3.add_line()
         keyboard3.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
         keyboard3.add_line()
+        keyboard3.add_button('Изменить рассылку', color=VkKeyboardColor.POSITIVE)
+        keyboard3.add_line()
         keyboard3.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
         keyboard3.add_line()
         keyboard3.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
@@ -363,7 +367,7 @@ def del_tags(message):
 
 #@bot.message_handler(commands=['link', 'account', 'change_tags', 'options'])
 def site_link(message):
-    write_msg(event.user_id, 'Ссылка на сайт: ', a, keyboard=keyboard)
+    write_msg(event.user_id, 'Ссылка на сайт: http://project2205235.tilda.ws/', a, keyboard=keyboard)
 
 
 #@bot.message_handler(commands=['events'])
@@ -454,12 +458,81 @@ def events(message):
         else:
             write_msg(event.user_id, 'Вы не указали теги', a, keyboard=keyboard)
 
+
+
+
 #--------------------------------------------------
+#--------------------------------------------------
+#--------------------------------------------------
+
+def change_time(message):
+    keyboard = VkKeyboard(one_time=False)
+    keyboard.add_button("01:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("02:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("03:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button("04:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("05:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("06:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button("07:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("08:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("09:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button("10:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("11:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("12:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button("13:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("14:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("15:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button("16:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("17:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("18:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button("19:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("20:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("21:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button("22:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("23:00", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("00:00", color=VkKeyboardColor.POSITIVE)
+    keyboard = keyboard.get_keyboard()
+    write_msg(event.user_id, 'Выберите время', a, keyboard=keyboard)
+
+    newtimee.append(event.user_id)
+
+
+def new_time(message):
+    keyboard = VkKeyboard(one_time=False)
+    keyboard.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button('Изменить рассылку', color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
+
+    all_objects_userlist = Userlist.objects.get(ul_linkvkmessage=event.user_id) #Нынешний пользователь
+
+    all_objects_userlist.ul_mailing_time = message[:2]
+    print(message[:2])
+    print(all_objects_userlist.ul_mailing_time)
+    all_objects_userlist.save()
+    newtimee.remove(event.user_id)
+
+    keyboard = keyboard.get_keyboard()
+    write_msg(event.user_id, f'Следующая рассылка будет в {message}', a, keyboard=keyboard)
 
 
 #-----------------------------------------------
-
-
+#--------------------------------------------------
+#--------------------------------------------------
 
 def write_msg(user_id, message, a, keyboard=None):
     a = random.randint(0, 200000)
@@ -490,6 +563,8 @@ keyboard.add_line()
 keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
 keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
+keyboard.add_line()
+keyboard.add_button('Изменить рассылку', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
 keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
@@ -536,6 +611,10 @@ for event in longpoll.listen():
                 id_on_the_sitee(event.user_id)
                 print(event.user_id, request)
 
+            elif request.lower() == "изменить рассылку":
+                change_time(event.user_id)
+                print(event.user_id, request)
+
             elif request.lower() == "ивенты":
                 events(event.user_id)
                 print(event.user_id, request)
@@ -555,6 +634,9 @@ for event in longpoll.listen():
                     print(event.user_id, request)
                 elif event.user_id in inwait2:
                     add_tags(request)
+                    print(event.user_id, request)
+                elif event.user_id in newtimee:
+                    new_time(request)
                     print(event.user_id, request)
                 elif event.user_id in inwait3:
                     del_tags(request)

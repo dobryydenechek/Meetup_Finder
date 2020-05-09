@@ -145,4 +145,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TOKEN = '1088595832:AAGT0Tzfhgq4_JBUoQ8rmDFWcThMaSHoREU'
 
-PROXY_URL = 'socks5://geek:socks@t.geekclass.ru:7777'
+# PROXY_URL = 'socks5://geek:socks@t.geekclass.ru:7777'
+# PROXY_URL = 'socks5h://94.130.73.29:18749'
+
+PROXY_URL = 'socks5h://54.39.16.26:43356'

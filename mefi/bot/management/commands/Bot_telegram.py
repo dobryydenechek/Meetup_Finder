@@ -177,7 +177,7 @@ def events(message):
                         and all_objects_eventtaglist[i].etl_id_event.el_date.date() >= datetime.datetime.today().date():
                     event = all_objects_eventtaglist[i].etl_id_event.el_title + '\n\n'
 
-                    if all_objects_eventtaglist[i].etl_id_event.el_description != '﻿ ':
+                    if all_objects_eventtaglist[i].etl_id_event.el_description != '﻿ ' and all_objects_eventtaglist[i].etl_id_event.el_description != '':
                         event += 'Описание:\n' + all_objects_eventtaglist[i].etl_id_event.el_description + '\n\n'
 
                     event += 'Дата:\n' + str(all_objects_eventtaglist[i].etl_id_event.el_date.date())
@@ -232,7 +232,7 @@ def autosending_events():
                             and all_objects_eventtaglist[j].etl_id_event.el_date.date() >= datetime.datetime.today().date():
                         event = all_objects_eventtaglist[j].etl_id_event.el_title + '\n\n'
 
-                        if all_objects_eventtaglist[j].etl_id_event.el_description != '﻿ ':
+                        if all_objects_eventtaglist[j].etl_id_event.el_description != '﻿ ' and all_objects_eventtaglist[i].etl_id_event.el_description != '':
                             event += 'Описание:\n' + all_objects_eventtaglist[j].etl_id_event.el_description + '\n\n'
 
                         event += 'Дата:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_date.date())

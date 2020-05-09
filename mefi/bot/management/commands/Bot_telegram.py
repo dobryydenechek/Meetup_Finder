@@ -11,10 +11,6 @@ import threading
 
 bot = telebot.TeleBot(settings.TOKEN)
 
-apihelper.proxy = {
-    'https': settings.PROXY_URL
-}
-
 logs_error = open('logs_error.txt', 'a+')
 
 
@@ -81,21 +77,9 @@ def help(message):
 
 def button_menu():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-<<<<<<< HEAD
-    markup.add(types.InlineKeyboardButton(text='Ивенты', callback_data='/events'))
-    markup.add(types.InlineKeyboardButton(text='Теги', callback_data='/tags'))
-    markup.add(types.InlineKeyboardButton(text='Изменить теги', callback_data='/change_tags'))
-    markup.add(types.InlineKeyboardButton(text='Мой id', callback_data='/id'))
-    markup.add(types.InlineKeyboardButton(text='Ссылка на сайт', callback_data='/link'))
-    markup.add(types.InlineKeyboardButton(text='Изменить время', callback_data='/change_time'))
-=======
-    markup.add(types.KeyboardButton(text='Ивенты'))
-    markup.add(types.KeyboardButton(text='Теги'))
-    markup.add(types.KeyboardButton(text='Изменить теги'))
-    markup.add(types.KeyboardButton(text='Мой id'))
-    markup.add(types.KeyboardButton(text='Ссылка на сайт'))
-    markup.add(types.KeyboardButton(text='Настройка рассылки'))
->>>>>>> postgresqltest
+    markup.add(types.InlineKeyboardButton(text='Ивенты', callback_data='/events'), types.InlineKeyboardButton(text='Теги', callback_data='/tags'))
+    markup.add(types.InlineKeyboardButton(text='Изменить теги', callback_data='/change_tags'), types.InlineKeyboardButton(text='Изменить время', callback_data='/change_time'))
+    markup.add(types.InlineKeyboardButton(text='Мой id', callback_data='/id'), types.InlineKeyboardButton(text='Ссылка на сайт', callback_data='/link'))
     return markup
 
 
@@ -457,13 +441,16 @@ def del_tags(message):
 def change_time(message):
     if message.text.lower() == '/change_time' or message.text.lower() == 'изменить время': 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        for i in range(1, 10, 2):
-            if (i + 1) < 10:
-                markup.add('0' + str(i) +':00','0' + str(i + 1) + ':00')
-            elif(i < 10):
-                markup.add('0' + str(i) +':00',str(i + 1) + ':00')
-            else:
-                markup.add(str(i) +':00',str(i + 1) + ':00')
+
+        markup.add('00:00', '01:00', '02:00')
+        markup.add('03:00', '04:00', '05:00')
+        markup.add('06:00', '07:00', '08:00')
+        markup.add('09:00', '10:00', '11:00')
+        markup.add('12:00', '13:00', '14:00')
+        markup.add('15:00', '16:00', '17:00')
+        markup.add('18:00', '19:00', '20:00')
+        markup.add('21:00', '22:00', '23:00')
+
         bot.send_message(message.chat.id, 'Выбирите время рассылки', reply_markup=markup)
         bot.register_next_step_handler(message, new_time)
 

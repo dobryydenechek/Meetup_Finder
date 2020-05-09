@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'root.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mefi',
+        'NAME': 'MeFi',
         'USER': 'postgres',
-        'PASSWORD': 'root',
+        'PASSWORD': 'GrayFox2002',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -126,4 +126,4 @@ USE_TZ = True
 
 TOKEN = '1088595832:AAGT0Tzfhgq4_JBUoQ8rmDFWcThMaSHoREU'
 
-PROXY_URL = 'socks5h://54.39.16.26:43356'
+PROXY_URL = 'socks5h://148.251.234.93:1080'

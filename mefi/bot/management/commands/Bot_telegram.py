@@ -112,7 +112,7 @@ def start_message(message):
     if not exist_user:
         bot.send_message(message.chat.id, 'Привет, друг! Чтобы начать пользоваться ботом, тебе нужно выбрать теги.')
         help(message)
-        new_user = Userlist(ul_linktgmessage=message.chat.id)
+        new_user = Userlist(ul_linktgmessage=message.chat.id, ul_mailing_time='12')
         new_user.save()
         change_tags(message)
 

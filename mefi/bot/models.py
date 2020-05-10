@@ -79,6 +79,7 @@ class Userlist(models.Model):
     ul_linktgmessage = models.CharField(max_length=30, blank=True, null=True, verbose_name='ID чата в телеграм')
     ul_chk_mailing = models.IntegerField(blank=True, null=True, verbose_name='Согласие на рассылку')
     ul_mailing_time = models.CharField(null=True, max_length=2, verbose_name='Время рассылки')
+    ul_mailing_days = models.CharField(null=True, max_length=7, verbose_name='Дни недели для рассылки')
 
     def __str__(self):
         return f'{self.ul_id} - {self.ul_login}'
@@ -99,13 +100,3 @@ class Usertaglist(models.Model):
     class Meta:
         verbose_name = 'Тэг пользователя'
         verbose_name_plural = 'Тэги пользователя'
-
-class Send_weeks(models.Model):
-    sw_id = models.AutoField(primary_key=True, verbose_name='ID')
-    ul_id_w = models.ForeignKey('UserList', models.DO_NOTHING, db_column='ul_id_w', verbose_name='ID пользователя')
-    sw_day = models.IntegerField(verbose_name='Номер дня недели')
-
-    class Meta:
-        verbose_name = 'День недели'
-        verbose_name_plural = 'Дни недели'
-

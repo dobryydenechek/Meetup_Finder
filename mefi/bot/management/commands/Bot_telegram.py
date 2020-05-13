@@ -37,34 +37,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         bot.polling(none_stop=True)
 
-
-# a = Taglist.objects.get(tl_id=1)
-# print(a.tl_title)
-
-# a = Taglist.objects.d)
-# print(a)
-# all_objects = Taglist.objects.all()
-# for i in range(len(all_objects)):
-#     print(all_objects[i].tl_id)
-
-# all_objects = Userlist.objects.all()
-# print(all_objects[0].ul_linktgmessage)
-
-# ------ Старое подключение телеги --------
-# @bot.message_handler(commands=['start'])
-# def start_message(message):
-#     # print(message.chat.username)
-#     all_objects_userlist = Userlist.objects.all()
-#     exist_user = False
-#     for i in range(len(all_objects_userlist)):
-#         if str(message.chat.id) == all_objects_userlist[i].ul_linktgmessage:
-#             bot.send_message(message.chat.id, 'С возвращением, друг! ')
-#             exist_user = True
-#     if not exist_user:
-#         bot.send_message(message.chat.id, 'Привет, друг! Введи свой id с сайта, чтобы мы слогли подключить бота')
-#         bot.register_next_step_handler(message, send_id)
-
-
 @bot.message_handler(commands=['help'])
 def help(message):
     bot.send_message(message.chat.id, 'Основные функции бота:\n'
@@ -78,7 +50,7 @@ def help(message):
 def button_menu():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(types.InlineKeyboardButton(text='Ивенты', callback_data='/events'), types.InlineKeyboardButton(text='Теги', callback_data='/tags'))
-    markup.add(types.InlineKeyboardButton(text='Изменить теги', callback_data='/change_tags'), types.InlineKeyboardButton(text='Изменить время', callback_data='/change_time'))
+    markup.add(types.InlineKeyboardButton(text='Изменить теги', callback_data='/change_tags'), types.InlineKeyboardButton(text='Настройки', callback_data='/mailing_options'))
     markup.add(types.InlineKeyboardButton(text='Мой id', callback_data='/id'), types.InlineKeyboardButton(text='Ссылка на сайт', callback_data='/link'))
     return markup
 
@@ -97,8 +69,8 @@ def message_handler(message):
         events(message)
     elif message.text.lower() == "/change_tags" or message.text.lower() == "изменить теги":
         change_tags(message)
-    elif message.text.lower() == "/change_time" or message.text.lower() == "изменить время":
-        change_time(message)
+    elif message.text.lower() == "/mailing_options" or message.text.lower() == "настройки":
+        mailing_options(message)
 
 
 # @bot.message_handler(commands=['start'])
@@ -112,7 +84,7 @@ def start_message(message):
     if not exist_user:
         bot.send_message(message.chat.id, 'Привет, друг! Чтобы начать пользоваться ботом, тебе нужно выбрать теги.')
         help(message)
-        new_user = Userlist(ul_linktgmessage=message.chat.id, ul_mailing_time='12')
+        new_user = Userlist(ul_linktgmessage=message.chat.id, ul_mailing_time='12', ul_mailing_days='1')
         new_user.save()
         change_tags(message)
 
@@ -232,60 +204,6 @@ def events(message):
         else:
             bot.send_message(message.chat.id, 'Вы не указали теги')
             change_tags(message)
-
-
-def autosending_events():
-    if datetime.datetime.today().time().strftime('%H:%M') == '12:00' and datetime.datetime.today().date().isoweekday() == 7:
-        # print('aaa')
-        all_objects_eventtaglist = Eventtaglist.objects.all()
-        all_objects_userlist = Userlist.objects.all()
-        all_objects_usertaglist = Usertaglist.objects.all()
-        # user_tg_id = []
-        for i in range(len(all_objects_userlist)):
-            tags = []
-            if all_objects_userlist[i].ul_linktgmessage is not None:
-                for j in range(len(all_objects_usertaglist)):
-                    if all_objects_userlist[i].ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
-                        tags.append(all_objects_usertaglist[j].utl_id_tag.tl_title)
-            if tags:
-                repeat_events = []
-                events_alive = False
-                for j in range(len(all_objects_eventtaglist)):
-                    if all_objects_eventtaglist[j].etl_id_tag.tl_title in tags and all_objects_eventtaglist[j].etl_id_event.el_id not in repeat_events \
-                            and all_objects_eventtaglist[j].etl_id_event.el_date.date() >= datetime.datetime.today().date():
-                        event = all_objects_eventtaglist[j].etl_id_event.el_title + '\n\n'
-
-                        if all_objects_eventtaglist[j].etl_id_event.el_description != '﻿ '  and all_objects_eventtaglist[i].etl_id_event.el_description != '':
-                            event += 'Описание:\n' + all_objects_eventtaglist[j].etl_id_event.el_description + '\n\n'
-
-                        event += 'Дата:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_date.date())
-
-                        if str(all_objects_eventtaglist[j].etl_id_event.el_time) != '00:00:00' and \
-                                all_objects_eventtaglist[j].etl_id_event.el_time is not None:
-                            event += '\nВремя:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_time)
-                        else:
-                            event += '\nВремя:\n' + str(all_objects_eventtaglist[j].etl_id_event.el_date.time())
-
-                        if all_objects_eventtaglist[j].etl_id_event.el_link != '':
-                            event += '\n\n' + 'Сайт:\n' + all_objects_eventtaglist[j].etl_id_event.el_link + '\n\n'
-
-                        if all_objects_eventtaglist[j].etl_id_event.el_id_place is not None:
-                            place = 'Где это находится:\n' + 'Город: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_city + '\n' \
-                            + 'Улица: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_str_name + '\n' + 'Дом: ' + \
-                            str(all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_house_num) + '\n'
-                            if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter is not None:
-                                place += 'Буква дома: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_letter + '\n'
-                            if all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name is not None:
-                                place += 'Название места проведения: ' + all_objects_eventtaglist[j].etl_id_event.el_id_place.pl_place_name + '\n'
-
-                            event += place
-
-                        repeat_events.append(all_objects_eventtaglist[j].etl_id_event.el_id)
-                        events_alive = True
-                        bot.send_message(all_objects_userlist[i].ul_linktgmessage, event)
-                if not events_alive:
-                    bot.send_message(all_objects_userlist[i].ul_linktgmessage, 'Мы не нашли эвенты для Вас :(')
-
 
 @bot.message_handler(commands=['change_tags'])
 def change_tags(message):
@@ -436,10 +354,104 @@ def del_tags(message):
         # hide_markup = types.ReplyKeyboardRemove()
         bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=button_menu())
 
+@bot.message_handler(commands=['/mailing_options'])
+def mailing_options(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add('Готово')
+    markup.add('Изменить время','Изменить день недели')
+    bot.send_message(message.chat.id, 'Выбирите настройку', reply_markup=markup)
+    bot.register_next_step_handler(message, choose_option)
 
-@bot.message_handler(commands=['change_time'])
+def choose_option(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+    if message.text.lower() == 'изменить время':
+        change_time(message)
+    elif message.text.lower() == 'изменить день недели':
+        day_change(message)
+    elif message.text.lower() == 'готово':
+        bot.send_message(message.chat.id, 'Готово', reply_markup=button_menu())
+    else:
+        bot.send_message(message.chat.id, 'Это не один из вариантов меню')
+        bot.register_next_step_handler(message, choose_option)
+
+
+
+def show_days(message):
+    print(382)
+    user = Userlist.objects.get(ul_linktgmessage = message.chat.id)
+    user_days = []
+
+    for i in range(len(str(user.ul_mailing_days))):
+        user_days.append(int(str(user.ul_mailing_days)[len(str(user.ul_mailing_days)) - i - 1:len(str(user.ul_mailing_days)) - i ]))
+
+    days = {1 : 'Понедельник', 2 : 'Вторник', 3 : 'Среда', 4 : 'Четверг', 5 : 'Пятница', 6 : 'Суббота', 7 : 'Воскресенье'}
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add('Готово')
+
+    for i in range(1, len(days) + 1):
+        if list(days.keys())[i - 1] in user_days:
+            markup.add('✅ ' + str(days[i]) + ' ✅')
+        else:
+            markup.add('❌ ' + str(days[i]) + ' ❌')
+    print(message.text)
+    print(message.text.lower() == 'изменить день недели')
+    return markup
+
+
+
+def day_change(message):
+    days = {'Понедельник' : 1, 
+            'Вторник' : 2, 
+            'Среда' : 3, 
+            'Четверг' : 4, 
+            'Пятница' : 5, 
+            'Суббота' : 6, 
+            'Воскресенье' : 7}
+
+    if message.text.lower() == 'готово':
+        bot.send_message(message.chat.id, 'Готово', reply_markup=button_menu())
+
+    elif message.text[2 : len(message.text) - 2] in list(days): #если сообщение равно одному из дней недели
+        user = Userlist.objects.get(ul_linktgmessage=message.chat.id)
+        user_days = []
+
+        for i in range(len(str(user.ul_mailing_days))):
+            user_days.append(int(str(user.ul_mailing_days)[len(str(user.ul_mailing_days)) - i - 1:len(str(user.ul_mailing_days)) - i ]))  #обращаемся к бд и разбиваем строку на отдельные символы
+        print(user_days)    
+        if days[message.text[2 : len(message.text) - 2]] in user_days: #формируем новый список дней пользователя
+            user_days.remove(days[message.text[2 : len(message.text) - 2]])
+            ans = f'вы удалили {message.text[2 : len(message.text) - 2]}'
+        else:
+            ans = f'вы добавили {message.text[2 : len(message.text) - 2]}'
+            user_days.append(days[message.text[2 : len(message.text) - 2]])
+
+        print(user_days)
+        new_days=''
+        for i in user_days:# формируем новую строку из отдельных символов
+            new_days += str(i)
+
+        user = Userlist.objects.get(ul_linktgmessage=message.chat.id)
+        user.ul_mailing_days = new_days
+        user.save()
+        #отображаем новую клавиатуру
+        markup = show_days(message)
+        bot.send_message(message.chat.id, f'Вы {ans}', reply_markup=markup)
+        bot.register_next_step_handler(message,day_change)
+
+    elif message.text.lower() == 'изменить день недели':
+        markup = show_days(message)
+        bot.send_message(message.chat.id, 'Выбирите день для рассылки', reply_markup=markup)
+        bot.register_next_step_handler(message,day_change)
+
+    else:
+
+        bot.send_message(message.chat.id, 'Нажимайте на кнопки')
+        bot.register_next_step_handler(message,day_change)
+
+
 def change_time(message):
-    if message.text.lower() == '/change_time' or message.text.lower() == 'изменить время': 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
         markup.add('00:00', '01:00', '02:00')
@@ -459,25 +471,6 @@ def new_time(message):
     all_objects_userlist = Userlist.objects.get(ul_linktgmessage=message.chat.id) #Нынешний пользователь
 
     all_objects_userlist.ul_mailing_time = message.text[:2]
-    print(message.text[:2])
-    print(all_objects_userlist.ul_mailing_time)
     all_objects_userlist.save()
 
     bot.send_message(message.chat.id, f'Следующая рассылка будет в {message.text}', reply_markup=button_menu())
-
-
-
-# bot.send_message(484231880, 'Ахахахихихи Артем лох')
-def sleeper(n, name):
-    while True:
-        autosending_events()
-        time.sleep(n)
-        # print(datetime.datetime.today().time().strftime('%H:%M:%S'))
-
-
-thread = threading.Thread(target=sleeper, name='Thread1', args=(60, 'Thread1'))
-thread.start()
-
-
-
-

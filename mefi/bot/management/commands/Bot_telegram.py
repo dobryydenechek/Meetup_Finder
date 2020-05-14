@@ -383,7 +383,8 @@ def show_days(message):
     user_days = []
 
     for i in range(len(str(user.ul_mailing_days))):
-        user_days.append(int(str(user.ul_mailing_days)[len(str(user.ul_mailing_days)) - i - 1:len(str(user.ul_mailing_days)) - i ]))
+        if user.ul_mailing_days != None:
+            user_days.append(int(str(user.ul_mailing_days)[len(str(user.ul_mailing_days)) - i - 1:len(str(user.ul_mailing_days)) - i ]))
 
     days = {1 : 'Понедельник', 2 : 'Вторник', 3 : 'Среда', 4 : 'Четверг', 5 : 'Пятница', 6 : 'Суббота', 7 : 'Воскресенье'}
 
@@ -416,6 +417,10 @@ def day_change(message):
     elif message.text[2 : len(message.text) - 2] in list(days): #если сообщение равно одному из дней недели
         user = Userlist.objects.get(ul_linktgmessage=message.chat.id)
         user_days = []
+
+        if user.ul_mailing_days == None:
+            user.ul_mailing_days = ""
+            user.save()
 
         for i in range(len(str(user.ul_mailing_days))):
             user_days.append(int(str(user.ul_mailing_days)[len(str(user.ul_mailing_days)) - i - 1:len(str(user.ul_mailing_days)) - i ]))  #обращаемся к бд и разбиваем строку на отдельные символы

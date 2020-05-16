@@ -9,7 +9,7 @@ import time
 
 
 
-timecheck = "03"
+timecheck = datetime.datetime.now().strftime("%H")
 
 
 def write_msg(user_id, message, a, keyboard=None):
@@ -33,7 +33,7 @@ def autoevents():
             for i in range(len(all_objects_userlist)):
                 tags = []
                 if all_objects_userlist[i].ul_linkvkmessage is not None:
-                    print("286488661")
+
                     for j in range(len(all_objects_usertaglist)):
                         if all_objects_userlist[i].ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
                             tags.append(all_objects_usertaglist[j].utl_id_tag.tl_title)
@@ -83,10 +83,12 @@ def autoevents():
                             keyboard45.add_button('👎', color=VkKeyboardColor.NEGATIVE)
 
                             keyboard45 = keyboard45.get_keyboard()
-                            write_msg(286488661, event1, a, keyboard=keyboard45)
+                            if ti == all_objects_userlist[i].ul_mailing_time:
+                                write_msg(all_objects_userlist[i].ul_linkvkmessage, event1, a, keyboard=keyboard45)
                             print(all_objects_userlist[i].ul_linkvkmessage)
                     if not events_alive:
-                        write_msg(286488661, 'Мы не нашли эвенты для Вас :(', a, keyboard=keyboard)
+                        if ti == all_objects_userlist[i].ul_mailing_time:
+                            write_msg(all_objects_userlist[i].ul_linkvkmessage, 'Мы не нашли эвенты для Вас :(', a, keyboard=keyboard)
                 #else:
                 #write_msg(all_objects_userlist[i].ul_linkvkmessage, 'Вы не указали теги', a, keyboard=keyboard)
             print("87")
@@ -97,7 +99,7 @@ def autoevents():
                 timecheck = "0" + str(int(timecheck) + 1)
             else:
                 timecheck = str(int(timecheck) + 1)
-        time.sleep(60)
+        time.sleep(300)
 
 token = "9a3bacad4b8ddf056532171ff562678143251178082472860aa6468283654cd8fa0aab54afbfada72dcc9"
 

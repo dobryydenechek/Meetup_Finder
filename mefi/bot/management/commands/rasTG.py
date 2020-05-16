@@ -1,7 +1,10 @@
 from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 from django.core.management.base import BaseCommand
 
+<<<<<<< Updated upstream
 from django.conf import settings
+=======
+>>>>>>> Stashed changes
 import telebot
 from telebot import apihelper
 from telebot import types
@@ -11,10 +14,13 @@ import time
 
 bot = telebot.TeleBot(settings.TOKEN)
 
+<<<<<<< Updated upstream
 apihelper.proxy = {
     'https': settings.PROXY_URL
 }
 
+=======
+>>>>>>> Stashed changes
 timecheck = datetime.datetime.now().strftime("%H")
 
 
@@ -88,9 +94,9 @@ def autoevents():
                                 print(all_objects_userlist[i].ul_linktgmessage)
                         if not events_alive:
                             if ti == all_objects_userlist[i].ul_mailing_time:
-                                bot.send_message(all_objects_userlist[i].ul_linktgmessage, 'Мы не нашли эвенты для Вас :(')
-                    #else:
                     #write_msg(all_objects_userlist[i].ul_linkvkmessage, 'Вы не указали теги', a, keyboard=keyboard)
+                    #else:
+                                bot.send_message(all_objects_userlist[i].ul_linktgmessage, 'Мы не нашли эвенты для Вас :(')
             print("87")
             #allsend = False
             if (int(timecheck) + 1) == 24:
@@ -99,7 +105,11 @@ def autoevents():
                 timecheck = "0" + str(int(timecheck) + 1)
             else:
                 timecheck = str(int(timecheck) + 1)
+<<<<<<< Updated upstream
         time.sleep(20)
+=======
+        time.sleep(300)
+>>>>>>> Stashed changes
 
 
 

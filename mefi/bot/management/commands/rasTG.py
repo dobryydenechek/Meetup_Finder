@@ -1,10 +1,6 @@
 from ...models import Eventlist, Userlist, Taglist, Usertaglist, Eventtaglist
 from django.core.management.base import BaseCommand
-
-<<<<<<< Updated upstream
 from django.conf import settings
-=======
->>>>>>> Stashed changes
 import telebot
 from telebot import apihelper
 from telebot import types
@@ -98,7 +94,7 @@ def autoevents():
                 timecheck = "0" + str(int(timecheck) + 1)
             else:
                 timecheck = str(int(timecheck) + 1)
-                
+
         time.sleep(300)
 
 

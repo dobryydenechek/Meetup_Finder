@@ -21,7 +21,15 @@ inwait7 = []
 inwait8 = []
 inwait9 = []
 newtimee = []
-
+optio = []
+opt1 = []
+opt2 = []
+opt3 = []
+opt4 = []
+opt5 = []
+opt6 = []
+opt7 = []
+opt8 = []
 #----------------------------------------
 
 #@bot.message_handler(commands=['start'])
@@ -465,6 +473,164 @@ def events(message):
 #--------------------------------------------------
 #--------------------------------------------------
 
+
+
+
+
+def mailing_options(message):
+    keyboard = VkKeyboard(one_time=False)
+    keyboard.add_button("Готово", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button("Изменить время", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("Изменить день недели", color=VkKeyboardColor.POSITIVE)
+    keyboard = keyboard.get_keyboard()
+    write_msg(event.user_id, 'Выбирите настройку', a, keyboard=keyboard)
+
+
+    opt1.append(event.user_id)
+
+
+
+def choose_option(message):
+
+
+    if message.lower() == 'изменить время':
+        opt1.remove(event.user_id)
+        change_time(message)
+    elif message.lower() == 'изменить день недели':
+        opt1.remove(event.user_id)
+        day_change(message)
+    elif message.lower() == 'готово':
+
+        keyboard = VkKeyboard(one_time=False)
+        keyboard.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
+        keyboard = keyboard.get_keyboard()
+        write_msg(event.user_id, 'Готово', a, keyboard=keyboard)
+        opt1.remove(event.user_id)
+    else:
+        write_msg(event.user_id, 'Это не один из вариантов меню', a)
+
+
+
+
+def show_days(message):
+    a = random.randint(0, 200000)
+    print(382)
+    user = Userlist.objects.get(ul_linkvkmessage = event.user_id)
+    user_days = []
+
+    for i in range(len(str(user.ul_mailing_days))):
+        if user.ul_mailing_days != None:
+            user_days.append(int(str(user.ul_mailing_days)[len(str(user.ul_mailing_days)) - i - 1:len(str(user.ul_mailing_days)) - i ]))
+
+    days = {1 : 'Понедельник', 2 : 'Вторник', 3 : 'Среда', 4 : 'Четверг', 5 : 'Пятница', 6 : 'Суббота', 7 : 'Воскресенье'}
+
+    keyboard = VkKeyboard(one_time=False)
+    keyboard.add_button('Готово', color=VkKeyboardColor.POSITIVE)
+
+
+    for i in range(1, len(days) + 1):
+        if list(days.keys())[i - 1] in user_days:
+            keyboard.add_line()
+            keyboard.add_button(str(days[i]), color=VkKeyboardColor.POSITIVE)
+        else:
+            keyboard.add_line()
+            keyboard.add_button(str(days[i]), color=VkKeyboardColor.NEGATIVE)
+    print(message)
+    print(message.lower() == 'изменить день недели')
+    print(keyboard)
+    keyboard = keyboard.get_keyboard()
+    return keyboard
+
+
+
+def day_change(message):
+    print("554")
+    print(message)
+    a = random.randint(0, 200000)
+    days = {'Понедельник' : 1,
+            'Вторник' : 2,
+            'Среда' : 3,
+            'Четверг' : 4,
+            'Пятница' : 5,
+            'Суббота' : 6,
+            'Воскресенье' : 7}
+
+    if message.lower() == 'готово':
+
+        keyboard = VkKeyboard(one_time=False)
+        keyboard.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
+        keyboard = keyboard.get_keyboard()
+
+        write_msg(event.user_id, 'Готово', a, keyboard=keyboard)
+        opt2.remove(event.user_id)
+    elif message in list(days): #если сообщение равно одному из дней недели
+        user = Userlist.objects.get(ul_linkvkmessage=event.user_id)
+        user_days = []
+
+        if user.ul_mailing_days == None:
+            user.ul_mailing_days = ""
+            user.save()
+
+        for i in range(len(str(user.ul_mailing_days))):
+            user_days.append(int(str(user.ul_mailing_days)[len(str(user.ul_mailing_days)) - i - 1:len(str(user.ul_mailing_days)) - i ]))  #обращаемся к бд и разбиваем строку на отдельные символы
+        print(user_days)
+        if days[message] in user_days: #формируем новый список дней пользователя
+            user_days.remove(days[message])
+            ans = f'удалили {message}'
+        else:
+            ans = f'добавили {message}'
+            user_days.append(days[message])
+
+        print(user_days)
+        new_days=''
+        for i in user_days:# формируем новую строку из отдельных символов
+            new_days += str(i)
+
+        user = Userlist.objects.get(ul_linkvkmessage=event.user_id)
+        user.ul_mailing_days = new_days
+        user.save()
+        #отображаем новую клавиатуру
+        markup = show_days(message)
+        write_msg(event.user_id, f'Вы {ans}', a, keyboard=markup)
+        opt2.append(event.user_id)
+
+    elif message.lower() == 'изменить день недели':
+        markup = show_days(message)
+        print(markup)
+        write_msg(event.user_id, 'Выбирите день для рассылки', a, keyboard=markup)
+        opt2.append(event.user_id)
+
+    else:
+
+        write_msg(event.user_id, 'Нажимайте на кнопки', a)
+        opt2.append(event.user_id)
+
+
+#######################################################
+
+#######################################################
+
 def change_time(message):
     keyboard = VkKeyboard(one_time=False)
     keyboard.add_button("01:00", color=VkKeyboardColor.POSITIVE)
@@ -512,7 +678,7 @@ def new_time(message):
     keyboard.add_line()
     keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
     keyboard.add_line()
-    keyboard.add_button('Изменить рассылку', color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
     keyboard.add_line()
     keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
     keyboard.add_line()
@@ -564,7 +730,7 @@ keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
 keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
-keyboard.add_button('Изменить рассылку', color=VkKeyboardColor.POSITIVE)
+keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
 keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
@@ -611,8 +777,8 @@ for event in longpoll.listen():
                 id_on_the_sitee(event.user_id)
                 print(event.user_id, request)
 
-            elif request.lower() == "изменить рассылку":
-                change_time(event.user_id)
+            elif request.lower() == "настройки":
+                mailing_options(event.user_id)
                 print(event.user_id, request)
 
             elif request.lower() == "ивенты":
@@ -641,6 +807,13 @@ for event in longpoll.listen():
                 elif event.user_id in inwait3:
                     del_tags(request)
                     print(event.user_id, request)
+                elif event.user_id in opt1:
+                    choose_option(request)
+                    print(event.user_id, request)
+                elif event.user_id in opt2:
+                    day_change(request)
+                    print(event.user_id, request)
+
 
                 else:
                     write_msg(event.user_id, "к сожалению, я не понял вашего сообщения\n напишите 'help'", a, keyboard=keyboard)

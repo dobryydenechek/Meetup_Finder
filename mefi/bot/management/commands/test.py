@@ -28,6 +28,7 @@ def autoevents():
 
         if ti == timecheck:
             all_objects_eventtaglist = Eventtaglist.objects.all()
+            today = str(datetime.datetime.today().isoweekday())
             all_objects_userlist = Userlist.objects.all()
             all_objects_usertaglist = Usertaglist.objects.all()
             for i in range(len(all_objects_userlist)):

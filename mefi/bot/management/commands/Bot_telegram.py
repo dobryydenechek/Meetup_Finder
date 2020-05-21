@@ -39,19 +39,20 @@ class Command(BaseCommand):
 
 @bot.message_handler(commands=['help'])
 def help(message):
-    bot.send_message(message.chat.id, 'Основные функции бота:\n'
-                                      '/id - Выводит Ваш id на сайте (но сайт мы еще не допилили хихи)\n'
-                                      '/tags - Ваши теги\n'
-                                      '/change_tags - Изменить теги\n'
-                                      '/events - Все эвенты по тегам\n'
-                                      'А также бот напоминает об эвентах каждый день в 12 часов\n')
+    bot.send_message(message.chat.id, 'Добро пожаловать в meetup_finder\n'
+                                      'Благодаря нашему боту вы сможете получать список нужных вам мероприятий, проходящих в Ростове-на-Дону\n'
+                                      'Так же вы подписались на рассылку (она проходит каждый понедельник в 12 часов)\n'
+                                      'Чтобы отписаться просто зайдите в меню "Настройки" и отключите все дни недели, так же в этом меню вы можете настроить время в которое будете получать рассылку\n'
+                                      'В меню "Тэги" можно будет посмотреть и поменять выбранные вами тэги\n'
+                                      'В будущем мы добавим напоминание о мероприятиях\n')
 
 
 def button_menu():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add(types.InlineKeyboardButton(text='Ивенты', callback_data='/events'), types.InlineKeyboardButton(text='Теги', callback_data='/tags'))
-    markup.add(types.InlineKeyboardButton(text='Изменить теги', callback_data='/change_tags'), types.InlineKeyboardButton(text='Настройки', callback_data='/mailing_options'))
-    markup.add(types.InlineKeyboardButton(text='Мой id', callback_data='/id'), types.InlineKeyboardButton(text='Ссылка на сайт', callback_data='/link'))
+    markup.add(types.InlineKeyboardButton(text='Ивенты', callback_data='/events'))
+    markup.add(types.InlineKeyboardButton(text='Теги', callback_data='/tags'))
+    markup.add(types.InlineKeyboardButton(text='Настройки', callback_data='/options'))
+    markup.add(types.InlineKeyboardButton(text='Ссылка на сайт', callback_data='/link'))
     return markup
 
 
@@ -59,22 +60,35 @@ def button_menu():
 def message_handler(message):
     if message.text.lower() == "/start" or message.text.lower() == "старт" or message.text.lower() == "начать" or message.text.lower() == "привет" or message.text.lower() == "привет!":
         start_message(message)
-    elif message.text.lower() == "/id" or message.text.lower() == "мой id":
-        id_on_the_site(message)
+    # ----Подменю тэгов-----#
     elif message.text.lower() == "/tags" or message.text.lower() == "теги":
-        tags(message)
+        bot.send_message(message.chat.id, "Выберите настройку", reply_markup=tags_menu())
+    elif message.text.lower() == 'изменить мои тэги':
+        change_tags(message)
+    elif message.text.lower() == "посмотреть мои тэги":
+        show_tags(message)
+    # ----Подменю тэгов-----#
+    # ----Подменю настроек-----#
+    elif message.text.lower() == 'настройки':
+        bot.send_message(message.chat.id, "Выберите настройку", reply_markup=options())
+    elif message.text.lower() == 'изменить время':
+        change_time(message)
+    elif message.text.lower() == 'изменить дни недели':
+        day_change(message)
+    # ----Подменю настроек-----#
     elif message.text.lower() == "/link" or message.text.lower() == "/account" or message.text.lower() == "/options" or message.text.lower() == "ссылка на сайт":
         site_link(message)
     elif message.text.lower() == "/events" or message.text.lower() == "ивенты":
         events(message)
-    elif message.text.lower() == "/change_tags" or message.text.lower() == "изменить теги":
-        change_tags(message)
-    elif message.text.lower() == "/mailing_options" or message.text.lower() == "настройки":
-        mailing_options(message)
+    elif message.text.lower() == "в главное меню":
+        bot.send_message(message.chat.id, 'Перехожу в главное меню', reply_markup=button_menu())
+    else:
+        bot.send_message(message.chat.id, 'Произошла ошибка, давай сделаем вид, что этого не было. Перехожу в главное меню', reply_markup=button_menu())
 
 
 # @bot.message_handler(commands=['start'])
 def start_message(message):
+    
     all_objects_userlist = Userlist.objects.all()
     exist_user = False
     for i in range(len(all_objects_userlist)):
@@ -82,12 +96,35 @@ def start_message(message):
             bot.send_message(message.chat.id, 'С возвращением, друг! ', reply_markup=button_menu())
             exist_user = True
     if not exist_user:
-        bot.send_message(message.chat.id, 'Привет, друг! Чтобы начать пользоваться ботом, тебе нужно выбрать теги.')
-        help(message)
+        #---Создание клавиатуры---
         new_user = Userlist(ul_linktgmessage=message.chat.id, ul_mailing_time='12', ul_mailing_days='1')
         new_user.save()
-        change_tags(message)
 
+        all_objects_userlist = Userlist.objects.get(ul_linktgmessage=message.chat.id)
+
+        tags = ''
+        num_of_tag = 0
+        all_objects_usertaglist = Usertaglist.objects.all()
+        for j in range(len(all_objects_usertaglist)):
+            if all_objects_userlist.ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
+                num_of_tag += 1
+                tags += str(num_of_tag) + ') ' + \
+                        all_objects_usertaglist[j].utl_id_tag.tl_title + '\n'
+
+        tags = tags_without_usertags(message, 'tags')
+
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        markup.add('Готово')
+
+        for i in range(len(tags.keys()) // 2):
+            markup.add(tags[list(tags.keys())[i]], tags[list(tags.keys())[-i-1]])
+        if len(tags.keys()) - len(tags.keys()) // 2 != len(tags.keys()) // 2:
+            markup.add(tags[list(tags.keys())[len(tags.keys()) // 2]])
+
+        #---Создание клавиатуры---
+        help(message)
+        bot.send_message(message.chat.id, 'Привет, чтобы получать список нужных тебе мероприятий каждую неделю тебе нужно выбрать тэги, которые тебе подходят', reply_markup=markup)
+        bot.register_next_step_handler(message, add_tags)
 
 def send_id(message):
     id_in_base = False
@@ -110,15 +147,40 @@ def id_on_the_site(message):
     all_objects_userlist = Userlist.objects.all()
     for i in range(len(all_objects_userlist)):
         if str(message.chat.id) == all_objects_userlist[i].ul_linktgmessage:
-            bot.send_message(message.chat.id, f'Ваш id на сайте: {all_objects_userlist[i].ul_id}', reply_markup=button_menu())
+            bot.send_message(message.chat.id, f'Ваш id на сайте: {all_objects_userlist[i].ul_id}')
+            bot.register_next_step_handler(message, choose_option)
             exist_user = True
     if not exist_user:
         bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте', reply_markup=button_menu())
 
+# @bot.message_handler(commands=['/tags'])
+def tags_menu():
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add('В главное меню')
+    markup.add('Посмотреть мои тэги', 'Изменить мои тэги')
+    markup.add('Что означают тэги?')
+    print(130)
+    return markup
+
+# def tags(message):
+#     bot.send_message(message.chat.id, 'Выберите настройку', reply_markup=tags_menu())
+#     print("---------------------------")
+#     print(message.text)
+#     print("---------------------------")
+#     print(message)
+#     if message.text.lower() == 'посмотреть мои тэги':
+#         show_tags(message)
+#     elif message.text.lower() == 'изменить мои тэги':
+#         change_tags(message)
+#     elif message.text.lower() == 'в главное меню':
+#         bot.send_message(message.chat.id, 'Готово', reply_markup=button_menu())
+#     else:
+#         bot.send_message(message.chat.id, 'Это не один из вариантов меню')
+#         bot.register_next_step_handler(message, tags)
 
 # @bot.message_handler(commands=['tags'])
-def tags(message):
-    all_objects_userlist = Userlist.objects.all()
+def show_tags(message):
+    all_objects_userlist = Userlist.objects.all() 
     exist_user = False
     for i in range(len(all_objects_userlist)):
         if str(message.chat.id) == all_objects_userlist[i].ul_linktgmessage:
@@ -132,9 +194,9 @@ def tags(message):
                     tags += str(num_of_tag) + ') ' + \
                             all_objects_usertaglist[j].utl_id_tag.tl_title + '\n'
             if tags != '':
-                bot.send_message(message.chat.id, f'Ваши теги: \n{tags}', reply_markup=button_menu())
+                bot.send_message(message.chat.id, f'Ваши теги: \n{tags}', reply_markup=tags_menu())
             else:
-                bot.send_message(message.chat.id, 'Вы не указали теги', reply_markup=button_menu())
+                bot.send_message(message.chat.id, 'Вы не указали теги', reply_markup=tags_menu())
             exist_user = True
     if not exist_user:
         bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте', reply_markup=button_menu())
@@ -229,6 +291,7 @@ def change_tags(message):
                             all_objects_usertaglist[j].utl_id_tag.tl_title + '\n'
             if tags != '':
                 item2 = types.KeyboardButton('Удалить')
+                markup.add('В тэги')
                 markup.add(item1, item2)
                 bot.send_message(message.chat.id, f'Ваши теги: \n{tags}', reply_markup=markup)
             else:
@@ -287,6 +350,8 @@ def add_del_tags(message):
         bot.send_message(message.chat.id, 'Удалите ненужные теги. Список с тэгами можно листать', reply_markup=markup)
 
         bot.register_next_step_handler(message, del_tags)
+    elif message.text.lower() == 'в тэги':
+        bot.send_message(message.chat.id, 'Ваши тэги не изменились', reply_markup=tags_menu())
     else:
         bot.send_message(message.chat.id, 'Это не одна из команд введите:добавить или удалить')
         bot.register_next_step_handler(message, add_del_tags)
@@ -320,7 +385,7 @@ def add_tags(message):
 
     if message.text == 'Готово':
         # hide_markup = types.ReplyKeyboardRemove()
-        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=button_menu())
+        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=tags_menu())
 
 
 def del_tags(message):
@@ -352,30 +417,15 @@ def del_tags(message):
 
     if message.text == 'Готово':
         # hide_markup = types.ReplyKeyboardRemove()
-        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=button_menu())
+        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=tags_menu())
 
-@bot.message_handler(commands=['/mailing_options'])
-def mailing_options(message):
+
+def options():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add('Готово')
-    markup.add('Изменить время','Изменить день недели')
-    bot.send_message(message.chat.id, 'Выбирите настройку', reply_markup=markup)
-    bot.register_next_step_handler(message, choose_option)
-
-def choose_option(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-
-    if message.text.lower() == 'изменить время':
-        change_time(message)
-    elif message.text.lower() == 'изменить день недели':
-        day_change(message)
-    elif message.text.lower() == 'готово':
-        bot.send_message(message.chat.id, 'Готово', reply_markup=button_menu())
-    else:
-        bot.send_message(message.chat.id, 'Это не один из вариантов меню')
-        bot.register_next_step_handler(message, choose_option)
-
-
+    markup.add('В главное меню')
+    markup.add('Изменить время','Изменить дни недели')
+    markup.add(types.InlineKeyboardButton(text='Мой id', callback_data='/id'))
+    return markup
 
 def show_days(message):
     print(382)
@@ -389,15 +439,16 @@ def show_days(message):
     days = {1 : 'Понедельник', 2 : 'Вторник', 3 : 'Среда', 4 : 'Четверг', 5 : 'Пятница', 6 : 'Суббота', 7 : 'Воскресенье'}
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add('Готово')
+    if message.text.lower() == 'изменить дни недели':
+        markup.add('В настройки')
+    else:
+        markup.add('Готово')
 
     for i in range(1, len(days) + 1):
         if list(days.keys())[i - 1] in user_days:
             markup.add('✅ ' + str(days[i]) + ' ✅')
         else:
             markup.add('❌ ' + str(days[i]) + ' ❌')
-    print(message.text)
-    print(message.text.lower() == 'изменить день недели')
     return markup
 
 
@@ -412,7 +463,9 @@ def day_change(message):
             'Воскресенье' : 7}
 
     if message.text.lower() == 'готово':
-        bot.send_message(message.chat.id, 'Готово', reply_markup=button_menu())
+        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=options())
+    elif message.text.lower() == 'в настройки':
+        bot.send_message(message.chat.id, 'Выбранные дни для рассылки не изменились', reply_markup=options())
 
     elif message.text[2 : len(message.text) - 2] in list(days): #если сообщение равно одному из дней недели
         user = Userlist.objects.get(ul_linktgmessage=message.chat.id)
@@ -427,9 +480,9 @@ def day_change(message):
         print(user_days)    
         if days[message.text[2 : len(message.text) - 2]] in user_days: #формируем новый список дней пользователя
             user_days.remove(days[message.text[2 : len(message.text) - 2]])
-            ans = f'вы удалили {message.text[2 : len(message.text) - 2]}'
+            ans = f'удалили {message.text[2 : len(message.text) - 2]}'
         else:
-            ans = f'вы добавили {message.text[2 : len(message.text) - 2]}'
+            ans = f'добавили {message.text[2 : len(message.text) - 2]}'
             user_days.append(days[message.text[2 : len(message.text) - 2]])
 
         print(user_days)
@@ -445,13 +498,12 @@ def day_change(message):
         bot.send_message(message.chat.id, f'Вы {ans}', reply_markup=markup)
         bot.register_next_step_handler(message,day_change)
 
-    elif message.text.lower() == 'изменить день недели':
+    elif message.text.lower() == 'изменить дни недели':
         markup = show_days(message)
         bot.send_message(message.chat.id, 'Выбирите день для рассылки', reply_markup=markup)
         bot.register_next_step_handler(message,day_change)
 
     else:
-
         bot.send_message(message.chat.id, 'Нажимайте на кнопки')
         bot.register_next_step_handler(message,day_change)
 
@@ -459,6 +511,7 @@ def day_change(message):
 def change_time(message):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
+        markup.add('В настройки')
         markup.add('00:00', '01:00', '02:00')
         markup.add('03:00', '04:00', '05:00')
         markup.add('06:00', '07:00', '08:00')
@@ -473,9 +526,12 @@ def change_time(message):
 
 
 def new_time(message):
-    all_objects_userlist = Userlist.objects.get(ul_linktgmessage=message.chat.id) #Нынешний пользователь
+    if message.text.lower() != 'в настройки':
+        all_objects_userlist = Userlist.objects.get(ul_linktgmessage=message.chat.id) #Нынешний пользователь
 
-    all_objects_userlist.ul_mailing_time = message.text[:2]
-    all_objects_userlist.save()
+        all_objects_userlist.ul_mailing_time = message.text[:2]
+        all_objects_userlist.save()
 
-    bot.send_message(message.chat.id, f'Следующая рассылка будет в {message.text}', reply_markup=button_menu())
+        bot.send_message(message.chat.id, f'Следующая рассылка будет в {message.text}', reply_markup=options())
+    else:
+        bot.send_message(message.chat.id, 'Время рассылки не изменилось', reply_markup=options())

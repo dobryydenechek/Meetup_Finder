@@ -23,7 +23,7 @@ def autoevents():
         print("19")
         a = random.randint(0, 200000)
         ti = datetime.datetime.now().strftime("%H")
-        ti = str(int(ti+3))
+        ti = str(int(ti) + 3)
         print("сейчас - ",ti)
         print("требуется - ", timecheck)
 

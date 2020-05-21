@@ -10,7 +10,7 @@ import time
 
 
 timecheck = datetime.datetime.now().strftime("%H")
-
+timecheck = str(int(timecheck) + 3)
 
 def write_msg(user_id, message, a, keyboard=None):
     a = random.randint(0, 200000)

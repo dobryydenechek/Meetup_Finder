@@ -11,8 +11,7 @@ import time
 bot = telebot.TeleBot(settings.TOKEN)
 
 timecheck = datetime.datetime.now().strftime("%H")
-
-
+timecheck = str(int(timecheck) + 3)
 
 def autoevents():
     global timecheck

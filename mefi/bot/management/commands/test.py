@@ -81,18 +81,12 @@ def autoevents():
 
                                     repeat_events.append(all_objects_eventtaglist[j].etl_id_event.el_id)
                                     events_alive = True
-                                    keyboard45 = VkKeyboard(one_time=False, inline=True)
-                                    keyboard45.add_button('❤', color=VkKeyboardColor.POSITIVE)
-
-                                    keyboard45.add_button('👎', color=VkKeyboardColor.NEGATIVE)
-
-                                    keyboard45 = keyboard45.get_keyboard()
                                     if ti == all_objects_userlist[i].ul_mailing_time:
-                                        write_msg(all_objects_userlist[i].ul_linkvkmessage, event1, a, keyboard=keyboard45)
+                                        write_msg(all_objects_userlist[i].ul_linkvkmessage, event1, a)
                                     print(all_objects_userlist[i].ul_linkvkmessage)
                             if not events_alive:
                                 if ti == all_objects_userlist[i].ul_mailing_time:
-                                    write_msg(all_objects_userlist[i].ul_linkvkmessage, 'Мы не нашли эвенты для Вас :(', a, keyboard=keyboard)
+                                    write_msg(all_objects_userlist[i].ul_linkvkmessage, 'Мы не нашли эвенты для Вас :(', a)
                         #else:
                 #write_msg(all_objects_userlist[i].ul_linkvkmessage, 'Вы не указали теги', a, keyboard=keyboard)
             print("87")

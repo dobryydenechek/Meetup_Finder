@@ -487,19 +487,7 @@ def events(message):
                     print("_________________")
                     print(event1)
                     print("_________________")
-                    ######
-
-                    keyboard45 = VkKeyboard(one_time=False, inline=True)
-                    keyboard45.add_button('❤', color=VkKeyboardColor.POSITIVE)
-
-                    keyboard45.add_button('👎', color=VkKeyboardColor.NEGATIVE)
-
-                    keyboard45 = keyboard45.get_keyboard()
-
-
-
-                    ######
-                    write_msg(event.user_id, event1, a, keyboard=keyboard45)
+                    write_msg(event.user_id, event1, a)
             if not events_alive:
                 write_msg(event.user_id, 'Мы не нашли эвенты для Вас :(', a, keyboard=keyboard)
         else:

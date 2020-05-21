@@ -107,6 +107,7 @@ def send_id(message):
 
 #@bot.message_handler(commands=['id'])
 def id_on_the_sitee(message):
+
     exist_user = False
     all_objects_userlist = Userlist.objects.all()
     for i in range(len(all_objects_userlist)):
@@ -119,6 +120,17 @@ def id_on_the_sitee(message):
 
 #@bot.message_handler(commands=['tags'])
 def id_on_the_site(message):
+    keyboard35 = VkKeyboard(one_time=False)
+    keyboard35.add_button('В главное меню', color=VkKeyboardColor.POSITIVE)
+    keyboard35.add_line()
+    keyboard35.add_button('Посмотреть мои тэги', color=VkKeyboardColor.POSITIVE)
+    keyboard35.add_button('Изменить мои тэги', color=VkKeyboardColor.POSITIVE)
+    keyboard35.add_line()
+    keyboard35.add_button('Что означают тэги?', color=VkKeyboardColor.POSITIVE)
+
+    keyboard35 = keyboard35.get_keyboard()
+    write_msg(event.user_id, 'Выберите настройку', a, keyboard=keyboard35)
+
     all_objects_userlist = Userlist.objects.all()
     exist_user = False
     for i in range(len(all_objects_userlist)):
@@ -132,10 +144,35 @@ def id_on_the_site(message):
                     print(all_objects_usertaglist[j].utl_id_tag.tl_title)
                     tags += str(num_of_tag) + ') ' + \
                             all_objects_usertaglist[j].utl_id_tag.tl_title + '\n'
-            write_msg(event.user_id, f'Ваши теги: \n{tags}', a, keyboard=keyboard)
+            write_msg(event.user_id, f'Ваши теги: \n{tags}', a, keyboard=keyboard35)
             exist_user = True
     if not exist_user:
         write_msg(event.user_id, 'Вы не зарегистрированы на нашем сайте', a)
+
+def mainmenu(message):
+    keyboard35 = VkKeyboard(one_time=False)
+    keyboard35.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
+    keyboard35.add_line()
+    keyboard35.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
+    keyboard35.add_line()
+    keyboard35.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
+    keyboard35.add_line()
+    keyboard35.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
+    keyboard35 = keyboard35.get_keyboard()
+    write_msg(event.user_id, 'Вы в главном меню', a, keyboard=keyboard35)
+
+def setting_tags(message):
+    keyboard35 = VkKeyboard(one_time=False)
+    keyboard35.add_button('В главное меню', color=VkKeyboardColor.POSITIVE)
+    keyboard35.add_line()
+    keyboard35.add_button('Посмотреть мои тэги', color=VkKeyboardColor.POSITIVE)
+    keyboard35.add_button('Изменить мои тэги', color=VkKeyboardColor.POSITIVE)
+    keyboard35.add_line()
+    keyboard35.add_button('Что означают тэги?', color=VkKeyboardColor.POSITIVE)
+
+    keyboard35 = keyboard35.get_keyboard()
+    write_msg(event.user_id, 'Выберите настройку', a, keyboard=keyboard35)
+
 
 
 def change_tags(message):
@@ -237,9 +274,13 @@ def add_del_tags(message):
         keyboard3 = VkKeyboard(one_time=False)
         keyboard3.add_button('Готово', color=VkKeyboardColor.POSITIVE)
 
-        for i in range(len(tags.keys())):
+        for i in range(len(tags.keys()) // 2):
             keyboard3.add_line()
             keyboard3.add_button(tags[list(tags.keys())[i]], color=VkKeyboardColor.POSITIVE)
+            keyboard3.add_button(tags[list(tags.keys())[-i - 1]], color=VkKeyboardColor.POSITIVE)
+        if len(tags.keys()) - len(tags.keys()) // 2 != len(tags.keys()) // 2:
+            keyboard3.add_line()
+            keyboard3.add_button(tags[list(tags.keys())[len(tags.keys()) // 2]], color=VkKeyboardColor.POSITIVE)
 
 
         keyboard3 = keyboard3.get_keyboard()
@@ -299,19 +340,16 @@ def add_tags(message):
         inwait2.remove(event.user_id)
 
         keyboard35 = VkKeyboard(one_time=False)
-        keyboard35.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('В главное меню', color=VkKeyboardColor.POSITIVE)
         keyboard35.add_line()
-        keyboard35.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Посмотреть мои тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Изменить мои тэги', color=VkKeyboardColor.POSITIVE)
         keyboard35.add_line()
-        keyboard35.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
-        keyboard35.add_line()
-        keyboard35.add_button('Изменить рассылку', color=VkKeyboardColor.POSITIVE)
-        keyboard35.add_line()
-        keyboard35.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
-        keyboard35.add_line()
-        keyboard35.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Что означают тэги?', color=VkKeyboardColor.POSITIVE)
+
         keyboard35 = keyboard35.get_keyboard()
-        write_msg(event.user_id, 'Изменения сохранены', a, keyboard=keyboard35)
+
+        write_msg(event.user_id, 'Вы в главном меню', a, keyboard=keyboard35)
 
 
 def del_tags(message):
@@ -338,9 +376,13 @@ def del_tags(message):
         del_user_tag.delete()
 
         del tags[del_tag]
-        for i in range(len(tags.keys())):
+        for i in range(len(tags.keys()) // 2):
             keyboard3.add_line()
             keyboard3.add_button(tags[list(tags.keys())[i]], color=VkKeyboardColor.POSITIVE)
+            keyboard3.add_button(tags[list(tags.keys())[-i - 1]], color=VkKeyboardColor.POSITIVE)
+        if len(tags.keys()) - len(tags.keys()) // 2 != len(tags.keys()) // 2:
+            keyboard3.add_line()
+            keyboard3.add_button(tags[list(tags.keys())[len(tags.keys()) // 2]], color=VkKeyboardColor.POSITIVE)
 
 
         keyboard3 = keyboard3.get_keyboard()
@@ -348,21 +390,17 @@ def del_tags(message):
 
 
     if message == 'Готово':
-        keyboard3 = VkKeyboard(one_time=False)
-        keyboard3.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
-        keyboard3.add_line()
-        keyboard3.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
-        keyboard3.add_line()
-        keyboard3.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
-        keyboard3.add_line()
-        keyboard3.add_button('Изменить рассылку', color=VkKeyboardColor.POSITIVE)
-        keyboard3.add_line()
-        keyboard3.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
-        keyboard3.add_line()
-        keyboard3.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
-        keyboard3 = keyboard3.get_keyboard()
-        inwait3.remove(event.user_id)
-        write_msg(event.user_id, 'Изменения сохранены', a, keyboard=keyboard3)
+        keyboard35 = VkKeyboard(one_time=False)
+        keyboard35.add_button('В главное меню', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_line()
+        keyboard35.add_button('Посмотреть мои тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Изменить мои тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_line()
+        keyboard35.add_button('Что означают тэги?', color=VkKeyboardColor.POSITIVE)
+
+        keyboard35 = keyboard35.get_keyboard()
+
+        write_msg(event.user_id, 'Изменения сохранены', a, keyboard=keyboard35)
 
 
 
@@ -380,6 +418,7 @@ def site_link(message):
 
 #@bot.message_handler(commands=['events'])
 def events(message):
+
 
 
     # all_objects_userlist = Userlist.objects.all()
@@ -483,6 +522,8 @@ def mailing_options(message):
     keyboard.add_line()
     keyboard.add_button("Изменить время", color=VkKeyboardColor.POSITIVE)
     keyboard.add_button("Изменить день недели", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
+    keyboard.add_button("Мой айди", color=VkKeyboardColor.POSITIVE)
     keyboard = keyboard.get_keyboard()
     write_msg(event.user_id, 'Выбирите настройку', a, keyboard=keyboard)
 
@@ -507,11 +548,7 @@ def choose_option(message):
         keyboard.add_line()
         keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
         keyboard.add_line()
-        keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
-        keyboard.add_line()
         keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
-        keyboard.add_line()
-        keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
         keyboard.add_line()
         keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
         keyboard = keyboard.get_keyboard()
@@ -536,8 +573,11 @@ def show_days(message):
     days = {1 : 'Понедельник', 2 : 'Вторник', 3 : 'Среда', 4 : 'Четверг', 5 : 'Пятница', 6 : 'Суббота', 7 : 'Воскресенье'}
 
     keyboard = VkKeyboard(one_time=False)
-    keyboard.add_button('Готово', color=VkKeyboardColor.POSITIVE)
 
+    if message.lower() == 'изменить день недели':
+        keyboard.add_button('Готово', color=VkKeyboardColor.POSITIVE)
+    else:
+        keyboard.add_button('В настройки', color=VkKeyboardColor.POSITIVE)
 
     for i in range(1, len(days) + 1):
         if list(days.keys())[i - 1] in user_days:
@@ -566,18 +606,15 @@ def day_change(message):
             'Суббота' : 6,
             'Воскресенье' : 7}
 
-    if message.lower() == 'готово':
+    if message.lower() == 'готово' or message.lower() == 'в настройки':
 
         keyboard = VkKeyboard(one_time=False)
+
         keyboard.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
         keyboard.add_line()
         keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
         keyboard.add_line()
-        keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
-        keyboard.add_line()
         keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
-        keyboard.add_line()
-        keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
         keyboard.add_line()
         keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
         keyboard = keyboard.get_keyboard()
@@ -671,16 +708,13 @@ def change_time(message):
 
 
 def new_time(message):
+
     keyboard = VkKeyboard(one_time=False)
     keyboard.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
     keyboard.add_line()
     keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
     keyboard.add_line()
-    keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
-    keyboard.add_line()
     keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
-    keyboard.add_line()
-    keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
     keyboard.add_line()
     keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
 
@@ -728,11 +762,7 @@ keyboard.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
 keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
-keyboard.add_button('Изменить тэги', color=VkKeyboardColor.POSITIVE)
-keyboard.add_line()
 keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
-keyboard.add_line()
-keyboard.add_button('Мой айди', color=VkKeyboardColor.POSITIVE)
 keyboard.add_line()
 keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
 keyboard = keyboard.get_keyboard()
@@ -761,8 +791,12 @@ for event in longpoll.listen():
 
                 print(event.user_id, request, "start")
 
-            elif request.lower() == "изменить тэги":
+            elif request.lower() == "изменить мои тэги":
                 change_tags(event.user_id)
+                print(event.user_id, request)
+
+            elif request.lower() == "тэги":
+                setting_tags(event.user_id)
                 print(event.user_id, request)
 
             elif request.lower() == "help":
@@ -785,13 +819,17 @@ for event in longpoll.listen():
                 events(event.user_id)
                 print(event.user_id, request)
 
-            elif request.lower() == "тэги":
+            elif request.lower() == "посмотреть мои тэги":
                 id_on_the_site(event.user_id)
 
                 print(event.user_id, request)
 
             elif request.lower() == 'ссылка на сайт':
                 site_link(event.user_id)
+                print(event.user_id, request)
+
+            elif request.lower() == 'в главное меню':
+                mainmenu(event.user_id)
                 print(event.user_id, request)
 
             else:

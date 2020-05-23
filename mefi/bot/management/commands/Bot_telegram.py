@@ -328,6 +328,7 @@ def change_tags(message):
 
 
 def tags_without_usertags(message, tags_or_usertags):
+    global tag_title
     all_objects_taglist = Taglist.objects.all()
     all_objects_usertaglist = Usertaglist.objects.all()
     all_objects_userlist = Userlist.objects.all()

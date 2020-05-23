@@ -124,9 +124,9 @@ def start_message(message):
             str1 = ''.join(tags[list(tags.keys())[i]])
             str2 = ''.join(tags[list(tags.keys())[i + 1]])
             print(str1, str2)
-            markup.add(tag_title[str1.replace(' ', '')], tag_title[str2.replace(' ', '')])
+            markup.add(str1, str2)
         if len(tags.keys()) - len(tags.keys()) // 2 != len(tags.keys()) // 2:
-            markup.add(tag_title[str2.replace(' ', '')])
+            markup.add(str2)
 
         #---Создание клавиатуры---
         help(message)

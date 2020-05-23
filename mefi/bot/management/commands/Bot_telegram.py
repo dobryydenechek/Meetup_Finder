@@ -394,8 +394,8 @@ def add_del_tags(message):
     elif message.text.lower() == 'в тэги':
         bot.send_message(message.chat.id, 'Ваши тэги не изменились', reply_markup=tags_menu())
     else:
-        bot.send_message(message.chat.id, 'Это не одна из команд введите:добавить или удалить')
-        bot.register_next_step_handler(message, add_del_tags)
+        bot.send_message(message.chat.id, 'Произошла ошибка, давай сделаем вид, что этого не было. Перехожу в главное меню', reply_markup=button_menu())
+
 
 
 def add_tags(message):

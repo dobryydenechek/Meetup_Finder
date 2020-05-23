@@ -274,19 +274,90 @@ def events(message):
             bot.send_message(message.chat.id, 'Вы не указали теги')
             change_tags(message)
 
-@bot.message_handler(commands=['change_tags'])
-def change_tags(message):
 
-    # Клавиатура
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add('В тэги')
-    item1 = types.KeyboardButton('Добавить')
-    # item2 = types.KeyboardButton('Удалить')
-    # markup.add(item1, item2)
-
-    all_objects_userlist = Userlist.objects.all()
-    exist_user = False
+def show_tags_menu(message):
     global tag_title
+
+    user = Userlist.objects.get(ul_linktgmessage=message.chat.id)
+    user_tags = tags_without_usertags(message, 'user_tags')
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    for tag in range(0, len(tag_title.keys()), 2):
+        if (len(tags.keys()) - (i+1) == 0):
+            tag1 = ''
+
+            if tag_title.keys()[tag] in usertags.replace(' ', ''):
+                tag1 = '✅ ' + tag_title[tag] + ' ✅'
+            else:
+                tag1 = '❌ ' + tag_title[tag] + ' ❌'
+
+        else:
+            tag2 = ''
+            if tag_title.keys()[tag] in usertags.replace(' ', ''):
+                tag1 = '✅ ' + tag_title[tag] + ' ✅'
+            else:
+                tag1 = '❌ ' + tag_title[tag] + ' ❌'
+            if tag_title.keys()[tag + 1] in usertags.replace(' ', ''):
+                tag2 = '✅ ' + tag_title[tag + 1] + ' ✅'
+            else:
+                tag2 = '❌ ' + tag_title[tag + 1] + ' ❌'
+
+    return markup
+# @bot.message_handler(commands=['change_tags'])
+# def change_tags(message):
+
+#     # Клавиатура
+#     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+#     markup.add('В тэги')
+#     item1 = types.KeyboardButton('Добавить')
+#     # item2 = types.KeyboardButton('Удалить')
+#     # markup.add(item1, item2)
+
+#     all_objects_userlist = Userlist.objects.all()
+#     exist_user = False
+#     global tag_title
+#     tag_title = dict(
+#         Безопасность = 'Безопасность',
+#         Бэк= 'Backend',
+#         АдминистрированиеиDevOps='Системное администрирование',
+#         HardиIoT= 'Hard и IoT',
+#         Аналитикаиdatascience = 'Аналитика и data science',
+#         Фронт ='Frontend',
+#         Процессы= 'Командные процессы',
+#         QA='Тестирование(QA)',
+#         Mobile= 'Mobile',
+#         Продукт='Project Product',
+#         Геймдев='Геймдев',
+#         Карьера= 'Карьера',
+#         Роботы='Роботы',
+#         Клиенты='Клиенты',
+#     )
+#     for i in range(len(all_objects_userlist)):
+#         if str(message.chat.id) == all_objects_userlist[i].ul_linktgmessage:
+#             tags = ''
+#             num_of_tag = 0
+#             all_objects_usertaglist = Usertaglist.objects.all()
+#             for j in range(len(all_objects_usertaglist)):
+#                 print(all_objects_usertaglist[j].utl_id_tag.tl_id)
+#                 if all_objects_userlist[i].ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
+#                     num_of_tag += 1
+#                     tags += str(num_of_tag) + ') ' + \
+#                             tag_title[all_objects_usertaglist[j].utl_id_tag.tl_title.replace(' ', '')] + '\n'
+#             if tags != '':
+#                 item2 = types.KeyboardButton('Удалить')
+#                 markup.add(item1, item2)
+#                 bot.send_message(message.chat.id, f'Ваши теги: \n{tags}', reply_markup=markup)
+#             else:
+#                 markup.add(item1)
+#                 bot.send_message(message.chat.id, 'У вас нет тегов', reply_markup=markup)
+#             exist_user = True
+#     if not exist_user:
+#         bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте')
+#     bot.register_next_step_handler(message, add_del_tags)
+
+
+def tags_without_usertags(message, tags_or_usertags):
+    global tag_title
+
     tag_title = dict(
         Безопасность = 'Безопасность',
         Бэк= 'Backend',
@@ -303,32 +374,7 @@ def change_tags(message):
         Роботы='Роботы',
         Клиенты='Клиенты',
     )
-    for i in range(len(all_objects_userlist)):
-        if str(message.chat.id) == all_objects_userlist[i].ul_linktgmessage:
-            tags = ''
-            num_of_tag = 0
-            all_objects_usertaglist = Usertaglist.objects.all()
-            for j in range(len(all_objects_usertaglist)):
-                print(all_objects_usertaglist[j].utl_id_tag.tl_id)
-                if all_objects_userlist[i].ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
-                    num_of_tag += 1
-                    tags += str(num_of_tag) + ') ' + \
-                            tag_title[all_objects_usertaglist[j].utl_id_tag.tl_title.replace(' ', '')] + '\n'
-            if tags != '':
-                item2 = types.KeyboardButton('Удалить')
-                markup.add(item1, item2)
-                bot.send_message(message.chat.id, f'Ваши теги: \n{tags}', reply_markup=markup)
-            else:
-                markup.add(item1)
-                bot.send_message(message.chat.id, 'У вас нет тегов', reply_markup=markup)
-            exist_user = True
-    if not exist_user:
-        bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте')
-    bot.register_next_step_handler(message, add_del_tags)
 
-
-def tags_without_usertags(message, tags_or_usertags):
-    global tag_title
     all_objects_taglist = Taglist.objects.all()
     all_objects_usertaglist = Usertaglist.objects.all()
     all_objects_userlist = Userlist.objects.all()
@@ -493,7 +539,6 @@ def show_days(message):
         else:
             markup.add('❌ ' + str(days[i]) + ' ❌')
     return markup
-
 
 
 def day_change(message):

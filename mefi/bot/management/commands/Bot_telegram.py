@@ -279,6 +279,7 @@ def change_tags(message):
 
     # Клавиатура
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add('В тэги')
     item1 = types.KeyboardButton('Добавить')
     # item2 = types.KeyboardButton('Удалить')
     # markup.add(item1, item2)

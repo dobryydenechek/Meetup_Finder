@@ -198,8 +198,10 @@ def change_tags(message):
                             all_objects_usertaglist[j].utl_id_tag.tl_title + '\n'
             if tags != '':
                 keyboard2 = VkKeyboard(one_time=False)
-                keyboard2.add_button('добавить', color=VkKeyboardColor.POSITIVE)
+                keyboard2.add_button('в тэги', color=VkKeyboardColor.POSITIVE)
                 keyboard2.add_line()
+                keyboard2.add_button('добавить', color=VkKeyboardColor.POSITIVE)
+
                 keyboard2.add_button('удалить', color=VkKeyboardColor.POSITIVE)
                 keyboard2 = keyboard2.get_keyboard()
                 write_msg(event.user_id, f'Ваши теги: \n{tags}', a, keyboard=keyboard2)
@@ -288,6 +290,19 @@ def add_del_tags(message):
 
         inwait1.remove(event.user_id)
         inwait3.append(event.user_id)
+
+    elif message.lower() == 'в тэги':
+        keyboard35 = VkKeyboard(one_time=False)
+        keyboard35.add_button('В главное меню', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_line()
+        keyboard35.add_button('Посмотреть мои тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Изменить мои тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_line()
+        keyboard35.add_button('Что означают тэги?', color=VkKeyboardColor.POSITIVE)
+
+        keyboard35 = keyboard35.get_keyboard()
+        write_msg(event.user_id, 'Выберите настройку', a, keyboard=keyboard35)
+
 
 
 
@@ -670,6 +685,8 @@ def day_change(message):
 
 def change_time(message):
     keyboard = VkKeyboard(one_time=False)
+    keyboard.add_button("В настройки", color=VkKeyboardColor.POSITIVE)
+    keyboard.add_line()
     keyboard.add_button("01:00", color=VkKeyboardColor.POSITIVE)
     keyboard.add_button("02:00", color=VkKeyboardColor.POSITIVE)
     keyboard.add_button("03:00", color=VkKeyboardColor.POSITIVE)
@@ -707,27 +724,41 @@ def change_time(message):
     newtimee.append(event.user_id)
 
 
+
 def new_time(message):
+    if message != "В настройки":
+        keyboard = VkKeyboard(one_time=False)
+        keyboard.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
 
-    keyboard = VkKeyboard(one_time=False)
-    keyboard.add_button('Ивенты', color=VkKeyboardColor.POSITIVE)
-    keyboard.add_line()
-    keyboard.add_button('Тэги', color=VkKeyboardColor.POSITIVE)
-    keyboard.add_line()
-    keyboard.add_button('Настройки', color=VkKeyboardColor.POSITIVE)
-    keyboard.add_line()
-    keyboard.add_button('Ссылка на сайт', color=VkKeyboardColor.POSITIVE)
+        all_objects_userlist = Userlist.objects.get(ul_linkvkmessage=event.user_id) #Нынешний пользователь
 
-    all_objects_userlist = Userlist.objects.get(ul_linkvkmessage=event.user_id) #Нынешний пользователь
+        all_objects_userlist.ul_mailing_time = message[:2]
+        print(message[:2])
+        print(all_objects_userlist.ul_mailing_time)
+        all_objects_userlist.save()
+        newtimee.remove(event.user_id)
 
-    all_objects_userlist.ul_mailing_time = message[:2]
-    print(message[:2])
-    print(all_objects_userlist.ul_mailing_time)
-    all_objects_userlist.save()
-    newtimee.remove(event.user_id)
+        keyboard = keyboard.get_keyboard()
+        write_msg(event.user_id, f'Следующая рассылка будет в {message}', a, keyboard=keyboard)
+    else:
+        keyboard = VkKeyboard(one_time=False)
 
-    keyboard = keyboard.get_keyboard()
-    write_msg(event.user_id, f'Следующая рассылка будет в {message}', a, keyboard=keyboard)
+        keyboard.add_button("Готово", color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button("Изменить время", color=VkKeyboardColor.POSITIVE)
+        keyboard.add_button("Изменить день недели", color=VkKeyboardColor.POSITIVE)
+        keyboard.add_line()
+        keyboard.add_button("Мой айди", color=VkKeyboardColor.POSITIVE)
+
+        keyboard = keyboard.get_keyboard()
+        write_msg(event.user_id, 'Время рассылки не изменилось', a, keyboard=keyboard)
+
 
 
 #-----------------------------------------------

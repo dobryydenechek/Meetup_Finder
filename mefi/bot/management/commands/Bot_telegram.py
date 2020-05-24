@@ -11,6 +11,9 @@ import threading
 
 bot = telebot.TeleBot(settings.TOKEN)
 
+apihelper.proxy = {
+    'https': settings.PROXY_URL
+}
 
 logs_error = open('logs_error.txt', 'a+')
 tag_title = dict(
@@ -132,35 +135,12 @@ def start_message(message):
 
         all_objects_userlist = Userlist.objects.get(ul_linktgmessage=message.chat.id)
 
-        tags = ''
-        num_of_tag = 0
-        all_objects_usertaglist = Usertaglist.objects.all()
-        for j in range(len(all_objects_usertaglist)):
-            if all_objects_userlist.ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
-                num_of_tag += 1
-                tags += str(num_of_tag) + ') ' + \
-                        all_objects_usertaglist[j].utl_id_tag.tl_title + '\n'
-
-        tags = tags_without_usertags(message, 'tags')
-
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        markup.add('Готово')
-
-        for i in range(0, len(tags.keys()), 2):
-            rev_tag_title = {}
-            for k, v in tag_title.items():
-                rev_tag_title[v] = rev_tag_title.get(v, []) + [k]
-
-            str1 = ''.join(tags[list(tags.keys())[i]])
-            str2 = ''.join(tags[list(tags.keys())[i + 1]])
-            markup.add(str1, str2)
-        if len(tags.keys()) - len(tags.keys()) // 2 != len(tags.keys()) // 2:
-            markup.add(str2)
+        
 
         #---Создание клавиатуры---
         help(message)
-        bot.send_message(message.chat.id, 'Привет, чтобы получать список нужных тебе мероприятий каждую неделю тебе нужно выбрать тэги, которые тебе подходят', reply_markup=markup)
-        bot.register_next_step_handler(message, add_tags)
+        bot.send_message(message.chat.id, 'Привет, чтобы получать список нужных тебе мероприятий каждую неделю тебе нужно выбрать тэги, которые тебе подходят')
+        add_del_tags(message)
 
 def send_id(message):
     id_in_base = False
@@ -356,32 +336,32 @@ def tags_change(message):
     global tag_title
     global rev_tag_title
     user = Userlist.objects.get(ul_linktgmessage=message.chat.id)
+    if message.text.lower() == 'готово':
+        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=tags_menu())
+    elif message.text.lower() == 'в тэги':
+        bot.send_message(message.chat.id, 'Выбранные тэги для рассылки не изменились', reply_markup=tags_menu())
+    else:
+        msg = str(rev_tag_title[message.text[2 : len(message.text) - 2]])
+        msg = msg[2 : len(msg) - 2]
 
-    msg = str(rev_tag_title[message.text[2 : len(message.text) - 2]])
-    msg = msg[2 : len(msg) - 2]
+        tag = Taglist.objects.get(tl_title=str(msg))
 
-    tag = Taglist.objects.get(tl_title=str(msg))
-
-    #отображаем новую клавиатуру
-    if '❌' in message.text:
-        add_tag = Usertaglist(utl_id_tag = tag, utl_id_user = user)
-        add_tag.save()
-        bot.send_message(message.chat.id, f'Тэг {message.text[2 : len(message.text) - 2]} добавлен', reply_markup=show_tags_menu(message))
-    if '✅' in message.text:
-        del_tag = Usertaglist.objects.get(utl_id_tag = tag)
-        del_tag.delete()
-        bot.send_message(message.chat.id, f'Тэг {message.text[2 : len(message.text) - 2]} удалён', reply_markup=show_tags_menu(message))
-    add_del_tags(message)
+        #отображаем новую клавиатуру
+        if '❌' in message.text:
+            add_tag = Usertaglist(utl_id_tag = tag, utl_id_user = user)
+            add_tag.save()
+            bot.send_message(message.chat.id, f'Тэг {message.text[2 : len(message.text) - 2]} добавлен', reply_markup=show_tags_menu(message))
+        if '✅' in message.text:
+            del_tag = Usertaglist.objects.get(utl_id_tag = tag)
+            del_tag.delete()
+            bot.send_message(message.chat.id, f'Тэг {message.text[2 : len(message.text) - 2]} удалён', reply_markup=show_tags_menu(message))
+        add_del_tags(message)
 
 # @bot.message_handler(content_types=['text'])
 def add_del_tags(message):
-    if message.text.lower() == 'изменить мои тэги':
+    if message.text.lower() == 'изменить мои тэги' or message.text == '/start':
         bot.send_message(message.chat.id, 'Выберите нужные теги', reply_markup=show_tags_menu(message))
         bot.register_next_step_handler(message, tags_change)
-    elif message.text.lower() == 'готово':
-        bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=tags_menu())
-    elif message.text.lower() == 'В теги':
-        bot.send_message(message.chat.id, 'Выбранные дни для рассылки не изменились', reply_markup=tags_menu())
     elif message.text[2 : len(message.text) - 2] in rev_tag_title.keys():
         bot.register_next_step_handler(message, tags_change)
 

@@ -337,7 +337,7 @@ def tags_change(message):
         bot.send_message(message.chat.id, 'Изменения сохранены', reply_markup=tags_menu())
     elif message.text.lower() == 'в тэги':
         bot.send_message(message.chat.id, 'Выбранные тэги для рассылки не изменились', reply_markup=tags_menu())
-    else:
+    elif message.text[2 : len(message.text) - 2] in rev_tag_title.keys():
         msg = str(rev_tag_title[message.text[2 : len(message.text) - 2]])
         msg = msg[2 : len(msg) - 2]
 
@@ -349,11 +349,17 @@ def tags_change(message):
             add_tag.save()
             bot.send_message(message.chat.id, f'Тэг {message.text[2 : len(message.text) - 2]} добавлен', reply_markup=show_tags_menu(message))
         if '✅' in message.text:
-            del_tag = Usertaglist.objects.get(utl_id_tag = tag)
-            del_tag.delete()
+            try:
+                del_tag = Usertaglist.objects.get(utl_id_tag = tag)
+                del_tags.delete()
+            except:
+                del_tags = Usertaglist.objects.filter(utl_id_tag = tag)
+                for tag in del_tags:
+                    tag.delete()
             bot.send_message(message.chat.id, f'Тэг {message.text[2 : len(message.text) - 2]} удалён', reply_markup=show_tags_menu(message))
         add_del_tags(message)
-
+    else:
+        bot.send_message(message.chat.id, 'Вы ввели не правильное значение', reply_markup=tags_menu())
 # @bot.message_handler(content_types=['text'])
 def add_del_tags(message):
     if message.text.lower() == 'изменить мои тэги' or message.text == '/start':

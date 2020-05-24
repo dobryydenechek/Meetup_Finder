@@ -10,9 +10,6 @@ import time
 import threading
 
 bot = telebot.TeleBot(settings.TOKEN)
-apihelper.proxy = {
-    'https': settings.PROXY_URL
-}
 
 logs_error = open('logs_error.txt', 'a+')
 tag_title = dict(

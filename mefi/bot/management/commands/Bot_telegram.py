@@ -10,6 +10,9 @@ import time
 import threading
 
 bot = telebot.TeleBot(settings.TOKEN)
+apihelper.proxy = {
+    'https': settings.PROXY_URL
+}
 
 logs_error = open('logs_error.txt', 'a+')
 tag_title = dict(
@@ -301,61 +304,6 @@ def events(message):
             bot.send_message(message.chat.id, 'Вы не указали теги')
             show_tags_menu(message)
 
-
-
-# @bot.message_handler(commands=['change_tags'])
-# def change_tags(message):
-
-#     # Клавиатура
-#     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-#     markup.add('В тэги')
-#     item1 = types.KeyboardButton('Добавить')
-#     # item2 = types.KeyboardButton('Удалить')
-#     # markup.add(item1, item2)
-
-#     all_objects_userlist = Userlist.objects.all()
-#     exist_user = False
-#     global tag_title
-#     tag_title = dict(
-#         Безопасность = 'Безопасность',
-#         Бэк= 'Backend',
-#         АдминистрированиеиDevOps='Системное администрирование',
-#         HardиIoT= 'Hard и IoT',
-#         Аналитикаиdatascience = 'Аналитика и data science',
-#         Фронт ='Frontend',
-#         Процессы= 'Командные процессы',
-#         QA='Тестирование(QA)',
-#         Mobile= 'Mobile',
-#         Продукт='Project Product',
-#         Геймдев='Геймдев',
-#         Карьера= 'Карьера',
-#         Роботы='Роботы',
-#         Клиенты='Клиенты',
-#     )
-#     for i in range(len(all_objects_userlist)):
-#         if str(message.chat.id) == all_objects_userlist[i].ul_linktgmessage:
-#             tags = ''
-#             num_of_tag = 0
-#             all_objects_usertaglist = Usertaglist.objects.all()
-#             for j in range(len(all_objects_usertaglist)):
-#                 print(all_objects_usertaglist[j].utl_id_tag.tl_id)
-#                 if all_objects_userlist[i].ul_id == all_objects_usertaglist[j].utl_id_user.ul_id:
-#                     num_of_tag += 1
-#                     tags += str(num_of_tag) + ') ' + \
-#                             tag_title[all_objects_usertaglist[j].utl_id_tag.tl_title.replace(' ', '')] + '\n'
-#             if tags != '':
-#                 item2 = types.KeyboardButton('Удалить')
-#                 markup.add(item1, item2)
-#                 bot.send_message(message.chat.id, f'Ваши теги: \n{tags}', reply_markup=markup)
-#             else:
-#                 markup.add(item1)
-#                 bot.send_message(message.chat.id, 'У вас нет тегов', reply_markup=markup)
-#             exist_user = True
-#     if not exist_user:
-#         bot.send_message(message.chat.id, 'Вы не зарегистрированы на нашем сайте')
-#     bot.register_next_step_handler(message, add_del_tags)
-
-
 def tags_without_usertags(message, tags_or_usertags):
     global tag_title
 
@@ -393,24 +341,17 @@ def show_tags_menu(message):
         markup.add('Готово')
 
     for tag in range(0, len(tag_title.keys()), 2):
-        if (len(tags.keys()) - (tag+1) == 0):
-            tag1 = ''
-            if tag_title[list(tag_title.keys())[tag]] in user_tags.values():
-                tag1 = '✅ ' + tag_title[list(tag_title.keys())[tag]] + ' ✅'
-            else:
-                tag1 = '❌ ' + tag_title[list(tag_title.keys())[tag]] + ' ❌'
-            markup.add(tag1)
+        tag1 = ''
+        tag2 = ''
+        if tag_title[list(tag_title.keys())[tag]] in user_tags.values():
+            tag1 = '✅ ' + tag_title[list(tag_title.keys())[tag]] + ' ✅'
         else:
-            tag2 = ''
-            if tag_title[list(tag_title.keys())[tag]] in user_tags.values():
-                tag1 = '✅ ' + tag_title[list(tag_title.keys())[tag]] + ' ✅'
-            else:
-                tag1 = '❌ ' + tag_title[list(tag_title.keys())[tag]] + ' ❌'
-            if tag_title[list(tag_title.keys())[tag+1]] in user_tags.values():
-                tag2 = '✅ ' + tag_title[list(tag_title.keys())[tag+1]] + ' ✅'
-            else:
-                tag2 = '❌ ' + tag_title[list(tag_title.keys())[tag+1]] + ' ❌'
-            markup.add(tag1, tag2)
+            tag1 = '❌ ' + tag_title[list(tag_title.keys())[tag]] + ' ❌'
+        if tag_title[list(tag_title.keys())[tag+1]] in user_tags.values():
+            tag2 = '✅ ' + tag_title[list(tag_title.keys())[tag+1]] + ' ✅'
+        else:
+            tag2 = '❌ ' + tag_title[list(tag_title.keys())[tag+1]] + ' ❌'
+        markup.add(tag1, tag2)
     return markup
 
 def tags_change(message):
@@ -432,7 +373,7 @@ def tags_change(message):
         del_tag = Usertaglist.objects.get(utl_id_tag = tag)
         del_tag.delete()
         bot.send_message(message.chat.id, f'Тэг {message.text[2 : len(message.text) - 2]} удалён', reply_markup=show_tags_menu(message))
-        add_del_tags(message)
+    add_del_tags(message)
 
 # @bot.message_handler(content_types=['text'])
 def add_del_tags(message):

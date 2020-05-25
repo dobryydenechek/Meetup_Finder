@@ -350,7 +350,7 @@ def tags_change(message):
             bot.send_message(message.chat.id, f'Тэг {message.text[2 : len(message.text) - 2]} добавлен', reply_markup=show_tags_menu(message))
         if '✅' in message.text:
             try:
-                del_tag = Usertaglist.objects.get(utl_id_tag = tag)
+                del_tags = Usertaglist.objects.get(utl_id_tag = tag)
                 del_tags.delete()
             except:
                 del_tags = Usertaglist.objects.filter(utl_id_tag = tag)

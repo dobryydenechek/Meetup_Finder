@@ -270,46 +270,41 @@ def tags_change(message):
     global rev_tag_title
     global what
     what = 'тэги'
-    try:
-        user = Userlist.objects.get(ul_linkvkmessage=event.user_id)
+    user = Userlist.objects.get(ul_linkvkmessage=event.user_id)
 
-        if rev_tag_title[message].replace(' ', '') in tag_title.keys():
-            print('Залетело в дырочку')
+    if rev_tag_title[message].replace(' ', '') in tag_title.keys():
+        print('Залетело в дырочку')
 
-            tag = Taglist.objects.get(tl_title=str(rev_tag_title[message]))
+        tag = Taglist.objects.get(tl_title=str(rev_tag_title[message]))
 
-            # отображаем новую клавиатуру
-            if message not in tags_without_usertags('usertags').values():
-                add_tag = Usertaglist(utl_id_tag=tag, utl_id_user=user)
-                add_tag.save()
-                write_msg(event.user_id, f'Тэг {message} добавлен', a, keyboard=show_tags_menu(message))
-            else:
-                try:
-                    del_tags = Usertaglist.objects.get(utl_id_tag=tag)
-                    del_tags.delete()
-                    write_msg(event.user_id, f'Тэг {message} удалён', a, keyboard=show_tags_menu(message))
-                except:
-                    del_tags = Usertaglist.objects.filter(utl_id_tag=tag)
-                    for tag in del_tags:
-                        tag.delete()
-                    write_msg(event.user_id, f'Тэг {message} удалён', a, keyboard=show_tags_menu(message))
-
-
+        # отображаем новую клавиатуру
+        if message not in tags_without_usertags('usertags').values():
+            add_tag = Usertaglist(utl_id_tag=tag, utl_id_user=user)
+            add_tag.save()
+            write_msg(event.user_id, f'Тэг {message} добавлен', a, keyboard=show_tags_menu(message))
         else:
-            keyboard35 = VkKeyboard(one_time=False)
-            keyboard35.add_button('В главное меню', color=VkKeyboardColor.POSITIVE)
-            keyboard35.add_line()
-            keyboard35.add_button('Посмотреть мои тэги', color=VkKeyboardColor.POSITIVE)
-            keyboard35.add_button('Изменить мои тэги', color=VkKeyboardColor.POSITIVE)
-            keyboard35.add_line()
-            keyboard35.add_button('Что означают тэги?', color=VkKeyboardColor.POSITIVE)
+            try:
+                del_tags = Usertaglist.objects.get(utl_id_tag=tag)
+                del_tags.delete()
+                write_msg(event.user_id, f'Тэг {message} удалён', a, keyboard=show_tags_menu(message))
+            except:
+                del_tags = Usertaglist.objects.filter(utl_id_tag=tag)
+                for tag in del_tags:
+                    tag.delete()
+                write_msg(event.user_id, f'Тэг {message} удалён', a, keyboard=show_tags_menu(message))
 
-            keyboard35 = keyboard35.get_keyboard()
-            write_msg(event.user_id, 'Вы ввели не правильное значение', a, keyboard=keyboard35)
-    except:
-        write_msg(event.user_id, 'Кажется вы ещё не зарегестрированны в нашем боте \n'
-                                'Напишите start\n', a)
 
+    else:
+        keyboard35 = VkKeyboard(one_time=False)
+        keyboard35.add_button('В главное меню', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_line()
+        keyboard35.add_button('Посмотреть мои тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_button('Изменить мои тэги', color=VkKeyboardColor.POSITIVE)
+        keyboard35.add_line()
+        keyboard35.add_button('Что означают тэги?', color=VkKeyboardColor.POSITIVE)
+
+        keyboard35 = keyboard35.get_keyboard()
+        write_msg(event.user_id, 'Вы ввели не правильное значение', a, keyboard=keyboard35)
 
 def add_del_tags(message):
     print(inwait1)

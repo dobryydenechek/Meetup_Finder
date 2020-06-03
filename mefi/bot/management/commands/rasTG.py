@@ -21,6 +21,8 @@ def autoevents():
         a = random.randint(0, 200000)
         ti = datetime.datetime.now().strftime("%H")
         ti = str(int(ti) + 3)
+        if ti == '24':
+            ti =='00'
         print("сейчас - ",ti)
         print("требуется - ", timecheck)
 

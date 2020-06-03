@@ -31,8 +31,8 @@ def autoevents():
         today = str(datetime.datetime.today().isoweekday())
 
         if int(ti) >= 21:
-            today = str(int(today + 1))
-            
+            today = str(int(today) + )
+
         ti = str(int(ti) + 3)
         if ti == '24':
             ti = '00'

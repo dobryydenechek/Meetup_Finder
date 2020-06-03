@@ -18,6 +18,10 @@ def write_msg(user_id, message, a, keyboard=None):
 
 def autoevents():
     global timecheck
+    today = str(datetime.datetime.today().isoweekday())
+
+    if int(ti) >= 21:
+         today = str(int(today + 1))
     allsend = True
     while allsend == True:
         print("19")
@@ -35,7 +39,6 @@ def autoevents():
 
         if ti == timecheck:
             all_objects_eventtaglist = Eventtaglist.objects.all()
-            today = str(datetime.datetime.today().isoweekday())
             all_objects_userlist = Userlist.objects.all()
             all_objects_usertaglist = Usertaglist.objects.all()
             for i in range(len(all_objects_userlist)):

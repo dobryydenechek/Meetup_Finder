@@ -15,6 +15,12 @@ timecheck = str(int(timecheck) + 3)
 
 def autoevents():
     global timecheck
+
+    today = str(datetime.datetime.today().isoweekday())
+
+    if int(ti) >= 21:
+         today = str(int(today + 1))
+         
     allsend = True
     while allsend == True:
         print("19")

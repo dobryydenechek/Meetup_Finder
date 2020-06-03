@@ -302,8 +302,6 @@ def tags_change(message):
                     for tag in del_tags:
                         tag.delete()
                     write_msg(event.user_id, f'Тэг {message} удалён', a, keyboard=show_tags_menu(message))
-
-
         else:
             keyboard35 = VkKeyboard(one_time=False)
             keyboard35.add_button('В главное меню', color=VkKeyboardColor.POSITIVE)
@@ -793,10 +791,4 @@ while True:
                             write_msg(event.user_id, "к сожалению, я не понял вашего сообщения\n напишите 'help'", a, keyboard=keyboard)
                             print(event.user_id, request, "krai")
     except:
-        write_msg(event.user_id, 'Вы не зарегистрированы\n Напишите startеееее', a)
-
-
-
-
-
-
+        print('Упал')

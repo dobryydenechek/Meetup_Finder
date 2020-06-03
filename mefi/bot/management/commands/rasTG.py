@@ -10,6 +10,9 @@ import time
 
 bot = telebot.TeleBot(settings.TOKEN)
 
+timecheck = datetime.datetime.now().strftime("%H")
+timecheck = str(int(timecheck) + 3)
+
 def autoevents():
     global timecheck
     allsend = True
@@ -17,15 +20,13 @@ def autoevents():
         print("19")
         a = random.randint(0, 200000)
 
-        timecheck = datetime.datetime.now().strftime("%H")
-        timecheck = str(int(timecheck) + 3)
         if timecheck == '24':
             timecheck = '00'
 
         ti = datetime.datetime.now().strftime("%H")
-        ti = str(int(ti) + 3)
         if ti == '24':
             ti = '00'
+        ti = str(int(ti) + 3)
         print("сейчас - ",ti)
         print("требуется - ", timecheck)
 

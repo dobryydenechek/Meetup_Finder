@@ -8,7 +8,8 @@ import datetime
 import time
 
 
-
+timecheck = datetime.datetime.now().strftime("%H")
+timecheck = str(int(timecheck) + 3)
 
 
 def write_msg(user_id, message, a, keyboard=None):
@@ -22,8 +23,6 @@ def autoevents():
         print("19")
         a = random.randint(0, 200000)
         
-        timecheck = datetime.datetime.now().strftime("%H")
-        timecheck = str(int(timecheck) + 3)
         if timecheck == '24':
             timecheck = '00'
 

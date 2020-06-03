@@ -16,11 +16,8 @@ timecheck = str(int(timecheck) + 3)
 def autoevents():
     global timecheck
 
-    today = str(datetime.datetime.today().isoweekday())
+    
 
-    if int(ti) >= 21:
-         today = str(int(today + 1))
-         
     allsend = True
     while allsend == True:
         print("19")
@@ -30,11 +27,20 @@ def autoevents():
             timecheck = '00'
 
         ti = datetime.datetime.now().strftime("%H")
+
+        today = str(datetime.datetime.today().isoweekday())
+
+        if int(ti) >= 21:
+            today = str(int(today + 1))
+            
+        ti = str(int(ti) + 3)
         if ti == '24':
             ti = '00'
         ti = str(int(ti) + 3)
         print("сейчас - ",ti)
         print("требуется - ", timecheck)
+
+
 
         if ti == timecheck:
             all_objects_eventtaglist = Eventtaglist.objects.all()

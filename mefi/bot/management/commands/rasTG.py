@@ -91,8 +91,8 @@ def autoevents():
             #allsend = False
             if (int(timecheck) + 1) == 24:
                 timecheck = "00"
-            elif (int(timecheck) < 10):
-                timecheck = "0" + str(int(timecheck) + 1)
+            elif (timecheck[:1] == '0'):
+                timecheck = "0" + str(int(timecheck[1:]) + 1)
             else:
                 timecheck = str(int(timecheck) + 1)
 

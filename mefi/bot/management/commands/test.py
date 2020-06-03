@@ -18,9 +18,6 @@ def write_msg(user_id, message, a, keyboard=None):
 
 def autoevents():
     global timecheck
-    print(timecheck)
-    print(timecheck[:1])
-    print(timecheck[1:])
     allsend = True
     while allsend == True:
         print("19")

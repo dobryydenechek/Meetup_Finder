@@ -34,3 +34,19 @@ def choice_tag(title, desc):
 
     return tags
 
+def check_conformity(first_event, second_event):
+    first_description_list = first_event.el_description.split(' ')  #Разделяем описание по предложениям
+    first_title_list = first_event.el_title
+    second_description_list = second_event.el_description
+    second_title_list = second_event.el_title
+
+    description_len = len(first_description_list)
+    conformity_counter = 0
+    persent = 0
+    for sentence in first_description_list:
+        if sentence in second_description_list:
+            conformity_counter += 1
+            persent = conformity_counter / description_len * 100
+    
+
+    return persent

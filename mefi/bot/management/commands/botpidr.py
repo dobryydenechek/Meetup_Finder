@@ -5,7 +5,12 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.longpoll import VkLongPoll, VkEventType
 import random
 import datetime
+import os
 import threading
+
+tgpid = open('vkpid.txt', 'w')
+tgpid.write(str(os.getpid()))
+tgpid.close()
 
 a = random.randint(0, 200000)
 

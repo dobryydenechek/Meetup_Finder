@@ -1,5 +1,6 @@
 # coding=utf-8
 import telebot
+import os
 from telebot import apihelper
 from telebot import types
 from django.core.management.base import BaseCommand
@@ -9,8 +10,12 @@ import datetime
 import time
 import threading
 
-bot = telebot.TeleBot(settings.TOKEN)
+bot = telebot.TeleBot(settings.TOKEN_MEFI)
 
+
+tgpid = open('tgpid.txt', 'w')
+tgpid.write(str(os.getpid()))
+tgpid.close()
 
 logs_error = open('logs_error.txt', 'a+')
 tag_title = dict(

@@ -6,7 +6,7 @@ def choice_tag(title, desc):
 
     # path = os.path.dirname(os.path.join(settings.BASE_DIR, '/mefi/bot/management/commands/keywords.json'))
 
-    with open('C:/Users/Светлана/Desktop/MeFiGit/Meetup_Finder/mefi/bot/management/commands/keywords.json', "r", encoding='utf-8') as read_file:
+    with open('keywords.json', "r", encoding='utf-8') as read_file:
         data = dict(json.load(read_file))
 
     useless_characters = ['.', ',', '!', '?', '!?', '"', "'", "[", "]", "{", "}", ":", " - "]

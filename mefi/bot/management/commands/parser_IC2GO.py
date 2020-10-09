@@ -1,6 +1,7 @@
 import requests
 from datetime import datetime
 from bs4 import BeautifulSoup
+from django.core.management.base import BaseCommand
 
 from .choice_tags import check_conformity
 
@@ -37,10 +38,17 @@ def get_html(url, params=None):
     return r
 
 
-event_exist = True
+def check_page(num):
+    html = get_html(f'https://ict2go.ru/ajax/index_load_more/?page={num}&filter=index&id=undefined')
+    soup = BeautifulSoup(html.content, 'html.parser')
+    items = soup.find_all('div', class_='media-body')
+    if items:
+        return True
+    else:
+        return False
+
 
 def get_content(html):
-    global event_exist
 
     soup = BeautifulSoup(html.content, 'html.parser')
     items = soup.find_all('div', class_='media-body')
@@ -59,7 +67,9 @@ def get_content(html):
         event.el_date = item.find('div', class_='date-place').get_text(strip=True)[:10]
         event.el_date = datetime.strptime(event.el_date, "%d.%m.%Y")
 
-        if item.find('a', class_='event-title').get('href')[0] == '/':
+        if item.find('a', class_='event-title').get('href')[0] == '/' and \
+                (item.select('.date-place a')[0].get_text(strip=True).lower() == 'онлайн' or \
+                item.select('.date-place a')[0].get_text(strip=True).lower() == 'ростов-на-дону'):
             internal_link = HOST + item.find('a', class_='event-title').get('href')
             internal_html = get_html(internal_link)
             internal_soup = BeautifulSoup(internal_html.content, 'html.parser')
@@ -77,18 +87,18 @@ def get_content(html):
                     except:
                         pass
                     try:
-                        online_link = 'Ссылка на мероприятие: ' +internal_item.find('div', class_='event-links').find('a', class_='www-info invoke-count').get('href')
+                        online_link = 'Ссылка на мероприятие: ' + internal_item.find('div', class_='event-links').find('a', class_='www-info invoke-count').get('href') + '\n'
                     except:
                         online_link = ''
                     try:
-                        reg_link ='Ссылка на регистрацию: + 'internal_item.find('div', class_='event-links').find('a', class_='register-info invoke-count').get('href')
+                        reg_link ='Ссылка на регистрацию: ' + internal_item.find('div', class_='event-links').find('a', class_='register-info invoke-count').get('href')
                     except:
                         reg_link = ''
                     if 'перенесено' in text or 'перенесён' in text or 'новая дата' in text or 'отменено' in text:
                         text = '-'
 
                 event.el_description = text
-                event.el_link =online_link + '\n' + reg_link + '\n'
+                event.el_link =online_link + reg_link
         if (event.el_description != '-') and (event.el_title != '-'):
             all_events = Eventlist.objects.all()
             can_save = True
@@ -119,20 +129,17 @@ def get_content(html):
                     print(e)
             else:
                 pass
-        
-        if event.el_title == '':
-            event_exist = False
+
 
 def pagination(num):
     html = get_html(f'https://ict2go.ru/ajax/index_load_more/?page={num}&filter=index&id=undefined')
     get_content(html)
 
 def parse():
-    global event_exist
     html = get_html(URL)
     if html.status_code == 200:
         page = 1
-        while event_exist == True:
+        while check_page(page):
             print(page)
             pagination(page)
             page += 1
@@ -141,4 +148,8 @@ def parse():
         print('THE END')
 
 
-parse()
+class Command(BaseCommand):
+    help = 'Парсер сайта ICT2GO'
+
+    def handle(self, *args, **options):
+        parse()

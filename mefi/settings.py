@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'root.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'MeFi',
+        'NAME': 'mefi',
         'USER': 'postgres',
-        'PASSWORD': 'GrayFox2002',
+        'PASSWORD': 'root',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

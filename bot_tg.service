@@ -6,7 +6,7 @@ After=network.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/root/Meetup_Finder/mefi/
+WorkingDirectory=/root/Meetup_Finder/mefi
 ExecStart=/usr/local/bin/python3.7 /root/Meetup_Finder/mefi/manage.py Bot_telegram
 RestartSec=10
 Restart=always

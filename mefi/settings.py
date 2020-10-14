@@ -79,9 +79,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'MeFi',
         'USER': 'postgres',
-        'PASSWORD': 'GrayFox2002',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
     }
 }
 

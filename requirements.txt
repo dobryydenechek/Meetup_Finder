@@ -20,5 +20,5 @@ mysqlclient==1.4.6
 vk-api==11.8.0
 bs4==0.0.1
 pyowm==2.10.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 requests[socks]

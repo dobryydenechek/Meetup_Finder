@@ -4,7 +4,7 @@ asgiref==3.2.3
 distlib==0.3.0
 django==3.0.4
 filelock==3.0.12
-Pillow==7.0.0
+Pillow==8.3.2
 pip==20.0.2
 pytz==2019.3
 setuptools==41.2.0
